@@ -1,4 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Performance Showcase
+
+This project demonstrates various performance optimization techniques in Next.js.
+
+## Features Demonstrated
+
+### ✅ Code Splitting
+- **Dynamic imports** for heavy components (Chart.js, Leaflet, WaveSurfer.js)
+- **Lazy loading** with React.lazy and Suspense
+- **Bundle optimization** to reduce initial page load
+
+### ✅ Streaming
+- **Basic streaming** with skeleton loading states
+- **Dashboard streaming** with staggered component loading
+- **Nested streaming** with progressive content rendering
+- **Multiple loading patterns** (skeleton, spinner, placeholder)
+
+### 🚧 Coming Soon
+- And more performance techniques...
 
 ## Getting Started
 
