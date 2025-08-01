@@ -28,7 +28,7 @@ export default function TabReports() {
       </div>
       <p className="text-gray-600">
         📄 This reports tab loaded dynamically too! It could contain complex
-        report generation logic, PDF libraries, or data processing code that's
+        report generation logic, PDF libraries, or data processing code that&apos;s
         only needed when users want to view or generate reports.
       </p>
     </div>

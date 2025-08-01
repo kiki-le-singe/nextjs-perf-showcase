@@ -17,12 +17,15 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 
+type LeafletModule = typeof import("leaflet");
+type LeafletMap = import("leaflet").Map;
+
 export default function MapSection() {
   const [showMap, setShowMap] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const leafletRef = useRef(null);
-  const mapContainerRef = useRef(null);
-  const mapInstanceRef = useRef(null);
+  const leafletRef = useRef<LeafletModule | null>(null);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<LeafletMap | null>(null);
 
   // Preload Leaflet on hover
   async function preloadLeaflet() {
@@ -40,11 +43,12 @@ export default function MapSection() {
       await preloadLeaflet();
 
       // Create map
-      if (mapContainerRef.current && !mapInstanceRef.current) {
+      if (mapContainerRef.current && !mapInstanceRef.current && leafletRef.current) {
         const L = leafletRef.current;
 
         // Fix Leaflet default icon issue in Next.js
-        delete L.Icon.Default.prototype._getIconUrl;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        delete (L.Icon.Default.prototype as any)._getIconUrl;
         L.Icon.Default.mergeOptions({
           iconUrl:
             "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",

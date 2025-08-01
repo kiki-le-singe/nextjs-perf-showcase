@@ -3,12 +3,15 @@
 
 import { useState, useRef, useEffect } from "react";
 
+type ChartModule = typeof import("chart.js");
+type ChartInstance = import("chart.js").Chart;
+
 export default function ChartSection() {
   const [showChart, setShowChart] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const chartRef = useRef(null);
-  const chartInstanceRef = useRef(null);
-  const chartLibRef = useRef(null);
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const chartInstanceRef = useRef<ChartInstance | null>(null);
+  const chartLibRef = useRef<ChartModule | null>(null);
 
   // Create chart after canvas is rendered
   useEffect(() => {

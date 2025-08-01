@@ -146,7 +146,7 @@ export default function Page() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-500 mr-2">🎯</span>
-                  <span>Load only what's needed</span>
+                  <span>Load only what&apos;s needed</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-500 mr-2">🔄</span>

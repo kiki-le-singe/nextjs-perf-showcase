@@ -154,7 +154,7 @@ export default function Page() {
             </h3>
             <p className="text-gray-600 text-sm mb-4">
               By dynamically importing these libraries, you can reduce your
-              initial bundle by <strong>375KB+</strong> — that's faster load
+              initial bundle by <strong>375KB+</strong> — that&apos;s faster load
               times, especially on mobile networks.
             </p>
             <div className="flex justify-center space-x-6 text-sm mb-6">

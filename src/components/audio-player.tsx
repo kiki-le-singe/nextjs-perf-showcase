@@ -2,18 +2,21 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import type WaveSurfer from "wavesurfer.js";
 
 type AudioPlayerProps = {
   audioUrl: string;
 };
 
+type WaveSurferModule = typeof import("wavesurfer.js");
+
 export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
-  const waveformRef = useRef(null);
-  const wavesurferRef = useRef(null);
-  const wavesurferLibRef = useRef(null);
+  const waveformRef = useRef<HTMLDivElement>(null);
+  const wavesurferRef = useRef<WaveSurfer | null>(null);
+  const wavesurferLibRef = useRef<WaveSurferModule | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Preload WaveSurfer on hover
   async function preloadWaveSurfer() {
@@ -37,10 +40,10 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
       // Load library if not preloaded
       await preloadWaveSurfer();
 
-      const WaveSurfer = wavesurferLibRef.current.default;
+      const WaveSurfer = wavesurferLibRef.current!.default;
 
       wavesurferRef.current = WaveSurfer.create({
-        container: waveformRef.current,
+        container: waveformRef.current!,
         waveColor: "#4F4A85",
         progressColor: "#383351",
         url: audioUrl,
@@ -52,18 +55,18 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
       wavesurferRef.current.on("ready", () => {
         setIsLoading(false);
         // Auto-play after loading
-        wavesurferRef.current.play();
+        wavesurferRef.current!.play();
       });
 
       wavesurferRef.current.on("play", () => setIsPlaying(true));
       wavesurferRef.current.on("pause", () => setIsPlaying(false));
       wavesurferRef.current.on("finish", () => setIsPlaying(false));
 
-      wavesurferRef.current.on("error", (err) => {
+      wavesurferRef.current.on("error", (err: Error) => {
         setError(err.message);
         setIsLoading(false);
       });
-    } catch (err) {
+    } catch {
       setError("Failed to load audio player");
       setIsLoading(false);
     }

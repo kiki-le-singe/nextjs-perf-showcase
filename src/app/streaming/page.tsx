@@ -108,7 +108,7 @@ export default function Page() {
             <ul className="list-disc ml-6 space-y-2">
               <li>
                 <strong>Progressive Loading:</strong> Content appears as soon as
-                it's ready
+                it&apos;s ready
               </li>
               <li>
                 <strong>Skeleton States:</strong> Maintain layout while content
@@ -124,7 +124,7 @@ export default function Page() {
               </li>
             </ul>
             <p className="mt-4">
-              Open your browser's Network tab and throttle to "Slow 3G" to see
+              Open your browser&apos;s Network tab and throttle to &quot;Slow 3G&quot; to see
               streaming in action!
             </p>
           </div>
