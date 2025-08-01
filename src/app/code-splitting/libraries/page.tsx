@@ -107,7 +107,7 @@ export default function Page() {
               </p>
             </div>
             <div className="p-6">
-              <AudioPlayer audioUrl="/Kalimba.mp3" />
+              <AudioPlayer audioUrl="/demo-track.mp3" />
             </div>
           </div>
 
