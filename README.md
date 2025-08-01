@@ -18,6 +18,16 @@ This project demonstrates various performance optimization techniques in Next.js
 ### 🚧 Coming Soon
 - And more performance techniques...
 
+<br />
+
+![Streaming](./docs/streaming.gif)
+
+<br />
+
+![Code Splitting](./docs/code-splitting.gif)
+
+<br />
+
 ## Getting Started
 
 First, run the development server:
