@@ -26,7 +26,7 @@ export default function Page() {
         </div>
 
         {/* Examples Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
           {/* Streaming Card */}
           <Link href="/streaming" className="group">
             <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-200 group-hover:border-blue-300">
@@ -123,6 +123,72 @@ export default function Page() {
                 </span>
               </div>
               <div className="flex items-center text-green-600 font-medium group-hover:text-green-700">
+                View Examples
+                <svg
+                  className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Link>
+
+          {/* Rendering Methods Card */}
+          <Link href="/rendering-methods" className="group">
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-200 group-hover:border-purple-300">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                  <svg
+                    className="w-6 h-6 text-purple-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 7v10c0 2.21 1.79 4 4 4h8c2.21 0 4-1.79 4-4V7c0-2.21-1.79-4-4-4H8c-2.21 0-4 1.79-4 4z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 9h6v6H9z"
+                    />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-semibold text-gray-900">
+                  Rendering Methods
+                </h2>
+              </div>
+              <p className="text-gray-600 mb-6">
+                Explore Next.js rendering strategies: SSG, ISR, SSR, and CSR. 
+                Learn when and how to use each method for optimal performance.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                  SSG
+                </span>
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                  ISR
+                </span>
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                  SSR
+                </span>
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+                  CSR
+                </span>
+              </div>
+              <div className="flex items-center text-purple-600 font-medium group-hover:text-purple-700">
                 View Examples
                 <svg
                   className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
