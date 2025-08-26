@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { BlogPostsSchema, ApiErrorSchema, safeParse } from '@/lib/schemas';
 
 // Mock blog data for SSG demo
 const blogPosts = [
@@ -45,13 +46,40 @@ const blogPosts = [
 ];
 
 export async function GET(request: NextRequest) {
-  // Simulate API delay for realistic demo
-  await new Promise(resolve => setTimeout(resolve, 100));
-  
-  return NextResponse.json(blogPosts, {
-    headers: {
-      // Cache forever for SSG
-      'Cache-Control': 'public, max-age=31536000, immutable',
-    },
-  });
+  try {
+    // Simulate API delay for realistic demo
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    const validation = safeParse(BlogPostsSchema, blogPosts);
+    
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation Error',
+          message: 'Blog posts data failed validation',
+          details: validation.error,
+          timestamp: new Date().toISOString(),
+          success: false
+        } satisfies Parameters<typeof ApiErrorSchema.parse>[0],
+        { status: 500 }
+      );
+    }
+    
+    return NextResponse.json(validation.data, {
+      headers: {
+        // Cache forever for SSG
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: 'Internal Server Error',
+        message: 'Failed to fetch blog posts data',
+        timestamp: new Date().toISOString(),
+        success: false
+      } satisfies Parameters<typeof ApiErrorSchema.parse>[0],
+      { status: 500 }
+    );
+  }
 }

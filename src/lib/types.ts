@@ -1,39 +1,19 @@
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  avatar: string;
-  role: string;
-  joinDate: string;
-  lastLogin: string;
-  preferences: {
-    theme: string;
-    notifications: boolean;
-    language: string;
-  };
-}
+import { z } from 'zod';
+import { 
+  UserSchema, 
+  DashboardSchema, 
+  ProductSchema, 
+  BlogPostSchema,
+  ProductsSchema,
+  BlogPostsSchema,
+  ApiErrorSchema
+} from './schemas';
 
-export interface DashboardData {
-  stats: {
-    totalOrders: number;
-    revenue: string;
-    activeSubscriptions: number;
-    supportTickets: number;
-  };
-  recentActivity: Array<{
-    id: number;
-    type: string;
-    message: string;
-    time: string;
-    status: string;
-  }>;
-  notifications: Array<{
-    id: number;
-    title: string;
-    message: string;
-    type: string;
-    unread: boolean;
-  }>;
-  currentTime: string;
-  serverLocation: string;
-}
+export type User = z.infer<typeof UserSchema>;
+export type DashboardData = z.infer<typeof DashboardSchema>;
+export type Product = z.infer<typeof ProductSchema>;
+export type BlogPost = z.infer<typeof BlogPostSchema>;
+export type Products = z.infer<typeof ProductsSchema>;
+export type BlogPosts = z.infer<typeof BlogPostsSchema>;
+export type ApiError = z.infer<typeof ApiErrorSchema>;
+

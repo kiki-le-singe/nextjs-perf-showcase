@@ -1,53 +1,86 @@
-import type { User, DashboardData } from './types';
+import type { User, DashboardData, Product, BlogPost } from './types';
+import { UserSchema, DashboardSchema, ProductsSchema, BlogPostsSchema, safeParse } from './schemas';
 
-// Base URL for API calls
 export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
-// Simple, reusable API endpoints - no caching logic mixed in
 export const API_ENDPOINTS = {
   user: `${BASE_URL}/api/user`,
   dashboard: `${BASE_URL}/api/dashboard`,
 } as const;
 
-// Basic fetch utilities - each rendering method adds its own caching strategy
 export async function fetchUserData(fetchOptions?: RequestInit): Promise<User> {
   const response = await fetch(API_ENDPOINTS.user, fetchOptions);
   
   if (!response.ok) {
-    throw new Error(`Failed to fetch user data: ${response.status}`);
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Failed to fetch user data: ${response.status} - ${errorData.message || 'Unknown error'}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  const validation = safeParse(UserSchema, data);
+  if (!validation.success) {
+    console.error('User data validation failed:', validation.error);
+    throw new Error('Invalid user data received from server');
+  }
+  
+  return validation.data;
 }
 
 export async function fetchDashboardData(fetchOptions?: RequestInit): Promise<DashboardData> {
   const response = await fetch(API_ENDPOINTS.dashboard, fetchOptions);
   
   if (!response.ok) {
-    throw new Error(`Failed to fetch dashboard data: ${response.status}`);
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Failed to fetch dashboard data: ${response.status} - ${errorData.message || 'Unknown error'}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  const validation = safeParse(DashboardSchema, data);
+  if (!validation.success) {
+    console.error('Dashboard data validation failed:', validation.error);
+    throw new Error('Invalid dashboard data received from server');
+  }
+  
+  return validation.data;
 }
 
-// Products API for ISR
-export async function fetchProductsData(fetchOptions?: RequestInit) {
+export async function fetchProductsData(fetchOptions?: RequestInit): Promise<Product[]> {
   const response = await fetch(`${BASE_URL}/api/products`, fetchOptions);
   
   if (!response.ok) {
-    throw new Error(`Failed to fetch products data: ${response.status}`);
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Failed to fetch products data: ${response.status} - ${errorData.message || 'Unknown error'}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  const validation = safeParse(ProductsSchema, data);
+  if (!validation.success) {
+    console.error('Products data validation failed:', validation.error);
+    throw new Error('Invalid products data received from server');
+  }
+  
+  return validation.data;
 }
 
-// Blog posts API for SSG
-export async function fetchBlogPostsData(fetchOptions?: RequestInit) {
+export async function fetchBlogPostsData(fetchOptions?: RequestInit): Promise<BlogPost[]> {
   const response = await fetch(`${BASE_URL}/api/blog-posts`, fetchOptions);
   
   if (!response.ok) {
-    throw new Error(`Failed to fetch blog posts data: ${response.status}`);
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Failed to fetch blog posts data: ${response.status} - ${errorData.message || 'Unknown error'}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  const validation = safeParse(BlogPostsSchema, data);
+  if (!validation.success) {
+    console.error('Blog posts data validation failed:', validation.error);
+    throw new Error('Invalid blog posts data received from server');
+  }
+  
+  return validation.data;
 }
+

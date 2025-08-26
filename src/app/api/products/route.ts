@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ProductsSchema, ApiErrorSchema, safeParse } from '@/lib/schemas';
 
 // Mock product data for ISR demo
 const products = [
@@ -83,21 +84,48 @@ const products = [
 ];
 
 export async function GET(request: NextRequest) {
-  // Simulate API delay for realistic demo
-  await new Promise(resolve => setTimeout(resolve, 200));
-  
-  // Add dynamic data for ISR demo
-  const productsWithDynamicData = products.map(product => ({
-    ...product,
-    // Simulate dynamic stock levels
-    stockLevel: Math.floor(Math.random() * 100) + 1,
-    // Simulate recent activity
-    lastUpdated: new Date().toISOString()
-  }));
+  try {
+    // Simulate API delay for realistic demo
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Add dynamic data for ISR demo
+    const productsWithDynamicData = products.map(product => ({
+      ...product,
+      // Simulate dynamic stock levels
+      stockLevel: Math.floor(Math.random() * 100) + 1,
+      // Simulate recent activity
+      lastUpdated: new Date().toISOString()
+    }));
 
-  return NextResponse.json(productsWithDynamicData, {
-    headers: {
-      'Cache-Control': 's-maxage=60, stale-while-revalidate=120',
-    },
-  });
+    const validation = safeParse(ProductsSchema, productsWithDynamicData);
+    
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation Error',
+          message: 'Products data failed validation',
+          details: validation.error,
+          timestamp: new Date().toISOString(),
+          success: false
+        } satisfies Parameters<typeof ApiErrorSchema.parse>[0],
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(validation.data, {
+      headers: {
+        'Cache-Control': 's-maxage=60, stale-while-revalidate=120',
+      },
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: 'Internal Server Error',
+        message: 'Failed to fetch products data',
+        timestamp: new Date().toISOString(),
+        success: false
+      } satisfies Parameters<typeof ApiErrorSchema.parse>[0],
+      { status: 500 }
+    );
+  }
 }
