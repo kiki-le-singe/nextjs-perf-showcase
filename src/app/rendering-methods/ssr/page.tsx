@@ -3,25 +3,20 @@ import { fetchUserData, fetchDashboardData } from "@/lib/api";
 import type { User, DashboardData } from "@/lib/types";
 
 export default async function SSRPage() {
-  // SSR: Always fetch fresh data on every request
-  const user: User = await fetchUserData({ 
-    cache: 'no-store' // SSR strategy - always fresh
-  });
-  
-  const dashboardData: DashboardData = await fetchDashboardData({ 
-    cache: 'no-store' // SSR strategy - always fresh
-  });
+  // SSR: Fresh data on every request (default behavior in Next.js 15+)
+  const user: User = await fetchUserData(); 
+  const dashboardData: DashboardData = await fetchDashboardData();
   
   const requestTime = new Date().toISOString();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100">
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-orange-100 rounded-full mb-4">
             <svg
-              className="w-8 h-8 text-orange-600"
+              className="w-6 h-6 md:w-8 md:h-8 text-orange-600"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -34,11 +29,11 @@ export default async function SSRPage() {
               />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
             SSR - Server-Side Rendering
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            This personalized dashboard demonstrates SSR using <code className="bg-gray-100 px-2 py-1 rounded text-sm">fetch(..., {`{ cache: 'no-store' }`})</code>. 
+          <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
+            This personalized dashboard demonstrates modern SSR using <code className="bg-gray-100 px-2 py-1 rounded text-sm">default behavior</code>. 
             All data is generated fresh on each request with real-time, user-specific content.
           </p>
           
@@ -58,25 +53,70 @@ export default async function SSRPage() {
           </div>
         </div>
 
-        {/* Code Example */}
-        <div className="bg-gray-900 rounded-lg p-6 mb-12 overflow-x-auto">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold">Next.js 15 SSR Implementation</h3>
-            <span className="bg-orange-600 text-white px-2 py-1 rounded text-xs">no-store</span>
-          </div>
-          <pre className="text-orange-400 text-sm">
-            <code>{`// SSR with Next.js 15 App Router & Route Handlers
-async function getUserDashboard() {
-  // Real API call - fetched fresh on every request
-  const response = await fetch('/api/dashboard', { 
-    cache: 'no-store' // SSR strategy
-  });
-  return response.json();
-}
+        {/* Modern SSR Explanation */}
+        <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">SSR Best Practice</h3>
+          <div className="space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-4">✅ Cleanest Approach (Default)</h4>
+              <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
+                <pre className="text-green-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                  <code className="block">{`// SSR - Clean approach (Next.js 15+ default)
+export default async function SSRPage() {
+  // These are automatically no-store by default
+  const user = await fetchUserData();
+  const dashboard = await fetchDashboardData();
+  return <div>...</div>;
+}`}</code>
+                </pre>
+              </div>
+              <div className="space-y-2 text-sm text-gray-600">
+                <p>🧹 <span className="font-medium">Cleanest code</span> - leverages framework defaults</p>
+                <p>🚀 <span className="font-medium">Modern approach</span> - Next.js 15+ behavior</p>
+                <p>⚡ <span className="font-medium">Same result</span> - fresh data on every request</p>
+                <p>📝 <span className="font-medium">Less verbose</span> - no redundant cache options</p>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-4">📚 Version Differences</h4>
+              <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
+                <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                  <code className="block">{`// Next.js 15+ (current behavior)
+const data = await fetch('/api/data'); 
+// ↑ Automatically no-store by default
 
+// Next.js 14 and below (legacy behavior)  
+const data = await fetch('/api/data', { 
+  cache: 'no-store' 
+});
+// ↑ Explicit cache needed for SSR
+
+// Both achieve the same result!`}</code>
+                </pre>
+              </div>
+              <div className="space-y-2 text-sm text-gray-600">
+                <p>🆕 <span className="font-medium">Next.js 15+</span> - fetch is uncached by default</p>
+                <p>⏪ <span className="font-medium">Next.js 14-</span> - fetch was cached by default</p>
+                <p>⚖️ <span className="font-medium">Both work</span> - explicit cache still valid</p>
+                <p>✨ <span className="font-medium">Cleaner</span> - use defaults when possible</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Code Example */}
+        <div className="bg-gray-900 rounded-lg p-4 md:p-6 mb-12 overflow-x-auto">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
+            <h3 className="text-white font-semibold text-sm md:text-base">App Router SSR Implementation</h3>
+            <span className="bg-orange-600 text-white px-2 py-1 rounded text-xs self-start">default (no-store)</span>
+          </div>
+          <pre className="text-orange-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+            <code className="block">{`// Modern SSR with clean defaults
 export default async function DashboardPage() {
-  const user = await getCurrentUser(); // Fresh user data
-  const dashboard = await getUserDashboard(); // Fresh dashboard
+  // Fresh data automatically (Next.js 15+ default)
+  const user = await getCurrentUser();
+  const dashboard = await getDashboardData();
   
   return (
     <div>
@@ -89,27 +129,27 @@ export default async function DashboardPage() {
         </div>
 
         {/* User Header */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <div className="flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-xl font-bold">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-lg md:text-xl font-bold">
                   {user.name.split(' ').map(n => n[0]).join('')}
                 </span>
               </div>
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">Welcome back, {user.name}!</h2>
-                <p className="text-gray-600">{user.email}</p>
-                <p className="text-sm text-gray-500">
+              <div className="min-w-0 flex-1">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 truncate">Welcome back, {user.name}!</h2>
+                <p className="text-gray-600 text-sm md:text-base break-all">{user.email}</p>
+                <p className="text-xs md:text-sm text-gray-500">
                   Last login: {new Date(user.lastLogin).toLocaleString()}
                 </p>
               </div>
             </div>
-            <div className="text-right">
-              <span className="bg-orange-100 text-orange-800 text-sm font-medium px-3 py-1 rounded-full">
+            <div className="flex flex-row sm:flex-col sm:text-right gap-2 sm:gap-0 items-start">
+              <span className="bg-orange-100 text-orange-800 text-xs md:text-sm font-medium px-2 md:px-3 py-1 rounded-full whitespace-nowrap">
                 {user.role}
               </span>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-xs md:text-sm text-gray-500 sm:mt-2 whitespace-nowrap">
                 Member since {new Date(user.joinDate).toLocaleDateString()}
               </p>
             </div>
@@ -231,26 +271,26 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* SSR Performance Info */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">SSR Performance Characteristics</h3>
-          <div className="grid md:grid-cols-2 gap-8">
+        {/* SSR Implementation Details */}
+        <div className="bg-white rounded-xl shadow-lg p-4 md:p-8 mb-8 md:mb-12">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">SSR Implementation Details</h3>
+          <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
             <div>
               <h4 className="font-semibold text-gray-900 mb-4">Request Details</h4>
               <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <span className="text-gray-600">Generated at:</span>
-                  <span className="font-mono text-gray-900">{new Date(requestTime).toLocaleTimeString()}</span>
+                  <span className="font-mono text-gray-900 break-all">{new Date(requestTime).toLocaleTimeString()}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Server location:</span>
-                  <span className="font-mono text-gray-900">{dashboardData.serverLocation}</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                  <span className="text-gray-600">Rendering strategy:</span>
+                  <span className="font-mono text-orange-600 break-all">SSR (Server-Side)</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">User ID:</span>
-                  <span className="font-mono text-gray-900">{user.id}</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                  <span className="text-gray-600">Cache strategy:</span>
+                  <span className="font-mono text-orange-600 break-all">no-store (default)</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                   <span className="text-gray-600">Data freshness:</span>
                   <span className="text-green-600 font-medium">Real-time</span>
                 </div>
@@ -258,37 +298,31 @@ export default async function DashboardPage() {
             </div>
             
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">Why SSR Here?</h4>
+              <h4 className="font-semibold text-gray-900 mb-4">Why This Approach?</h4>
               <div className="space-y-3">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700 text-sm">User-specific personalized data</span>
+                  <span className="text-gray-700 text-sm leading-relaxed">User-specific personalized data</span>
                 </div>
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700 text-sm">Real-time activity feeds</span>
+                  <span className="text-gray-700 text-sm leading-relaxed">Real-time activity feeds</span>
                 </div>
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700 text-sm">Authentication-required content</span>
+                  <span className="text-gray-700 text-sm leading-relaxed">Authentication-required content</span>
                 </div>
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-700 text-sm">Dynamic statistics and metrics</span>
-                </div>
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 text-sm">SEO-friendly dynamic content</span>
+                  <span className="text-gray-700 text-sm leading-relaxed">Following modern best practices</span>
                 </div>
               </div>
             </div>
@@ -360,5 +394,3 @@ export default async function DashboardPage() {
   );
 }
 
-// Force dynamic rendering for this page
-export const dynamic = 'force-dynamic';
