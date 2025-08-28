@@ -1,13 +1,33 @@
 import { fetchDashboardData } from "@/lib/api";
 import type { DashboardData } from "@/lib/types";
 
-export async function DashboardContent() {
-  console.log("🔧 [SSR] Fetching dashboard content data...");
-  const dashboardData: DashboardData = await fetchDashboardData();
-  // const dashboardData: DashboardData = await fetchDashboardData({
-  //   cache: "force-cache",
-  // });
-  console.log("🔧 [SSR] Dashboard content data fetched");
+export async function DashboardContent({
+  searchParams,
+}: {
+  searchParams?: Promise<{ cache?: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const cacheMode =
+    resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
+
+  console.log(
+    `📝 [DASHBOARD CONTENT] Fetching activity & notifications with cache: ${cacheMode}...`
+  );
+  const dashboardData: DashboardData =
+    cacheMode === "force-cache"
+      ? await fetchDashboardData({ cache: "force-cache" })
+      : await fetchDashboardData();
+
+  console.log(
+    `✅ [DASHBOARD CONTENT] Content fetched (${cacheMode}):`,
+    `Activities: ${
+      dashboardData.recentActivity.length
+    } items | Notifications: ${
+      dashboardData.notifications.length
+    } items | Latest Activity: "${
+      dashboardData.recentActivity[0]?.message || "None"
+    }"`
+  );
 
   return (
     <div className="grid lg:grid-cols-3 gap-8 mb-12">

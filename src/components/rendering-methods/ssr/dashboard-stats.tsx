@@ -1,15 +1,26 @@
 import { fetchDashboardData } from "@/lib/api";
 import type { DashboardData } from "@/lib/types";
 
-export async function DashboardStats() {
-  console.log("🔧 [SSR] Fetching dashboard data...");
-  const dashboardData: DashboardData = await fetchDashboardData();
-  // const dashboardData: DashboardData = await fetchDashboardData({
-  //   cache: "force-cache",
-  // });
+export async function DashboardStats({
+  searchParams,
+}: {
+  searchParams?: Promise<{ cache?: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const cacheMode =
+    resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
+
   console.log(
-    "🔧 [SSR] Dashboard data fetched, orders:",
-    dashboardData.stats.totalOrders
+    `📊 [DASHBOARD STATS] Fetching stats data with cache: ${cacheMode}...`
+  );
+  const dashboardData: DashboardData =
+    cacheMode === "force-cache"
+      ? await fetchDashboardData({ cache: "force-cache" })
+      : await fetchDashboardData();
+
+  console.log(
+    `✅ [DASHBOARD STATS] Stats data fetched (${cacheMode}):`,
+    `Orders: ${dashboardData.stats.totalOrders} | Revenue: $${dashboardData.stats.revenue} | Subscriptions: ${dashboardData.stats.activeSubscriptions} | Tickets: ${dashboardData.stats.supportTickets}`
   );
 
   return (

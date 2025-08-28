@@ -7,8 +7,13 @@ import { DashboardStats } from "@/components/rendering-methods/ssr/dashboard-sta
 import { StatsSkeleton } from "@/components/rendering-methods/ssr/dashboard-stats-skeleton";
 import { DashboardContent } from "@/components/rendering-methods/ssr/dashboard-content";
 import { DashboardContentSkeleton } from "@/components/rendering-methods/ssr/dashboard-content-skeleton";
+import { CacheDemoToggle } from "@/components/rendering-methods/ssr/cache-demo-toggle";
 
-export default async function SSRPage() {
+export default async function SSRPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cache?: string }>;
+}) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100">
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -22,19 +27,22 @@ export default async function SSRPage() {
           </p>
         </div>
 
+        {/* Cache Demo Toggle */}
+        <CacheDemoToggle />
+
         {/* User Header with Suspense */}
         <Suspense fallback={<UserHeaderSkeleton />}>
-          <UserHeader />
+          <UserHeader searchParams={searchParams} />
         </Suspense>
 
         {/* Dashboard Stats with Suspense */}
         <Suspense fallback={<StatsSkeleton />}>
-          <DashboardStats />
+          <DashboardStats searchParams={searchParams} />
         </Suspense>
 
         {/* Dashboard Content with Suspense */}
         <Suspense fallback={<DashboardContentSkeleton />}>
-          <DashboardContent />
+          <DashboardContent searchParams={searchParams} />
         </Suspense>
 
         {/* SSR Explanation */}
@@ -58,12 +66,20 @@ export default async function SSRPage() {
             How SSR Works
           </h2>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            The dashboard above demonstrates modern SSR using{" "}
+            The dashboard above demonstrates modern SSR with{" "}
+            <strong className="text-blue-600">
+              interactive cache comparison
+            </strong>
+            . Use the toggle above to switch between{" "}
             <code className="bg-gray-100 px-2 py-1 rounded text-sm">
-              default behavior
-            </code>
-            . All data was generated fresh on the server with real-time,
-            user-specific content.
+              default (no-store)
+            </code>{" "}
+            and{" "}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+              force-cache
+            </code>{" "}
+            modes, then reload to see the difference in loading behavior and
+            console logs.
           </p>
 
           {/* Request Time Info */}

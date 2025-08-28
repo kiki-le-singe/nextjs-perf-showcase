@@ -1,11 +1,27 @@
 import { fetchUserData } from "@/lib/api";
 import type { User } from "@/lib/types";
 
-export async function UserHeader() {
-  console.log("🔧 [SSR] Fetching user data...");
-  const user: User = await fetchUserData();
-  // const user: User = await fetchUserData({ cache: "force-cache" });
-  console.log("🔧 [SSR] User data fetched:", user.name, "at", user.lastLogin);
+export async function UserHeader({
+  searchParams,
+}: {
+  searchParams?: Promise<{ cache?: string }>;
+}) {
+  const resolvedSearchParams = await searchParams;
+  const cacheMode =
+    resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
+
+  console.log(
+    `👤 [USER HEADER] Fetching user data with cache: ${cacheMode}...`
+  );
+  const user: User =
+    cacheMode === "force-cache"
+      ? await fetchUserData({ cache: "force-cache" })
+      : await fetchUserData();
+
+  console.log(
+    `✅ [USER HEADER] User data fetched (${cacheMode}):`,
+    `Name: ${user.name} | Last Login: ${user.lastLogin} | Email: ${user.email}`
+  );
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8">
