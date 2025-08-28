@@ -4,10 +4,22 @@ import type { User, DashboardData } from "@/lib/types";
 
 export default async function SSRPage() {
   // SSR: Fresh data on every request (default behavior in Next.js 15+)
+  console.log('🔧 [SSR] Starting server-side data fetching at:', new Date().toISOString());
+  
   const user: User = await fetchUserData(); 
+  console.log('🔧 [SSR] User data fetched:', user.name, 'at', user.lastLogin);
+  
   const dashboardData: DashboardData = await fetchDashboardData();
+  console.log('🔧 [SSR] Dashboard data fetched, orders:', dashboardData.stats.totalOrders);
+  
+  // 🧪 TEST: Uncomment the lines below to see cached behavior
+  // const user: User = await fetchUserData({ cache: 'force-cache' });
+  // console.log('🧪 [CACHED] Same user data:', user.lastLogin);
+  // const dashboardData: DashboardData = await fetchDashboardData({ cache: 'force-cache' });
+  // console.log('🧪 [CACHED] Dashboard data fetched, orders:', dashboardData.stats.totalOrders);
   
   const requestTime = new Date().toISOString();
+  console.log('🔧 [SSR] Page render completed at:', requestTime);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100">
