@@ -11,7 +11,11 @@ export async function DashboardStats({
     resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
 
   console.log(
-    `📊 [DASHBOARD STATS] Fetching stats data with cache: ${cacheMode}...`
+    `%c📊 [DASHBOARD STATS]%c Fetching stats data with cache: %c${cacheMode}%c...`,
+    "color: #2563EB; font-weight: bold",
+    "color: #6B7280",
+    "color: #DC2626; font-weight: bold",
+    "color: #6B7280"
   );
   const dashboardData: DashboardData =
     cacheMode === "force-cache"
@@ -19,8 +23,18 @@ export async function DashboardStats({
       : await fetchDashboardData();
 
   console.log(
-    `✅ [DASHBOARD STATS] Stats data fetched (${cacheMode}):`,
-    `Orders: ${dashboardData.stats.totalOrders} | Revenue: $${dashboardData.stats.revenue} | Subscriptions: ${dashboardData.stats.activeSubscriptions} | Tickets: ${dashboardData.stats.supportTickets}`
+    `%c✅ [DASHBOARD STATS]%c Stats data fetched (%c${cacheMode}%c): Orders: %c${dashboardData.stats.totalOrders}%c | Revenue: %c$${dashboardData.stats.revenue}%c | Subscriptions: %c${dashboardData.stats.activeSubscriptions}%c | Tickets: %c${dashboardData.stats.supportTickets}`,
+    "color: #2563EB; font-weight: bold",
+    "color: #374151",
+    "color: #DC2626; font-weight: bold",
+    "color: #374151",
+    "color: #059669; font-weight: bold",
+    "color: #374151",
+    "color: #059669; font-weight: bold",
+    "color: #374151",
+    "color: #059669; font-weight: bold",
+    "color: #374151",
+    "color: #059669; font-weight: bold"
   );
 
   return (

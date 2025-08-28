@@ -11,7 +11,11 @@ export async function UserHeader({
     resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
 
   console.log(
-    `👤 [USER HEADER] Fetching user data with cache: ${cacheMode}...`
+    `%c👤 [USER HEADER]%c Fetching user data with cache: %c${cacheMode}%c...`,
+    "color: #059669; font-weight: bold",
+    "color: #6B7280",
+    "color: #DC2626; font-weight: bold",
+    "color: #6B7280"
   );
   const user: User =
     cacheMode === "force-cache"
@@ -19,8 +23,16 @@ export async function UserHeader({
       : await fetchUserData();
 
   console.log(
-    `✅ [USER HEADER] User data fetched (${cacheMode}):`,
-    `Name: ${user.name} | Last Login: ${user.lastLogin} | Email: ${user.email}`
+    `%c✅ [USER HEADER]%c User data fetched (%c${cacheMode}%c): Name: %c${user.name}%c | Last Login: %c${user.lastLogin}%c | Email: %c${user.email}`,
+    "color: #059669; font-weight: bold",
+    "color: #374151",
+    "color: #DC2626; font-weight: bold",
+    "color: #374151",
+    "color: #2563EB; font-weight: bold",
+    "color: #374151",
+    "color: #2563EB; font-weight: bold",
+    "color: #374151",
+    "color: #2563EB; font-weight: bold"
   );
 
   return (

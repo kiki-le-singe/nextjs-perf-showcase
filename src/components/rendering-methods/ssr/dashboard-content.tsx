@@ -11,7 +11,11 @@ export async function DashboardContent({
     resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
 
   console.log(
-    `📝 [DASHBOARD CONTENT] Fetching activity & notifications with cache: ${cacheMode}...`
+    `%c📝 [DASHBOARD CONTENT]%c Fetching activity & notifications with cache: %c${cacheMode}%c...`,
+    "color: #7C3AED; font-weight: bold",
+    "color: #6B7280",
+    "color: #DC2626; font-weight: bold",
+    "color: #6B7280"
   );
   const dashboardData: DashboardData =
     cacheMode === "force-cache"
@@ -19,14 +23,23 @@ export async function DashboardContent({
       : await fetchDashboardData();
 
   console.log(
-    `✅ [DASHBOARD CONTENT] Content fetched (${cacheMode}):`,
-    `Activities: ${
+    `%c✅ [DASHBOARD CONTENT]%c Content fetched (%c${cacheMode}%c): Activities: %c${
       dashboardData.recentActivity.length
-    } items | Notifications: ${
+    }%c items | Notifications: %c${
       dashboardData.notifications.length
-    } items | Latest Activity: "${
+    }%c items | Latest Activity: %c"${
       dashboardData.recentActivity[0]?.message || "None"
-    }"`
+    }"%c`,
+    "color: #7C3AED; font-weight: bold",
+    "color: #374151",
+    "color: #DC2626; font-weight: bold",
+    "color: #374151",
+    "color: #F59E0B; font-weight: bold",
+    "color: #374151",
+    "color: #F59E0B; font-weight: bold",
+    "color: #374151",
+    "color: #F59E0B; font-weight: bold",
+    "color: #374151"
   );
 
   return (
