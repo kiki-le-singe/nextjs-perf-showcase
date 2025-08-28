@@ -56,6 +56,12 @@ export function CacheDemoToggle() {
           <p className="text-gray-700 text-sm mb-3">
             Click either button below to test different cache behaviors:
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+            <p className="text-blue-800 text-sm font-medium">
+              💡 <strong>Tip:</strong> Open your browser's DevTools Console to
+              see colorized logs showing cache behavior differences!
+            </p>
+          </div>
           <div className="space-y-2 text-sm">
             <div className="flex items-start gap-2">
               <span className="text-green-600 font-medium">
@@ -117,15 +123,12 @@ export function CacheDemoToggle() {
             <ul className="space-y-1 text-xs">
               <li>• Skeleton loading animations</li>
               <li>• Data appearing progressively</li>
-              <li>• Page load timing differences</li>
             </ul>
           </div>
           <div>
             <p className="font-medium text-gray-800 mb-1">Console logs:</p>
             <ul className="space-y-1 text-xs">
-              <li>• Data fetching messages</li>
-              <li>• Timestamp differences</li>
-              <li>• User/dashboard values changing</li>
+              <li>• Watch data values change vs stay identical</li>
             </ul>
           </div>
         </div>
