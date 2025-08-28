@@ -1,20 +1,18 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { fetchDashboardData } from "@/lib/api";
-import type { DashboardData } from "@/lib/types";
+
 import { UserHeader } from "@/components/rendering-methods/ssr/user-header";
 import { UserHeaderSkeleton } from "@/components/rendering-methods/ssr/user-header-skeleton";
 import { DashboardStats } from "@/components/rendering-methods/ssr/dashboard-stats";
 import { StatsSkeleton } from "@/components/rendering-methods/ssr/dashboard-stats-skeleton";
+import { DashboardContent } from "@/components/rendering-methods/ssr/dashboard-content";
+import { DashboardContentSkeleton } from "@/components/rendering-methods/ssr/dashboard-content-skeleton";
 
 
 
 export default async function SSRPage() {
   // SSR: Fresh data on every request (default behavior in Next.js 15+)
-  console.log('🔧 [SSR] Starting server-side data fetching at:', new Date().toISOString());
-  
-  const dashboardData: DashboardData = await fetchDashboardData();
-  console.log('🔧 [SSR] Dashboard data fetched, orders:', dashboardData.stats.totalOrders);
+  console.log('🔧 [SSR] Starting server-side rendering at:', new Date().toISOString());
   
   const requestTime = new Date().toISOString();
   console.log('🔧 [SSR] Page render completed at:', requestTime);
@@ -39,58 +37,14 @@ export default async function SSRPage() {
 
         {/* Dashboard Stats with Suspense */}
         <Suspense fallback={<StatsSkeleton />}>
-          <DashboardStats dashboardData={dashboardData} />
+          <DashboardStats />
         </Suspense>
 
-        {/* Dashboard Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {/* Recent Activity */}
-          <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h3>
-            <div className="space-y-4">
-              {dashboardData.recentActivity.map((activity) => (
-                <div key={activity.id} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                  <div className={`w-3 h-3 rounded-full ${
-                    activity.status === 'success' ? 'bg-green-500' : 
-                    activity.status === 'pending' ? 'bg-yellow-500' : 'bg-blue-500'
-                  }`}></div>
-                  <div className="flex-1">
-                    <p className="text-gray-900 font-medium">{activity.message}</p>
-                    <p className="text-sm text-gray-500">
-                      {new Date(activity.time).toLocaleString()}
-                    </p>
-                  </div>
-                  <span className={`px-2 py-1 text-xs rounded-full ${
-                    activity.status === 'success' ? 'bg-green-100 text-green-800' : 
-                    activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'
-                  }`}>
-                    {activity.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Dashboard Content with Suspense */}
+        <Suspense fallback={<DashboardContentSkeleton />}>
+          <DashboardContent />
+        </Suspense>
 
-          {/* Notifications */}
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Notifications</h3>
-            <div className="space-y-4">
-              {dashboardData.notifications.map((notification) => (
-                <div key={notification.id} className="p-3 bg-gray-50 rounded-lg">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">{notification.title}</p>
-                      <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                    </div>
-                    {notification.unread && (
-                      <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* SSR Explanation */}
         <div className="text-center mb-8 md:mb-12">
