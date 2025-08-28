@@ -3,8 +3,8 @@ import type { User } from "@/lib/types";
 
 export async function UserHeader() {
   console.log('🔧 [SSR] Fetching user data...');
-  // const user: User = await fetchUserData();
-  const user: User = await fetchUserData({ cache: 'force-cache' });
+  const user: User = await fetchUserData();
+  // const user: User = await fetchUserData({ cache: 'force-cache' });
   console.log('🔧 [SSR] User data fetched:', user.name, 'at', user.lastLogin);
   
   return (
