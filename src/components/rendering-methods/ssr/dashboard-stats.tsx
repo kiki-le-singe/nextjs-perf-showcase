@@ -4,7 +4,9 @@ import type { DashboardData } from "@/lib/types";
 export async function DashboardStats() {
   console.log("🔧 [SSR] Fetching dashboard data...");
   const dashboardData: DashboardData = await fetchDashboardData();
-  // const dashboardData: DashboardData = await fetchDashboardData({ cache: 'force-cache' });
+  // const dashboardData: DashboardData = await fetchDashboardData({
+  //   cache: "force-cache",
+  // });
   console.log(
     "🔧 [SSR] Dashboard data fetched, orders:",
     dashboardData.stats.totalOrders
