@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 // Dynamic tab components - loaded only when selected
 const TabOverview = dynamic(() => import("./tab-overview"));
@@ -20,6 +21,15 @@ export default function DynamicTabsDemo() {
   const [activeTab, setActiveTab] = useState("tabOverview");
   const ActiveTabContent = tabs[activeTab as keyof typeof tabs];
 
+  const getTabButtonClass = (tabName: string) => 
+    cn(
+      "px-4 py-2 rounded-lg font-medium transition-colors",
+      tabName !== "tabUsers" && "mr-2", // Add margin-right to all except last
+      activeTab === tabName
+        ? "bg-green-600 text-white"
+        : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+    );
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
@@ -30,25 +40,25 @@ export default function DynamicTabsDemo() {
           <div className="mb-6">
             <button 
               onClick={() => setActiveTab("tabOverview")}
-              className={`mr-2 px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === "tabOverview" ? "bg-green-600 text-white" : "bg-gray-100 text-gray-900 hover:bg-gray-200"}`}
+              className={getTabButtonClass("tabOverview")}
             >
               Overview
             </button>
             <button 
               onClick={() => setActiveTab("tabCharts")}
-              className={`mr-2 px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === "tabCharts" ? "bg-green-600 text-white" : "bg-gray-100 text-gray-900 hover:bg-gray-200"}`}
+              className={getTabButtonClass("tabCharts")}
             >
               Charts
             </button>
             <button 
               onClick={() => setActiveTab("tabReports")}
-              className={`mr-2 px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === "tabReports" ? "bg-green-600 text-white" : "bg-gray-100 text-gray-900 hover:bg-gray-200"}`}
+              className={getTabButtonClass("tabReports")}
             >
               Reports
             </button>
             <button 
               onClick={() => setActiveTab("tabUsers")}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === "tabUsers" ? "bg-green-600 text-white" : "bg-gray-100 text-gray-900 hover:bg-gray-200"}`}
+              className={getTabButtonClass("tabUsers")}
             >
               Users
             </button>

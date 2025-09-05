@@ -1,5 +1,6 @@
 import { fetchDashboardData } from "@/lib/api";
 import type { DashboardData } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export async function DashboardContent({
   searchParams,
@@ -56,13 +57,14 @@ export async function DashboardContent({
               className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg"
             >
               <div
-                className={`w-3 h-3 rounded-full ${
+                className={cn(
+                  "w-3 h-3 rounded-full",
                   activity.status === "success"
                     ? "bg-green-500"
                     : activity.status === "pending"
                     ? "bg-yellow-500"
                     : "bg-blue-500"
-                }`}
+                )}
               ></div>
               <div className="flex-1">
                 <p className="text-gray-900 font-medium">{activity.message}</p>
@@ -71,13 +73,14 @@ export async function DashboardContent({
                 </p>
               </div>
               <span
-                className={`px-2 py-1 text-xs rounded-full ${
+                className={cn(
+                  "px-2 py-1 text-xs rounded-full",
                   activity.status === "success"
                     ? "bg-green-100 text-green-800"
                     : activity.status === "pending"
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-blue-100 text-blue-800"
-                }`}
+                )}
               >
                 {activity.status}
               </span>

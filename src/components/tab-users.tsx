@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export default function TabUsers() {
   const users = [
     { name: "Alice Johnson", email: "alice@example.com", status: "Active" },
@@ -23,11 +25,12 @@ export default function TabUsers() {
                 <td className="px-4 py-2 text-sm text-gray-900">{user.name}</td>
                 <td className="px-4 py-2 text-sm text-gray-600">{user.email}</td>
                 <td className="px-4 py-2">
-                  <span className={`inline-flex px-2 py-1 text-xs rounded-full ${
+                  <span className={cn(
+                    "inline-flex px-2 py-1 text-xs rounded-full",
                     user.status === 'Active' 
                       ? 'bg-green-100 text-green-800' 
                       : 'bg-red-100 text-red-800'
-                  }`}>
+                  )}>
                     {user.status}
                   </span>
                 </td>

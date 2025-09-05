@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "chart.js": "^4.5.0",
+    "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.542.0",
     "next": "15.5.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "tailwind-merge": "^3.3.1",
     "wavesurfer.js": "^7.10.1",
     "zod": "^4.1.3"
   },

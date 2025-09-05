@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Info, FlaskConical, Lightbulb } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function CacheDemoToggle() {
   const [isForceCache, setIsForceCache] = useState(false);
@@ -78,9 +79,10 @@ export function CacheDemoToggle() {
 
       {/* Compact Cache Demo Bar */}
       <div
-        className={`bg-blue-50 border border-blue-200 rounded-lg p-4 ${
-          isLoading ? "pointer-events-none" : ""
-        }`}
+        className={cn(
+          "bg-blue-50 border border-blue-200 rounded-lg p-4",
+          isLoading && "pointer-events-none"
+        )}
       >
         <div className="flex items-center justify-between gap-4">
           {/* Left side - Title and Status */}
@@ -157,11 +159,12 @@ export function CacheDemoToggle() {
             </div>
 
             <span
-              className={`px-2 py-1 rounded text-xs font-medium ${
+              className={cn(
+                "px-2 py-1 rounded text-xs font-medium",
                 isForceCache
                   ? "bg-orange-100 text-orange-800"
                   : "bg-green-100 text-green-800"
-              }`}
+              )}
             >
               {isForceCache ? "force-cache" : "no-store"}
             </span>
@@ -172,13 +175,14 @@ export function CacheDemoToggle() {
             <button
               onClick={handleDefaultCache}
               disabled={isLoading} // Only disable during loading, always allow clicking default
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+              className={cn(
+                "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
                 isLoading
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : !isForceCache
                   ? "bg-green-600 text-white shadow-md hover:bg-green-700" // Active state - still clickable
                   : "bg-green-100 text-green-700 hover:bg-green-200"
-              }`}
+              )}
             >
               {isLoading && !isForceCache && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -191,13 +195,14 @@ export function CacheDemoToggle() {
             <button
               onClick={handleForceCache}
               disabled={isLoading || isForceCache} // Disable when already in force cache mode or loading
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+              className={cn(
+                "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
                 isLoading
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : isForceCache
                   ? "bg-orange-600 text-white shadow-md cursor-not-allowed opacity-75" // Active state - disabled
                   : "bg-orange-100 text-orange-700 hover:bg-orange-200"
-              }`}
+              )}
             >
               {isLoading && isForceCache && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
