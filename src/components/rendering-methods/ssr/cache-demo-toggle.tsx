@@ -84,7 +84,7 @@ export function CacheDemoToggle() {
           isLoading && "pointer-events-none"
         )}
       >
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           {/* Left side - Title and Status */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
@@ -171,12 +171,12 @@ export function CacheDemoToggle() {
           </div>
 
           {/* Right side - Buttons */}
-          <div className="flex gap-2">
+          <div className="flex flex-col xs:flex-row gap-2 w-full sm:w-auto">
             <button
               onClick={handleDefaultCache}
               disabled={isLoading} // Only disable during loading, always allow clicking default
               className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
+                "px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0",
                 isLoading
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : !isForceCache
@@ -196,7 +196,7 @@ export function CacheDemoToggle() {
               onClick={handleForceCache}
               disabled={isLoading || isForceCache} // Disable when already in force cache mode or loading
               className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
+                "px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0",
                 isLoading
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : isForceCache
