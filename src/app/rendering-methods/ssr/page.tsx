@@ -23,7 +23,7 @@ export default async function SSRPage({
             SSR - Server-Side Rendering
           </h1>
           <p className="text-lg text-gray-600">
-            Experience personalized, real-time dashboard content ↓
+            See how fresh data is delivered on every page request ↓
           </p>
         </div>
 
@@ -78,20 +78,20 @@ export default async function SSRPage({
             <code className="bg-gray-100 px-2 py-1 rounded text-sm">
               force-cache
             </code>{" "}
-            modes, then reload to see the difference in loading behavior and
-            console logs.
+            modes to see the difference in loading behavior and console logs.
           </p>
 
           {/* Request Time Info */}
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
             <h3 className="font-semibold text-gray-900 mb-2">
-              ⚡ SSR Benefits
+              ⚡ SSR Benefits & Trade-offs
             </h3>
             <div className="text-sm text-gray-600 space-y-1">
               <p>✅ Always fresh data</p>
-              <p>✅ Personalized content</p>
-              <p>✅ Real-time updates</p>
               <p>✅ Perfect SEO</p>
+              <p>✅ Real-time updates</p>
+              <p>❌ Higher server load</p>
+              <p>❌ Slower than SSG</p>
             </div>
           </div>
         </div>
@@ -312,6 +312,33 @@ export default async function DashboardPage() {
                   <span className="text-gray-700 text-sm leading-relaxed">
                     Following modern best practices
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Performance Trade-offs */}
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mt-6">
+            <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+              ⚡ Performance Trade-offs
+            </h4>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-2"></div>
+                <div>
+                  <strong className="text-gray-900">Higher server load</strong>: Each request generates fresh HTML, increasing backend workload compared to cached SSG pages.
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-2"></div>
+                <div>
+                  <strong className="text-gray-900">Performance comparison</strong>: SSR is slower than SSG but faster than CSR for initial page load.
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0 mt-2"></div>
+                <div>
+                  <strong className="text-gray-900">Best for</strong>: When data freshness outweighs server efficiency concerns.
                 </div>
               </div>
             </div>
