@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import type WaveSurfer from "wavesurfer.js";
+import { Play, Pause } from "lucide-react";
 
 type AudioPlayerProps = {
   audioUrl: string;
@@ -105,7 +106,17 @@ export default function AudioPlayer({ audioUrl }: AudioPlayerProps) {
               : "cursor-pointer opacity-100"
           }`}
       >
-        {isLoading ? "Loading..." : isPlaying ? "⏸️ Pause" : "▶️ Play"}
+        {isLoading ? "Loading..." : isPlaying ? (
+          <>
+            <Pause className="inline-block w-4 h-4 mr-2" />
+            Pause
+          </>
+        ) : (
+          <>
+            <Play className="inline-block w-4 h-4 mr-2" />
+            Play
+          </>
+        )}
       </button>
     </div>
   );

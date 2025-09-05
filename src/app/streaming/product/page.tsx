@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { Smartphone, ChevronLeft, Headphones, Cable } from "lucide-react";
 
 // Mock async components with different delays and one that fails
 async function ProductInfo() {
@@ -10,7 +11,7 @@ async function ProductInfo() {
         <div className="w-full md:w-1/3">
           <div className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
             <div className="w-32 h-32 bg-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-2xl">
-              📱
+              <Smartphone className="w-16 h-16" />
             </div>
           </div>
         </div>
@@ -113,9 +114,9 @@ async function RelatedProducts() {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
   const products = [
-    { name: "iPhone 14 Pro", price: "$899", image: "📱" },
-    { name: "AirPods Pro", price: "$249", image: "🎧" },
-    { name: "MagSafe Charger", price: "$39", image: "🔌" },
+    { name: "iPhone 14 Pro", price: "$899", icon: Smartphone },
+    { name: "AirPods Pro", price: "$249", icon: Headphones },
+    { name: "MagSafe Charger", price: "$39", icon: Cable },
   ];
 
   return (
@@ -127,7 +128,9 @@ async function RelatedProducts() {
             key={i}
             className="border rounded-lg p-4 text-center hover:shadow-md transition-shadow"
           >
-            <div className="text-4xl mb-2">{product.image}</div>
+            <div className="text-4xl mb-2 flex justify-center">
+              <product.icon className="w-8 h-8 text-blue-600" />
+            </div>
             <h4 className="font-semibold text-gray-900">{product.name}</h4>
             <p className="text-blue-600 font-bold">{product.price}</p>
             <button className="mt-2 text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200">
@@ -205,19 +208,7 @@ export default function Page() {
           href="/streaming"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
         >
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
+          <ChevronLeft className="w-4 h-4 mr-2" />
           Back to Examples
         </Link>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Info } from "lucide-react";
+import { Info, FlaskConical, Lightbulb } from "lucide-react";
 
 export function CacheDemoToggle() {
   const [isForceCache, setIsForceCache] = useState(false);
@@ -86,8 +86,9 @@ export function CacheDemoToggle() {
           {/* Left side - Title and Status */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
+              <FlaskConical className="w-4 h-4 text-blue-600" />
               <span className="text-sm font-medium text-gray-700">
-                🧪 Cache Demo
+                Cache Demo
               </span>
               <div className="relative">
                 <button
@@ -115,8 +116,9 @@ export function CacheDemoToggle() {
                       </div>
 
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <p className="text-blue-800 text-sm font-medium">
-                          💡 <strong>Tip:</strong> Open DevTools Console to see
+                        <p className="text-blue-800 text-sm font-medium flex items-center">
+                          <Lightbulb className="w-4 h-4 mr-1" />
+                          <strong>Tip:</strong> Open DevTools Console to see
                           logs!
                         </p>
                       </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { Zap, Check, X, ChevronLeft, ChevronRight, BookOpen, FileText, Rocket, Paintbrush, Scale, RotateCcw, Sparkles } from "lucide-react";
 
 import { UserHeader } from "@/components/rendering-methods/ssr/user-header";
 import { UserHeaderSkeleton } from "@/components/rendering-methods/ssr/user-header-skeleton";
@@ -48,19 +49,7 @@ export default async function SSRPage({
         {/* SSR Explanation */}
         <div className="text-center mb-8 md:mb-12">
           <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-orange-100 rounded-full mb-4">
-            <svg
-              className="w-6 h-6 md:w-8 md:h-8 text-orange-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 10V3L4 14h7v7l9-11h-7z"
-              />
-            </svg>
+            <Zap className="w-6 h-6 md:w-8 md:h-8 text-orange-600" />
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             How SSR Works
@@ -83,15 +72,33 @@ export default async function SSRPage({
 
           {/* Request Time Info */}
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
-            <h3 className="font-semibold text-gray-900 mb-2">
-              ⚡ SSR Benefits & Trade-offs
-            </h3>
+            <div className="flex items-center gap-2 mb-2">
+              <Zap className="w-4 h-4 text-orange-600" />
+              <h3 className="font-semibold text-gray-900">
+                SSR Benefits & Trade-offs
+              </h3>
+            </div>
             <div className="text-sm text-gray-600 space-y-1">
-              <p>✅ Always fresh data</p>
-              <p>✅ Perfect SEO</p>
-              <p>✅ Real-time updates</p>
-              <p>❌ Higher server load</p>
-              <p>❌ Slower than SSG</p>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>Always fresh data</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>Perfect SEO</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <span>Real-time updates</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <X className="w-4 h-4 text-red-500 flex-shrink-0" />
+                <span>Higher server load</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <X className="w-4 h-4 text-red-500 flex-shrink-0" />
+                <span>Slower than SSG</span>
+              </div>
             </div>
           </div>
         </div>
@@ -103,8 +110,9 @@ export default async function SSRPage({
           </h3>
           <div className="space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">
-                ✅ Cleanest Approach (Default)
+              <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+                <Check className="w-4 h-4 text-green-600 mr-2" />
+                Cleanest Approach (Default)
               </h4>
               <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
                 <pre className="text-green-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
@@ -119,27 +127,32 @@ export default async function SSRPage() {
               </div>
               <div className="space-y-2 text-sm text-gray-600">
                 <p>
-                  🧹 <span className="font-medium">Cleanest code</span> -
+                  <Paintbrush className="w-4 h-4 text-blue-600 mr-1 inline" />
+                  <span className="font-medium">Cleanest code</span> -
                   leverages framework defaults
                 </p>
                 <p>
-                  🚀 <span className="font-medium">Modern approach</span> -
+                  <Rocket className="w-4 h-4 text-purple-600 mr-1 inline" />
+                  <span className="font-medium">Modern approach</span> -
                   Next.js 15+ behavior
                 </p>
                 <p>
-                  ⚡ <span className="font-medium">Same result</span> - fresh
+                  <Zap className="w-4 h-4 text-yellow-600 mr-1 inline" />
+                  <span className="font-medium">Same result</span> - fresh
                   data on every request
                 </p>
                 <p>
-                  📝 <span className="font-medium">Less verbose</span> - no
+                  <FileText className="w-4 h-4 text-green-600 mr-1 inline" />
+                  <span className="font-medium">Less verbose</span> - no
                   redundant cache options
                 </p>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold text-gray-900 mb-4">
-                📚 Version Differences
+              <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+                <BookOpen className="w-4 h-4 text-blue-600 mr-2" />
+                Version Differences
               </h4>
               <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
                 <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
@@ -162,15 +175,18 @@ const data = await fetch('/api/data', {
                   uncached by default
                 </p>
                 <p>
-                  ⏪ <span className="font-medium">Next.js 14-</span> - fetch
+                  <RotateCcw className="w-4 h-4 text-orange-600 mr-1 inline" />
+                  <span className="font-medium">Next.js 14-</span> - fetch
                   was cached by default
                 </p>
                 <p>
-                  ⚖️ <span className="font-medium">Both work</span> - explicit
+                  <Scale className="w-4 h-4 text-gray-600 mr-1 inline" />
+                  <span className="font-medium">Both work</span> - explicit
                   cache still valid
                 </p>
                 <p>
-                  ✨ <span className="font-medium">Cleaner</span> - use defaults
+                  <Sparkles className="w-4 h-4 text-indigo-600 mr-1 inline" />
+                  <span className="font-medium">Cleaner</span> - use defaults
                   when possible
                 </p>
               </div>
@@ -242,73 +258,25 @@ export default async function DashboardPage() {
               </h4>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <span className="text-gray-700 text-sm leading-relaxed">
                     User-specific personalized data
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <span className="text-gray-700 text-sm leading-relaxed">
                     Real-time activity feeds
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <span className="text-gray-700 text-sm leading-relaxed">
                     Authentication-required content
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
-                  <svg
-                    className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                   <span className="text-gray-700 text-sm leading-relaxed">
                     Following modern best practices
                   </span>
@@ -319,9 +287,12 @@ export default async function DashboardPage() {
 
           {/* Performance Trade-offs */}
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mt-6">
-            <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
-              ⚡ Performance Trade-offs
-            </h4>
+            <div className="flex items-center gap-2 mb-4">
+              <Zap className="w-4 h-4 text-yellow-600" />
+              <h4 className="font-semibold text-gray-900">
+                Performance Trade-offs
+              </h4>
+            </div>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-2"></div>
@@ -353,45 +324,15 @@ export default async function DashboardPage() {
               <h4 className="text-lg font-semibold mb-4">Perfect for:</h4>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 mr-3" />
                   User-specific dashboards
                 </li>
                 <li className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 mr-3" />
                   Real-time content
                 </li>
                 <li className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 mr-3" />
                   Personalized experiences
                 </li>
               </ul>
@@ -400,45 +341,15 @@ export default async function DashboardPage() {
               <h4 className="text-lg font-semibold mb-4">Benefits:</h4>
               <ul className="space-y-2">
                 <li className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 mr-3" />
                   Perfect SEO
                 </li>
                 <li className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 mr-3" />
                   Instant content display
                 </li>
                 <li className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <Check className="w-5 h-5 mr-3" />
                   Server-side data security
                 </li>
               </ul>
@@ -452,19 +363,7 @@ export default async function DashboardPage() {
             href="/rendering-methods/isr"
             className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium"
           >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+            <ChevronLeft className="w-4 h-4 mr-2" />
             Previous: ISR Example
           </Link>
 
@@ -473,19 +372,7 @@ export default async function DashboardPage() {
             className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium"
           >
             Next: CSR Example
-            <svg
-              className="w-4 h-4 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <ChevronRight className="w-4 h-4 ml-2" />
           </Link>
         </div>
       </div>

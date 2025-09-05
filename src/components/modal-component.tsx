@@ -1,5 +1,7 @@
 "use client";
 
+import { X, PartyPopper, Check } from "lucide-react";
+
 interface ModalProps {
   onClose: () => void;
 }
@@ -15,24 +17,35 @@ export default function Modal({ onClose }: ModalProps) {
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="w-6 h-6" />
             </button>
           </div>
           
-          <p className="text-gray-600 mb-6">
-            🎉 Success! This modal was loaded dynamically when you clicked the button. 
+          <p className="text-gray-600 mb-6 flex items-start">
+            <PartyPopper className="w-4 h-4 text-green-600 mr-2 mt-0.5" />
+            Success! This modal was loaded dynamically when you clicked the button. 
             The modal code was not part of the initial page bundle.
           </p>
           
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
             <h3 className="font-semibold text-green-800 mb-2">Code Splitting Benefits:</h3>
             <ul className="text-green-700 text-sm space-y-1">
-              <li>✓ Faster initial page load</li>
-              <li>✓ Smaller initial bundle size</li>
-              <li>✓ Better performance on slow connections</li>
-              <li>✓ Components load only when needed</li>
+              <li className="flex items-center">
+                <Check className="w-3 h-3 mr-2" />
+                Faster initial page load
+              </li>
+              <li className="flex items-center">
+                <Check className="w-3 h-3 mr-2" />
+                Smaller initial bundle size
+              </li>
+              <li className="flex items-center">
+                <Check className="w-3 h-3 mr-2" />
+                Better performance on slow connections
+              </li>
+              <li className="flex items-center">
+                <Check className="w-3 h-3 mr-2" />
+                Components load only when needed
+              </li>
             </ul>
           </div>
 

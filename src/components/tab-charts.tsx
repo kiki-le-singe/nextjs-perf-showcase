@@ -1,3 +1,5 @@
+import { BarChart3 } from "lucide-react";
+
 export default function TabCharts() {
   return (
     <div>
@@ -12,8 +14,9 @@ export default function TabCharts() {
         </div>
         <div className="text-center mt-4 text-gray-600">Sample Chart Visualization</div>
       </div>
-      <p className="text-gray-600">
-        📊 This charts tab was loaded dynamically! In a real application, this would contain
+      <p className="text-gray-600 flex items-start">
+        <BarChart3 className="w-4 h-4 text-blue-600 mr-2 mt-0.5" />
+        This charts tab was loaded dynamically! In a real application, this would contain
         heavy charting libraries like Chart.js or D3.js that would only load when users
         actually need to see the charts.
       </p>

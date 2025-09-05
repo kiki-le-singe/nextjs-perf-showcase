@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronLeft, Check, ChevronRight, Zap, TrendingDown, Smartphone, Rocket, Target, RotateCcw } from "lucide-react";
 
 export default function Page() {
   const examples = [
@@ -33,19 +34,7 @@ export default function Page() {
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8"
         >
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
+          <ChevronLeft className="w-4 h-4 mr-2" />
           Back to Home
         </Link>
 
@@ -76,17 +65,7 @@ export default function Page() {
                         key={i}
                         className="flex items-center text-sm text-gray-600"
                       >
-                        <svg
-                          className="w-4 h-4 text-green-500 mr-2"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+                        <Check className="w-4 h-4 text-green-500 mr-2" />
                         {feature}
                       </div>
                     ))}
@@ -94,19 +73,7 @@ export default function Page() {
                   <div className="pt-4 border-t border-gray-100">
                     <span className="text-blue-600 font-medium text-sm flex items-center">
                       View Example
-                      <svg
-                        className="w-4 h-4 ml-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                      <ChevronRight className="w-4 h-4 ml-1" />
                     </span>
                   </div>
                 </div>
@@ -127,29 +94,29 @@ export default function Page() {
             <div className="grid md:grid-cols-2 gap-6">
               <ul className="space-y-2">
                 <li className="flex items-start">
-                  <span className="text-green-500 mr-2">⚡</span>
+                  <Zap className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                   <span>Faster initial load times</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-green-500 mr-2">📉</span>
+                  <TrendingDown className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                   <span>Reduced bundle sizes</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-green-500 mr-2">📱</span>
+                  <Smartphone className="w-4 h-4 text-green-500 mr-2 mt-0.5" />
                   <span>Better mobile experience</span>
                 </li>
               </ul>
               <ul className="space-y-2">
                 <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">🚀</span>
+                  <Rocket className="w-4 h-4 text-blue-500 mr-2 mt-0.5" />
                   <span>Improved perceived performance</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">🎯</span>
+                  <Target className="w-4 h-4 text-blue-500 mr-2 mt-0.5" />
                   <span>Load only what&apos;s needed</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-blue-500 mr-2">🔄</span>
+                  <RotateCcw className="w-4 h-4 text-blue-500 mr-2 mt-0.5" />
                   <span>Cached for future visits</span>
                 </li>
               </ul>

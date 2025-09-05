@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { BarChart3 } from "lucide-react";
 
 type ChartModule = typeof import("chart.js");
 type ChartInstance = import("chart.js").Chart;
@@ -126,7 +127,12 @@ export default function ChartSection() {
           opacity: isLoading ? 0.6 : 1,
         }}
       >
-        {isLoading ? "Loading Chart..." : "📊 Load Chart"}
+        {isLoading ? "Loading Chart..." : (
+          <>
+            <BarChart3 className="inline-block w-4 h-4 mr-2" />
+            Load Chart
+          </>
+        )}
       </button>
 
       {showChart && (
