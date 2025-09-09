@@ -80,7 +80,7 @@ export function CacheDemoToggle() {
       {/* Compact Cache Demo Bar */}
       <div
         className={cn(
-          "bg-blue-50 border border-blue-200 rounded-lg p-4",
+          "bg-blue-50 border border-blue-200 rounded-lg p-4 sm:w-fit",
           isLoading && "pointer-events-none"
         )}
       >
@@ -92,70 +92,67 @@ export function CacheDemoToggle() {
               <span className="text-sm font-medium text-gray-700">
                 Cache Demo
               </span>
-              <div className="relative">
-                <button
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
-                  onClick={() => setShowTooltip(!showTooltip)}
-                  className="p-1 text-blue-600 hover:text-blue-800 transition-colors"
-                  aria-label="Show cache demo information"
-                >
-                  <Info size={16} />
-                </button>
+              <button
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                onClick={() => setShowTooltip(!showTooltip)}
+                className="p-1 text-blue-600 hover:text-blue-800 transition-colors"
+                aria-label="Show cache demo information"
+              >
+                <Info size={16} />
+              </button>
 
-                {/* Tooltip */}
-                {showTooltip && (
-                  <div className="absolute left-0 top-8 z-50 w-80 max-w-[90vw] bg-white rounded-lg shadow-xl border border-gray-200 p-4">
-                    <div className="space-y-3">
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-2">
-                          How to use:
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-3">
-                          Click either button to test different cache behaviors
-                          and reload the page
-                        </p>
+              {/* Tooltip */}
+              {showTooltip && (
+                <div className="absolute left-0 top-10 sm:top-20 z-50 w-80 max-w-[90vw] bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+                  <div className="space-y-3">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-2">
+                        How to use:
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Click either button to test different cache behaviors
+                        and reload the page
+                      </p>
+                    </div>
+
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <p className="text-blue-800 text-sm font-medium flex items-center">
+                        <Lightbulb className="w-4 h-4 mr-1" />
+                        <strong>Tip:</strong> Open DevTools Console to see logs!
+                      </p>
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-start gap-2">
+                        <span className="text-green-600 font-medium">
+                          🟢 Default:
+                        </span>
+                        <span className="text-gray-600 flex-1">
+                          Always fetches fresh data → Values change on reload
+                        </span>
                       </div>
-
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <p className="text-blue-800 text-sm font-medium flex items-center">
-                          <Lightbulb className="w-4 h-4 mr-1" />
-                          <strong>Tip:</strong> Open DevTools Console to see
-                          logs!
-                        </p>
-                      </div>
-
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-start gap-2">
-                          <span className="text-green-600 font-medium">
-                            🟢 Default:
-                          </span>
-                          <span className="text-gray-600 flex-1">
-                            Always fetches fresh data → Values change on reload
-                          </span>
-                        </div>
-                        <div className="flex items-start gap-2">
-                          <span className="text-orange-600 font-medium">
-                            🟠 Force Cache:
-                          </span>
-                          <span className="text-gray-600 flex-1">
-                            Uses cached data → Values stay the same
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="border-t pt-3">
-                        <h5 className="font-medium text-gray-800 mb-2">
-                          Look for:
-                        </h5>
-                        <p className="text-xs text-gray-600">
-                          Console messages and different data on each reload
-                        </p>
+                      <div className="flex items-start gap-2">
+                        <span className="text-orange-600 font-medium">
+                          🟠 Force Cache:
+                        </span>
+                        <span className="text-gray-600 flex-1">
+                          Uses cached data → Values stay the same
+                        </span>
                       </div>
                     </div>
+
+                    <div className="border-t pt-3">
+                      <h5 className="font-medium text-gray-800 mb-2">
+                        Look for:
+                      </h5>
+                      <p className="text-xs text-gray-600">
+                        Console messages and different data on each reload
+                      </p>
+                    </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             <span
