@@ -6,15 +6,13 @@ import {
   BlogPostsSchema,
   safeParse,
 } from "./schemas";
-import { BASE_URL } from "./env";
-
-export const API_ENDPOINTS = {
-  user: `${BASE_URL}/api/user`,
-  dashboard: `${BASE_URL}/api/dashboard`,
-} as const;
+import { API_ENDPOINTS } from "./config";
 
 export async function fetchUserData(fetchOptions?: RequestInit): Promise<User> {
-  const response = await fetch(API_ENDPOINTS.user, fetchOptions);
+  const response = await fetch(API_ENDPOINTS.user, {
+    next: { tags: ['user-data'] },
+    ...fetchOptions
+  });
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -39,7 +37,10 @@ export async function fetchUserData(fetchOptions?: RequestInit): Promise<User> {
 export async function fetchDashboardData(
   fetchOptions?: RequestInit
 ): Promise<DashboardData> {
-  const response = await fetch(API_ENDPOINTS.dashboard, fetchOptions);
+  const response = await fetch(API_ENDPOINTS.dashboard, {
+    next: { tags: ['dashboard-data'] },
+    ...fetchOptions
+  });
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -64,7 +65,7 @@ export async function fetchDashboardData(
 export async function fetchProductsData(
   fetchOptions?: RequestInit
 ): Promise<Product[]> {
-  const response = await fetch(`${BASE_URL}/api/products`, fetchOptions);
+  const response = await fetch(API_ENDPOINTS.products, fetchOptions);
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -89,7 +90,7 @@ export async function fetchProductsData(
 export async function fetchBlogPostsData(
   fetchOptions?: RequestInit
 ): Promise<BlogPost[]> {
-  const response = await fetch(`${BASE_URL}/api/blog-posts`, fetchOptions);
+  const response = await fetch(API_ENDPOINTS.blogPosts, fetchOptions);
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));

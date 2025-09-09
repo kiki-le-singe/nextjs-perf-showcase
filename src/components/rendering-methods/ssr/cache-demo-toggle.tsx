@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Info, FlaskConical, Lightbulb } from "lucide-react";
+import { Info, FlaskConical, Lightbulb, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { revalidateAllCache } from "@/lib/actions";
 
 export function CacheDemoToggle() {
   const [isForceCache, setIsForceCache] = useState(false);
@@ -63,6 +64,21 @@ export function CacheDemoToggle() {
         window.location.href = url.toString();
       });
     });
+  };
+
+  const handleRevalidate = async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    
+    try {
+      await revalidateAllCache();
+      // Reload the page to see the updated data
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to revalidate cache:', error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -208,6 +224,22 @@ export function CacheDemoToggle() {
               {isForceCache && !isLoading && (
                 <span className="ml-1 text-xs">(current)</span>
               )}
+            </button>
+            <button
+              onClick={handleRevalidate}
+              disabled={isLoading}
+              className={cn(
+                "px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0",
+                isLoading
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+              )}
+            >
+              {isLoading && (
+                <div className="w-4 h-4 border-2 border-purple-700 border-t-transparent rounded-full animate-spin" />
+              )}
+              <RotateCcw className="w-4 h-4" />
+              Revalidate
             </button>
           </div>
         </div>
