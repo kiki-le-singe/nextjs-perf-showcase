@@ -69,9 +69,14 @@ export default async function SSRPage({
             The dashboard above demonstrates modern SSR with{' '}
             <strong className="text-blue-600">interactive cache comparison</strong>. Use the toggle
             above to switch between{' '}
-            <code className="bg-gray-100 px-2 py-1 rounded text-sm">default (no-store)</code> and{' '}
-            <code className="bg-gray-100 px-2 py-1 rounded text-sm">force-cache</code> modes to see
-            the difference in loading behavior and console logs.
+            <code className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+              default (no-store)
+            </code>{' '}
+            and{' '}
+            <code className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm">
+              force-cache
+            </code>{' '}
+            modes to see the difference in loading behavior and console logs.
           </p>
 
           {/* Request Time Info */}
