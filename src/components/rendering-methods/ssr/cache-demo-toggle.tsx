@@ -1,85 +1,86 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { Info, FlaskConical, Lightbulb, RotateCcw } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { revalidateAllCache } from "@/lib/actions";
+import { Info, FlaskConical, Lightbulb, RotateCcw } from 'lucide-react'
+import { useState, useEffect } from 'react'
+
+import { revalidateAllCache } from '@/lib/actions'
+import { cn } from '@/lib/utils'
 
 export function CacheDemoToggle() {
-  const [isForceCache, setIsForceCache] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isForceCache, setIsForceCache] = useState(false)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Update URL parameter to control cache behavior
   useEffect(() => {
-    const url = new URL(window.location.href);
+    const url = new URL(window.location.href)
     if (isForceCache) {
-      url.searchParams.set("cache", "force-cache");
+      url.searchParams.set('cache', 'force-cache')
     } else {
-      url.searchParams.delete("cache");
+      url.searchParams.delete('cache')
     }
-    window.history.replaceState({}, "", url.toString());
-  }, [isForceCache]);
+    window.history.replaceState({}, '', url.toString())
+  }, [isForceCache])
 
   // Read initial state from URL
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const cacheParam = url.searchParams.get("cache");
-    setIsForceCache(cacheParam === "force-cache");
-  }, []);
+    const url = new URL(window.location.href)
+    const cacheParam = url.searchParams.get('cache')
+    setIsForceCache(cacheParam === 'force-cache')
+  }, [])
 
   const handleDefaultCache = () => {
-    if (isLoading) return; // Prevent multiple clicks
+    if (isLoading) return // Prevent multiple clicks
 
     // Immediately set loading state to disable all buttons
-    setIsLoading(true);
+    setIsLoading(true)
 
     // Use requestAnimationFrame to ensure DOM updates before changing URL
     requestAnimationFrame(() => {
-      setIsForceCache(false);
+      setIsForceCache(false)
 
       // Use another frame to ensure state is committed
       requestAnimationFrame(() => {
-        const url = new URL(window.location.href);
-        url.searchParams.delete("cache");
-        window.location.href = url.toString();
-      });
-    });
-  };
+        const url = new URL(window.location.href)
+        url.searchParams.delete('cache')
+        window.location.href = url.toString()
+      })
+    })
+  }
 
   const handleForceCache = () => {
-    if (isLoading) return; // Prevent multiple clicks
+    if (isLoading) return // Prevent multiple clicks
 
     // Immediately set loading state to disable all buttons
-    setIsLoading(true);
+    setIsLoading(true)
 
     // Use requestAnimationFrame to ensure DOM updates before changing URL
     requestAnimationFrame(() => {
-      setIsForceCache(true);
+      setIsForceCache(true)
 
       // Use another frame to ensure state is committed
       requestAnimationFrame(() => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("cache", "force-cache");
-        window.location.href = url.toString();
-      });
-    });
-  };
+        const url = new URL(window.location.href)
+        url.searchParams.set('cache', 'force-cache')
+        window.location.href = url.toString()
+      })
+    })
+  }
 
   const handleRevalidate = async () => {
-    if (isLoading) return;
-    
-    setIsLoading(true);
-    
+    if (isLoading) return
+
+    setIsLoading(true)
+
     try {
-      await revalidateAllCache();
+      await revalidateAllCache()
       // Reload the page to see the updated data
-      window.location.reload();
+      window.location.reload()
     } catch (error) {
-      console.error('Failed to revalidate cache:', error);
-      setIsLoading(false);
+      console.error('Failed to revalidate cache:', error)
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="relative mb-6">
@@ -96,8 +97,8 @@ export function CacheDemoToggle() {
       {/* Compact Cache Demo Bar */}
       <div
         className={cn(
-          "bg-blue-50 border border-blue-200 rounded-lg p-4 sm:w-fit",
-          isLoading && "pointer-events-none"
+          'bg-blue-50 border border-blue-200 rounded-lg p-4 sm:w-fit',
+          isLoading && 'pointer-events-none'
         )}
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -105,9 +106,7 @@ export function CacheDemoToggle() {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <FlaskConical className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-medium text-gray-700">
-                Cache Demo
-              </span>
+              <span className="text-sm font-medium text-gray-700">Cache Demo</span>
               <button
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
@@ -123,12 +122,9 @@ export function CacheDemoToggle() {
                 <div className="absolute left-0 top-10 sm:top-20 z-50 w-80 max-w-[90vw] bg-white rounded-lg shadow-xl border border-gray-200 p-4">
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
-                        How to use:
-                      </h4>
+                      <h4 className="font-semibold text-gray-900 mb-2">How to use:</h4>
                       <p className="text-sm text-gray-600 mb-3">
-                        Click either button to test different cache behaviors
-                        and reload the page
+                        Click either button to test different cache behaviors and reload the page
                       </p>
                     </div>
 
@@ -141,17 +137,13 @@ export function CacheDemoToggle() {
 
                     <div className="space-y-2 text-sm">
                       <div className="flex items-start gap-2">
-                        <span className="text-green-600 font-medium">
-                          🟢 Default:
-                        </span>
+                        <span className="text-green-600 font-medium">🟢 Default:</span>
                         <span className="text-gray-600 flex-1">
                           Always fetches fresh data → Values change on reload
                         </span>
                       </div>
                       <div className="flex items-start gap-2">
-                        <span className="text-orange-600 font-medium">
-                          🟠 Force Cache:
-                        </span>
+                        <span className="text-orange-600 font-medium">🟠 Force Cache:</span>
                         <span className="text-gray-600 flex-1">
                           Uses cached data → Values stay the same
                         </span>
@@ -159,9 +151,7 @@ export function CacheDemoToggle() {
                     </div>
 
                     <div className="border-t pt-3">
-                      <h5 className="font-medium text-gray-800 mb-2">
-                        Look for:
-                      </h5>
+                      <h5 className="font-medium text-gray-800 mb-2">Look for:</h5>
                       <p className="text-xs text-gray-600">
                         Console messages and different data on each reload
                       </p>
@@ -173,13 +163,11 @@ export function CacheDemoToggle() {
 
             <span
               className={cn(
-                "px-2 py-1 rounded text-xs font-medium",
-                isForceCache
-                  ? "bg-orange-100 text-orange-800"
-                  : "bg-green-100 text-green-800"
+                'px-2 py-1 rounded text-xs font-medium',
+                isForceCache ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'
               )}
             >
-              {isForceCache ? "force-cache" : "no-store"}
+              {isForceCache ? 'force-cache' : 'no-store'}
             </span>
           </div>
 
@@ -189,50 +177,46 @@ export function CacheDemoToggle() {
               onClick={handleDefaultCache}
               disabled={isLoading} // Only disable during loading, always allow clicking default
               className={cn(
-                "px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0",
+                'px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0',
                 isLoading
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : !isForceCache
-                  ? "bg-green-600 text-white shadow-md hover:bg-green-700" // Active state - still clickable
-                  : "bg-green-100 text-green-700 hover:bg-green-200"
+                    ? 'bg-green-600 text-white shadow-md hover:bg-green-700' // Active state - still clickable
+                    : 'bg-green-100 text-green-700 hover:bg-green-200'
               )}
             >
               {isLoading && !isForceCache && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               )}
               Default
-              {!isForceCache && !isLoading && (
-                <span className="ml-1 text-xs">(current)</span>
-              )}
+              {!isForceCache && !isLoading && <span className="ml-1 text-xs">(current)</span>}
             </button>
             <button
               onClick={handleForceCache}
               disabled={isLoading || isForceCache} // Disable when already in force cache mode or loading
               className={cn(
-                "px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0",
+                'px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0',
                 isLoading
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : isForceCache
-                  ? "bg-orange-600 text-white shadow-md cursor-not-allowed opacity-75" // Active state - disabled
-                  : "bg-orange-100 text-orange-700 hover:bg-orange-200"
+                    ? 'bg-orange-600 text-white shadow-md cursor-not-allowed opacity-75' // Active state - disabled
+                    : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
               )}
             >
               {isLoading && isForceCache && (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               )}
               Force Cache
-              {isForceCache && !isLoading && (
-                <span className="ml-1 text-xs">(current)</span>
-              )}
+              {isForceCache && !isLoading && <span className="ml-1 text-xs">(current)</span>}
             </button>
             <button
               onClick={handleRevalidate}
               disabled={isLoading}
               className={cn(
-                "px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0",
+                'px-3 py-2 xs:px-4 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 w-full xs:w-auto min-w-0',
                 isLoading
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
               )}
             >
               {isLoading && (
@@ -254,5 +238,5 @@ export function CacheDemoToggle() {
         />
       )}
     </div>
-  );
+  )
 }

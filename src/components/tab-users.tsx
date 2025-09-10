@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 export default function TabUsers() {
   const users = [
-    { name: "Alice Johnson", email: "alice@example.com", status: "Active" },
-    { name: "Bob Smith", email: "bob@example.com", status: "Active" },
-    { name: "Carol Williams", email: "carol@example.com", status: "Inactive" },
-  ];
+    { name: 'Alice Johnson', email: 'alice@example.com', status: 'Active' },
+    { name: 'Bob Smith', email: 'bob@example.com', status: 'Active' },
+    { name: 'Carol Williams', email: 'carol@example.com', status: 'Inactive' },
+  ]
 
   return (
     <div>
@@ -25,12 +25,14 @@ export default function TabUsers() {
                 <td className="px-4 py-2 text-sm text-gray-900">{user.name}</td>
                 <td className="px-4 py-2 text-sm text-gray-600">{user.email}</td>
                 <td className="px-4 py-2">
-                  <span className={cn(
-                    "inline-flex px-2 py-1 text-xs rounded-full",
-                    user.status === 'Active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  )}>
+                  <span
+                    className={cn(
+                      'inline-flex px-2 py-1 text-xs rounded-full',
+                      user.status === 'Active'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    )}
+                  >
                     {user.status}
                   </span>
                 </td>
@@ -40,9 +42,9 @@ export default function TabUsers() {
         </table>
       </div>
       <p className="text-gray-600 mt-4">
-        👥 This users tab was dynamically loaded! It could include complex user management
-        features, data grids, or admin tools that are only needed when managing users.
+        👥 This users tab was dynamically loaded! It could include complex user management features,
+        data grids, or admin tools that are only needed when managing users.
       </p>
     </div>
-  );
+  )
 }

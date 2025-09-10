@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function RenderingMethodsPage() {
   return (
@@ -19,9 +19,9 @@ export default function RenderingMethodsPage() {
             Next.js Rendering Methods
           </h1>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            Discover the four main rendering strategies in Next.js 15: Static Site Generation (SSG), 
-            Incremental Static Regeneration (ISR), Server-Side Rendering (SSR), and Client-Side Rendering (CSR). 
-            Learn when and how to use each method for optimal performance.
+            Discover the four main rendering strategies in Next.js 15: Static Site Generation (SSG),
+            Incremental Static Regeneration (ISR), Server-Side Rendering (SSR), and Client-Side
+            Rendering (CSR). Learn when and how to use each method for optimal performance.
           </p>
         </div>
 
@@ -52,8 +52,8 @@ export default function RenderingMethodsPage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                HTML generated once at build time and served statically. 
-                Ultra-fast performance with excellent SEO, perfect for content that doesn't change frequently.
+                HTML generated once at build time and served statically. Ultra-fast performance with
+                excellent SEO, perfect for content that doesn't change frequently.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
@@ -113,7 +113,7 @@ export default function RenderingMethodsPage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                Static pages that automatically regenerate in the background after a specified time. 
+                Static pages that automatically regenerate in the background after a specified time.
                 Combines the speed of SSG with the freshness of dynamic content.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
@@ -174,8 +174,8 @@ export default function RenderingMethodsPage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                HTML generated on each request with always fresh data. 
-                Perfect for dynamic, personalized content that changes frequently.
+                HTML generated on each request with always fresh data. Perfect for dynamic,
+                personalized content that changes frequently.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
@@ -235,8 +235,8 @@ export default function RenderingMethodsPage() {
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                Page served statically, then React fetches data in the browser. 
-                Highly interactive with smooth user experience, but requires JavaScript.
+                Page served statically, then React fetches data in the browser. Highly interactive
+                with smooth user experience, but requires JavaScript.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-pink-100 text-pink-800 text-sm rounded-full">
@@ -274,16 +274,18 @@ export default function RenderingMethodsPage() {
 
         {/* Comparison Table */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-16">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            Quick Comparison
-          </h3>
+          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Quick Comparison</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">Method</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">When Generated</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900">Data Freshness</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">
+                    When Generated
+                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900">
+                    Data Freshness
+                  </th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">Performance</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">SEO</th>
                 </tr>
@@ -352,12 +354,7 @@ export default function RenderingMethodsPage() {
             href="/"
             className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium"
           >
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -370,5 +367,5 @@ export default function RenderingMethodsPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

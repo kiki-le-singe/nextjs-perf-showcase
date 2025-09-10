@@ -1,10 +1,10 @@
-import { Suspense } from "react";
-import Link from "next/link";
+import Link from 'next/link'
+import { Suspense } from 'react'
 
 // Mock async component that simulates API delay
 async function UserProfile() {
   // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise(resolve => setTimeout(resolve, 2000))
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
@@ -19,7 +19,7 @@ async function UserProfile() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 // Skeleton loading component
@@ -35,7 +35,7 @@ function UserProfileSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default function Page() {
@@ -46,12 +46,7 @@ export default function Page() {
           href="/streaming"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
         >
-          <svg
-            className="w-4 h-4 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -61,12 +56,8 @@ export default function Page() {
           </svg>
           Back to Examples
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Basic Streaming
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Simple example with skeleton loading
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Basic Streaming</h1>
+        <p className="text-gray-600 mb-8">Simple example with skeleton loading</p>
 
         <div className="space-y-6">
           {/* This shows immediately */}
@@ -84,5 +75,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  );
+  )
 }

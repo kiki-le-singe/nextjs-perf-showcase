@@ -1,42 +1,42 @@
-import { fetchDashboardData } from "@/lib/api";
-import type { DashboardData } from "@/lib/types";
-import { ShoppingBag, DollarSign, Users, Target } from "lucide-react";
+import { ShoppingBag, DollarSign, Users, Target } from 'lucide-react'
+
+import { fetchDashboardData } from '@/lib/api'
+import type { DashboardData } from '@/lib/types'
 
 export async function DashboardStats({
   searchParams,
 }: {
-  searchParams?: Promise<{ cache?: string }>;
+  searchParams?: Promise<{ cache?: string }>
 }) {
-  const resolvedSearchParams = await searchParams;
-  const cacheMode =
-    resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
+  const resolvedSearchParams = await searchParams
+  const cacheMode = resolvedSearchParams?.cache === 'force-cache' ? 'force-cache' : 'no-store'
 
   console.log(
     `%c📊 [DASHBOARD STATS]%c Fetching stats data with cache: %c${cacheMode}%c...`,
-    "color: #2563EB; font-weight: bold",
-    "color: #6B7280",
-    "color: #DC2626; font-weight: bold",
-    "color: #6B7280"
-  );
+    'color: #2563EB; font-weight: bold',
+    'color: #6B7280',
+    'color: #DC2626; font-weight: bold',
+    'color: #6B7280'
+  )
   const dashboardData: DashboardData =
-    cacheMode === "force-cache"
-      ? await fetchDashboardData({ cache: "force-cache" })
-      : await fetchDashboardData();
+    cacheMode === 'force-cache'
+      ? await fetchDashboardData({ cache: 'force-cache' })
+      : await fetchDashboardData()
 
   console.log(
     `%c✅ [DASHBOARD STATS]%c Stats data fetched (%c${cacheMode}%c): Orders: %c${dashboardData.stats.totalOrders}%c | Revenue: %c$${dashboardData.stats.revenue}%c | Subscriptions: %c${dashboardData.stats.activeSubscriptions}%c | Tickets: %c${dashboardData.stats.supportTickets}`,
-    "color: #2563EB; font-weight: bold",
-    "color: #374151",
-    "color: #DC2626; font-weight: bold",
-    "color: #374151",
-    "color: #059669; font-weight: bold",
-    "color: #374151",
-    "color: #059669; font-weight: bold",
-    "color: #374151",
-    "color: #059669; font-weight: bold",
-    "color: #374151",
-    "color: #059669; font-weight: bold"
-  );
+    'color: #2563EB; font-weight: bold',
+    'color: #374151',
+    'color: #DC2626; font-weight: bold',
+    'color: #374151',
+    'color: #059669; font-weight: bold',
+    'color: #374151',
+    'color: #059669; font-weight: bold',
+    'color: #374151',
+    'color: #059669; font-weight: bold',
+    'color: #374151',
+    'color: #059669; font-weight: bold'
+  )
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -47,9 +47,7 @@ export async function DashboardStats({
           </div>
           <span className="text-sm text-gray-500">+5.4%</span>
         </div>
-        <div className="text-2xl font-bold text-gray-900">
-          {dashboardData.stats.totalOrders}
-        </div>
+        <div className="text-2xl font-bold text-gray-900">{dashboardData.stats.totalOrders}</div>
         <p className="text-gray-600 text-sm">Total Orders</p>
       </div>
 
@@ -60,9 +58,7 @@ export async function DashboardStats({
           </div>
           <span className="text-sm text-gray-500">+12.5%</span>
         </div>
-        <div className="text-2xl font-bold text-gray-900">
-          ${dashboardData.stats.revenue}
-        </div>
+        <div className="text-2xl font-bold text-gray-900">${dashboardData.stats.revenue}</div>
         <p className="text-gray-600 text-sm">Revenue</p>
       </div>
 
@@ -86,11 +82,9 @@ export async function DashboardStats({
           </div>
           <span className="text-sm text-gray-500">-2.4%</span>
         </div>
-        <div className="text-2xl font-bold text-gray-900">
-          {dashboardData.stats.supportTickets}
-        </div>
+        <div className="text-2xl font-bold text-gray-900">{dashboardData.stats.supportTickets}</div>
         <p className="text-gray-600 text-sm">Support Tickets</p>
       </div>
     </div>
-  );
+  )
 }

@@ -1,17 +1,18 @@
-import Link from "next/link";
-import { fetchProductsData } from "@/lib/api";
+import Link from 'next/link'
+
+import { fetchProductsData } from '@/lib/api'
 
 // ISR: Fetch products with revalidation every 60 seconds
 async function getProducts() {
   return fetchProductsData({
-    next: { revalidate: 60 } // ISR: Revalidate every 60 seconds
-  });
+    next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
+  })
 }
 
 export default async function ISRPage() {
   // This data is generated at build time, then regenerated every 60 seconds
-  const productsData = await getProducts();
-  const generatedAt = new Date().toISOString();
+  const productsData = await getProducts()
+  const generatedAt = new Date().toISOString()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -37,10 +38,14 @@ export default async function ISRPage() {
             ISR - Incremental Static Regeneration
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            This product catalog demonstrates ISR using <code className="bg-gray-100 px-2 py-1 rounded text-sm">fetch(..., {`{ next: { revalidate: 60 } }`})</code>. 
-            The page is statically generated but automatically regenerates in the background every 60 seconds.
+            This product catalog demonstrates ISR using{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+              fetch(..., {`{ next: { revalidate: 60 } }`})
+            </code>
+            . The page is statically generated but automatically regenerates in the background every
+            60 seconds.
           </p>
-          
+
           {/* Generation Time Info */}
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
             <h3 className="font-semibold text-gray-900 mb-2">🔄 ISR Benefits</h3>
@@ -50,7 +55,8 @@ export default async function ISRPage() {
               <p>✅ No build required</p>
               <p>✅ Background regeneration</p>
               <p className="text-xs pt-2 border-t">
-                <span className="font-medium">Last generated:</span><br />
+                <span className="font-medium">Last generated:</span>
+                <br />
                 {new Date(generatedAt).toLocaleString()}
               </p>
             </div>
@@ -90,7 +96,7 @@ export default async function ProductCatalog() {
 
         {/* Products Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {productsData.map((product) => (
+          {productsData.map(product => (
             <div
               key={product.id}
               className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 relative"
@@ -101,29 +107,35 @@ export default async function ProductCatalog() {
                   -{product.discount}%
                 </div>
               )}
-              
+
               {/* Product Image Placeholder */}
               <div className="w-full h-48 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg mb-4 flex items-center justify-center">
-                <svg className="w-16 h-16 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg
+                  className="w-16 h-16 text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
               </div>
-              
+
               {/* Category */}
               <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full mb-3 inline-block">
                 {product.category}
               </span>
-              
+
               {/* Product Name */}
-              <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
-                {product.name}
-              </h3>
-              
+              <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{product.name}</h3>
+
               {/* Description */}
-              <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                {product.description}
-              </p>
-              
+              <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
+
               {/* Rating */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center">
@@ -144,20 +156,24 @@ export default async function ProductCatalog() {
                   </span>
                 </div>
               </div>
-              
+
               {/* Stock Info */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <div className={`w-2 h-2 rounded-full mr-2 ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                  <span className={`text-xs ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
+                  <div
+                    className={`w-2 h-2 rounded-full mr-2 ${product.inStock ? 'bg-green-500' : 'bg-red-500'}`}
+                  ></div>
+                  <span
+                    className={`text-xs ${product.inStock ? 'text-green-600' : 'text-red-600'}`}
+                  >
                     {product.inStock ? `${product.stockLevel} in stock` : 'Out of stock'}
                   </span>
                 </div>
                 <span className="text-xs text-gray-500">
-                  Updated: {new Date(product.lastUpdated).toLocaleTimeString()}
+                  Updated: {new Date(product.lastUpdated || new Date()).toLocaleTimeString()}
                 </span>
               </div>
-              
+
               {/* Price */}
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -169,7 +185,7 @@ export default async function ProductCatalog() {
                   )}
                 </div>
               </div>
-              
+
               {/* Action Button */}
               <button
                 disabled={!product.inStock}
@@ -201,7 +217,7 @@ export default async function ProductCatalog() {
                     <p className="text-gray-600 text-sm">Page generated statically at build time</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-blue-600 font-semibold text-sm">2</span>
@@ -211,7 +227,7 @@ export default async function ProductCatalog() {
                     <p className="text-gray-600 text-sm">Fast static page served to users</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-blue-600 font-semibold text-sm">3</span>
@@ -221,49 +237,101 @@ export default async function ProductCatalog() {
                     <p className="text-gray-600 text-sm">Page regenerates after revalidate time</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-blue-600 font-semibold text-sm">4</span>
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Updated Content</p>
-                    <p className="text-gray-600 text-sm">New content served to subsequent visitors</p>
+                    <p className="text-gray-600 text-sm">
+                      New content served to subsequent visitors
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-semibold text-gray-900 mb-4">Key Benefits</h4>
               <div className="space-y-3">
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-gray-700">Performance of static sites</span>
                 </div>
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-gray-700">Content stays fresh automatically</span>
                 </div>
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-gray-700">No build required for updates</span>
                 </div>
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-gray-700">Excellent SEO like SSG</span>
                 </div>
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span className="text-gray-700">Handles traffic spikes well</span>
                 </div>
@@ -279,7 +347,12 @@ export default async function ProductCatalog() {
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
                 Perfect for:
               </h4>
@@ -294,7 +367,12 @@ export default async function ProductCatalog() {
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
                 Consider alternatives for:
               </h4>
@@ -316,11 +394,16 @@ export default async function ProductCatalog() {
             className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Previous: SSG Example
           </Link>
-          
+
           <Link
             href="/rendering-methods/ssr"
             className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
@@ -333,5 +416,5 @@ export default async function ProductCatalog() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { DollarSign, Users, ShoppingBag, Target, ChevronLeft } from "lucide-react";
+import { DollarSign, Users, ShoppingBag, Target, ChevronLeft } from 'lucide-react'
+import Link from 'next/link'
+import { Suspense } from 'react'
 
 // Mock async components with different delays
 async function RevenueCard() {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise(resolve => setTimeout(resolve, 500))
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex items-center">
@@ -18,11 +18,11 @@ async function RevenueCard() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 async function UsersCard() {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise(resolve => setTimeout(resolve, 1000))
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex items-center">
@@ -36,11 +36,11 @@ async function UsersCard() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 async function OrdersCard() {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
+  await new Promise(resolve => setTimeout(resolve, 1500))
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex items-center">
@@ -54,11 +54,11 @@ async function OrdersCard() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 async function ConversionCard() {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise(resolve => setTimeout(resolve, 2000))
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="flex items-center">
@@ -72,7 +72,7 @@ async function ConversionCard() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 // Skeleton component for metric cards
@@ -88,7 +88,7 @@ function MetricCardSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default function Page() {
@@ -102,18 +102,12 @@ export default function Page() {
           <ChevronLeft className="w-4 h-4 mr-2" />
           Back to Examples
         </Link>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Dashboard Streaming
-        </h1>
-        <p className="text-gray-600 mb-8">
-          Cards load progressively at different speeds
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard Streaming</h1>
+        <p className="text-gray-600 mb-8">Cards load progressively at different speeds</p>
 
         {/* Header loads immediately */}
         <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">
-            Analytics Overview
-          </h2>
+          <h2 className="text-xl font-semibold text-gray-900">Analytics Overview</h2>
           <p className="text-gray-600">Your business metrics for this month</p>
         </div>
 
@@ -137,5 +131,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  );
+  )
 }

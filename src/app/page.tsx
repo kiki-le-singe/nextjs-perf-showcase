@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Zap, Copy, Monitor, ChevronRight, Github, FileText, X as TwitterIcon } from "lucide-react";
+import { Zap, Copy, Monitor, ChevronRight, Github, FileText, X as TwitterIcon } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Page() {
   return (
@@ -20,9 +20,8 @@ export default function Page() {
             Performance Showcase
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Explore advanced Next.js optimization techniques including
-            streaming, code splitting, and progressive loading for better user
-            experiences.
+            Explore advanced Next.js optimization techniques including streaming, code splitting,
+            and progressive loading for better user experiences.
           </p>
         </div>
 
@@ -35,13 +34,11 @@ export default function Page() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
                   <Zap className="w-6 h-6 text-blue-600" />
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Streaming Examples
-                </h2>
+                <h2 className="text-2xl font-semibold text-gray-900">Streaming Examples</h2>
               </div>
               <p className="text-gray-600 mb-6">
-                Learn how to implement React Suspense and streaming to
-                progressively load content and improve perceived performance.
+                Learn how to implement React Suspense and streaming to progressively load content
+                and improve perceived performance.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
@@ -68,13 +65,11 @@ export default function Page() {
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
                   <Copy className="w-6 h-6 text-green-600" />
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Code Splitting Examples
-                </h2>
+                <h2 className="text-2xl font-semibold text-gray-900">Code Splitting Examples</h2>
               </div>
               <p className="text-gray-600 mb-6">
-                Discover dynamic imports and code splitting techniques to reduce
-                bundle sizes and load components only when needed.
+                Discover dynamic imports and code splitting techniques to reduce bundle sizes and
+                load components only when needed.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
@@ -101,13 +96,11 @@ export default function Page() {
                 <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
                   <Monitor className="w-6 h-6 text-purple-600" />
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Rendering Methods
-                </h2>
+                <h2 className="text-2xl font-semibold text-gray-900">Rendering Methods</h2>
               </div>
               <p className="text-gray-600 mb-6">
-                Explore Next.js rendering strategies: SSG, ISR, SSR, and CSR. 
-                Learn when and how to use each method for optimal performance.
+                Explore Next.js rendering strategies: SSG, ISR, SSR, and CSR. Learn when and how to
+                use each method for optimal performance.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
@@ -169,5 +162,5 @@ export default function Page() {
         </div>
       </footer>
     </div>
-  );
+  )
 }

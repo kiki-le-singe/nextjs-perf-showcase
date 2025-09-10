@@ -1,39 +1,34 @@
-import { fetchUserData } from "@/lib/api";
-import type { User } from "@/lib/types";
+import { fetchUserData } from '@/lib/api'
+import type { User } from '@/lib/types'
 
-export async function UserHeader({
-  searchParams,
-}: {
-  searchParams?: Promise<{ cache?: string }>;
-}) {
-  const resolvedSearchParams = await searchParams;
-  const cacheMode =
-    resolvedSearchParams?.cache === "force-cache" ? "force-cache" : "no-store";
+export async function UserHeader({ searchParams }: { searchParams?: Promise<{ cache?: string }> }) {
+  const resolvedSearchParams = await searchParams
+  const cacheMode = resolvedSearchParams?.cache === 'force-cache' ? 'force-cache' : 'no-store'
 
   console.log(
     `%c👤 [USER HEADER]%c Fetching user data with cache: %c${cacheMode}%c...`,
-    "color: #059669; font-weight: bold",
-    "color: #6B7280",
-    "color: #DC2626; font-weight: bold",
-    "color: #6B7280"
-  );
+    'color: #059669; font-weight: bold',
+    'color: #6B7280',
+    'color: #DC2626; font-weight: bold',
+    'color: #6B7280'
+  )
   const user: User =
-    cacheMode === "force-cache"
-      ? await fetchUserData({ cache: "force-cache" })
-      : await fetchUserData();
+    cacheMode === 'force-cache'
+      ? await fetchUserData({ cache: 'force-cache' })
+      : await fetchUserData()
 
   console.log(
     `%c✅ [USER HEADER]%c User data fetched (%c${cacheMode}%c): Name: %c${user.name}%c | Last Login: %c${user.lastLogin}%c | Email: %c${user.email}`,
-    "color: #059669; font-weight: bold",
-    "color: #374151",
-    "color: #DC2626; font-weight: bold",
-    "color: #374151",
-    "color: #2563EB; font-weight: bold",
-    "color: #374151",
-    "color: #2563EB; font-weight: bold",
-    "color: #374151",
-    "color: #2563EB; font-weight: bold"
-  );
+    'color: #059669; font-weight: bold',
+    'color: #374151',
+    'color: #DC2626; font-weight: bold',
+    'color: #374151',
+    'color: #2563EB; font-weight: bold',
+    'color: #374151',
+    'color: #2563EB; font-weight: bold',
+    'color: #374151',
+    'color: #2563EB; font-weight: bold'
+  )
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8">
@@ -42,18 +37,16 @@ export async function UserHeader({
           <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white text-lg md:text-xl font-bold">
               {user.name
-                .split(" ")
-                .map((n) => n[0])
-                .join("")}
+                .split(' ')
+                .map(n => n[0])
+                .join('')}
             </span>
           </div>
           <div className="min-w-0 flex-1">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 truncate">
               Welcome back, {user.name}!
             </h2>
-            <p className="text-gray-600 text-sm md:text-base break-all">
-              {user.email}
-            </p>
+            <p className="text-gray-600 text-sm md:text-base break-all">{user.email}</p>
             <p className="text-xs md:text-sm text-gray-500">
               Last login: {new Date(user.lastLogin).toLocaleString()}
             </p>
@@ -69,5 +62,5 @@ export async function UserHeader({
         </div>
       </div>
     </div>
-  );
+  )
 }

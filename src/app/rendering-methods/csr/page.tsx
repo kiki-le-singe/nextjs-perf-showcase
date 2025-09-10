@@ -1,69 +1,101 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { API_ENDPOINTS } from "@/lib/api";
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+
+import { API_ENDPOINTS } from '@/lib/config'
 
 // Mock chart data generator
 const generateChartData = (type: string, points: number = 12) => {
-  const labels = [];
-  const data = [];
-  
+  const labels = []
+  const data = []
+
   for (let i = 0; i < points; i++) {
-    labels.push(`Point ${i + 1}`);
-    
+    labels.push(`Point ${i + 1}`)
+
     if (type === 'sales') {
-      data.push(Math.floor(Math.random() * 5000) + 1000);
+      data.push(Math.floor(Math.random() * 5000) + 1000)
     } else if (type === 'users') {
-      data.push(Math.floor(Math.random() * 1000) + 100);
+      data.push(Math.floor(Math.random() * 1000) + 100)
     } else if (type === 'revenue') {
-      data.push(Math.floor(Math.random() * 10000) + 2000);
+      data.push(Math.floor(Math.random() * 10000) + 2000)
     } else {
-      data.push(Math.floor(Math.random() * 100));
+      data.push(Math.floor(Math.random() * 100))
     }
   }
-  
-  return { labels, data };
-};
+
+  return { labels, data }
+}
 
 // Simple chart component (simulating a chart library)
-const SimpleChart = ({ data, color, title, type }: any) => {
-  const maxValue = Math.max(...data.data);
-  
+interface SimpleChartProps {
+  data: { labels: string[]; data: number[] }
+  color: string
+  title: string
+  type: string
+}
+
+const SimpleChart = ({ data, color, title, type }: SimpleChartProps) => {
+  const maxValue = Math.max(...data.data)
+
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
       <div className="h-48 flex items-end space-x-1">
         {data.data.map((value: number, index: number) => {
-          const height = (value / maxValue) * 100;
+          const height = (value / maxValue) * 100
           return (
             <div
               key={index}
               className="flex-1 bg-gradient-to-t rounded-t transition-all duration-500 hover:opacity-80 cursor-pointer"
               style={{
                 height: `${height}%`,
-                backgroundImage: `linear-gradient(to top, ${color}, ${color}80)`
+                backgroundImage: `linear-gradient(to top, ${color}, ${color}80)`,
               }}
               title={`${data.labels[index]}: ${value.toLocaleString()}`}
             />
-          );
+          )
         })}
       </div>
       <div className="mt-4 text-center">
         <span className="text-2xl font-bold text-gray-900">
-          {type === 'currency' ? '$' : ''}{data.data.reduce((a: number, b: number) => a + b, 0).toLocaleString()}
+          {type === 'currency' ? '$' : ''}
+          {data.data.reduce((a: number, b: number) => a + b, 0).toLocaleString()}
         </span>
         <p className="text-sm text-gray-600">Total {title.toLowerCase()}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // Interactive filter component
-const DataFilter = ({ filters, activeFilter, onFilterChange }: any) => {
+type Filter = {
+  key: string
+  label: string
+}
+
+type DataFilterProps = {
+  filters: Filter[]
+  activeFilter: string
+  onFilterChange: (key: string) => void
+}
+
+type ChartDataPoint = {
+  labels: string[]
+  data: number[]
+}
+
+type ChartData = {
+  sales?: ChartDataPoint
+  users?: ChartDataPoint
+  revenue?: ChartDataPoint
+  engagement?: ChartDataPoint
+}
+
+const DataFilter = ({ filters, activeFilter, onFilterChange }: DataFilterProps) => {
   return (
     <div className="flex flex-wrap gap-2 mb-6">
-      {filters.map((filter: any) => (
+      {filters.map((filter: Filter) => (
         <button
           key={filter.key}
           onClick={() => onFilterChange(filter.key)}
@@ -77,8 +109,8 @@ const DataFilter = ({ filters, activeFilter, onFilterChange }: any) => {
         </button>
       ))}
     </div>
-  );
-};
+  )
+}
 
 // Real-time metrics component
 const RealTimeMetrics = () => {
@@ -86,30 +118,30 @@ const RealTimeMetrics = () => {
     activeUsers: 0,
     pageViews: 0,
     conversionRate: 0,
-    avgSessionTime: 0
-  });
+    avgSessionTime: 0,
+  })
 
   useEffect(() => {
     const updateMetrics = () => {
       setMetrics({
         activeUsers: Math.floor(Math.random() * 1000) + 100,
         pageViews: Math.floor(Math.random() * 10000) + 5000,
-        conversionRate: (Math.random() * 5 + 2).toFixed(1),
-        avgSessionTime: Math.floor(Math.random() * 300) + 120
-      });
-    };
+        conversionRate: parseFloat((Math.random() * 5 + 2).toFixed(1)),
+        avgSessionTime: Math.floor(Math.random() * 300) + 120,
+      })
+    }
 
-    updateMetrics();
-    const interval = setInterval(updateMetrics, 3000); // Update every 3 seconds
+    updateMetrics()
+    const interval = setInterval(updateMetrics, 3000) // Update every 3 seconds
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
-  };
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -118,98 +150,101 @@ const RealTimeMetrics = () => {
         <div className="text-sm text-gray-600">Active Users</div>
         <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-2 animate-pulse"></div>
       </div>
-      
+
       <div className="bg-white rounded-lg p-4 shadow-md text-center">
         <div className="text-2xl font-bold text-blue-600">{metrics.pageViews.toLocaleString()}</div>
         <div className="text-sm text-gray-600">Page Views</div>
         <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-2 animate-pulse"></div>
       </div>
-      
+
       <div className="bg-white rounded-lg p-4 shadow-md text-center">
         <div className="text-2xl font-bold text-green-600">{metrics.conversionRate}%</div>
         <div className="text-sm text-gray-600">Conversion Rate</div>
         <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-2 animate-pulse"></div>
       </div>
-      
+
       <div className="bg-white rounded-lg p-4 shadow-md text-center">
-        <div className="text-2xl font-bold text-purple-600">{formatTime(metrics.avgSessionTime)}</div>
+        <div className="text-2xl font-bold text-purple-600">
+          {formatTime(metrics.avgSessionTime)}
+        </div>
         <div className="text-sm text-gray-600">Avg Session</div>
         <div className="w-2 h-2 bg-green-500 rounded-full mx-auto mt-2 animate-pulse"></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default function CSRPage() {
-  const [chartData, setChartData] = useState<any>({});
-  const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [refreshCount, setRefreshCount] = useState(0);
+  const [chartData, setChartData] = useState<ChartData>({})
+  const [loading, setLoading] = useState(true)
+  const [activeFilter, setActiveFilter] = useState('all')
+  const [refreshCount, setRefreshCount] = useState(0)
 
   const filters = [
     { key: 'all', label: 'All Data' },
     { key: 'last7days', label: 'Last 7 Days' },
     { key: 'last30days', label: 'Last 30 Days' },
-    { key: 'thisyear', label: 'This Year' }
-  ];
+    { key: 'thisyear', label: 'This Year' },
+  ]
 
   // CSR: Fetch data in the browser using real API
   const fetchData = async (filter = 'all') => {
-    setLoading(true);
-    
+    setLoading(true)
+
     try {
       // Fetch user data from real API
-      const userResponse = await fetch(API_ENDPOINTS.user);
-      const user = await userResponse.json();
-      
-      // Fetch dashboard data from real API  
-      const dashboardResponse = await fetch(API_ENDPOINTS.dashboard);
-      const dashboard = await dashboardResponse.json();
-      
+      const userResponse = await fetch(API_ENDPOINTS.user)
+      await userResponse.json()
+
+      // Fetch dashboard data from real API
+      const dashboardResponse = await fetch(API_ENDPOINTS.dashboard)
+      const dashboard = await dashboardResponse.json()
+
       // Simulate additional analytics API delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      const points = filter === 'last7days' ? 7 : filter === 'last30days' ? 30 : 12;
-      
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      const points = filter === 'last7days' ? 7 : filter === 'last30days' ? 30 : 12
+
       // Combine real API data with generated charts
       setChartData({
         sales: generateChartData('sales', points),
         users: generateChartData('users', points),
         revenue: {
-          labels: Array.from({length: points}, (_, i) => `Point ${i + 1}`),
-          data: Array.from({length: points}, () => 
-            Math.floor(Math.random() * 5000) + parseInt(dashboard.stats.revenue)
-          )
+          labels: Array.from({ length: points }, (_, i) => `Point ${i + 1}`),
+          data: Array.from(
+            { length: points },
+            () => Math.floor(Math.random() * 5000) + parseInt(dashboard.stats.revenue)
+          ),
         },
-        engagement: generateChartData('engagement', points)
-      });
+        engagement: generateChartData('engagement', points),
+      })
     } catch (error) {
-      console.error('Failed to fetch data:', error);
+      console.error('Failed to fetch data:', error)
       // Fallback to mock data
-      const points = filter === 'last7days' ? 7 : filter === 'last30days' ? 30 : 12;
+      const points = filter === 'last7days' ? 7 : filter === 'last30days' ? 30 : 12
       setChartData({
         sales: generateChartData('sales', points),
         users: generateChartData('users', points),
         revenue: generateChartData('revenue', points),
-        engagement: generateChartData('engagement', points)
-      });
+        engagement: generateChartData('engagement', points),
+      })
     }
-    
-    setLoading(false);
-  };
+
+    setLoading(false)
+  }
 
   useEffect(() => {
-    fetchData(activeFilter);
-  }, [activeFilter]);
+    fetchData(activeFilter)
+  }, [activeFilter])
 
   const handleFilterChange = (filter: string) => {
-    setActiveFilter(filter);
-  };
+    setActiveFilter(filter)
+  }
 
   const handleRefresh = () => {
-    setRefreshCount(prev => prev + 1);
-    fetchData(activeFilter);
-  };
+    setRefreshCount(prev => prev + 1)
+    fetchData(activeFilter)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-100">
@@ -231,14 +266,14 @@ export default function CSRPage() {
               />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            CSR - Client-Side Rendering
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">CSR - Client-Side Rendering</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            This interactive analytics dashboard demonstrates CSR using <code className="bg-gray-100 px-2 py-1 rounded text-sm">"use client"</code> and <code className="bg-gray-100 px-2 py-1 rounded text-sm">useEffect</code>. 
-            The page loads instantly, then React fetches and renders dynamic data in the browser.
+            This interactive analytics dashboard demonstrates CSR using{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">"use client"</code> and{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">useEffect</code>. The page loads
+            instantly, then React fetches and renders dynamic data in the browser.
           </p>
-          
+
           {/* CSR Benefits */}
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
             <h3 className="font-semibold text-gray-900 mb-2">🌐 CSR Benefits</h3>
@@ -265,7 +300,7 @@ export default function CSRPage() {
 "use client";
 
 import { useState, useEffect } from 'react';
-import { API_ENDPOINTS } from '@/lib/api';
+import { API_ENDPOINTS } from '@/lib/config';
 
 export default function AnalyticsDashboard() {
   const [data, setData] = useState(null);
@@ -316,21 +351,26 @@ export default function AnalyticsDashboard() {
               className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               Refresh Data
             </button>
           </div>
-          
-          <DataFilter 
-            filters={filters} 
-            activeFilter={activeFilter} 
-            onFilterChange={handleFilterChange} 
+
+          <DataFilter
+            filters={filters}
+            activeFilter={activeFilter}
+            onFilterChange={handleFilterChange}
           />
 
           {loading ? (
             <div className="grid md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3, 4].map(i => (
                 <div key={i} className="bg-gray-100 rounded-lg p-6 animate-pulse">
                   <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
                   <div className="h-32 bg-gray-200 rounded mb-4"></div>
@@ -340,28 +380,28 @@ export default function AnalyticsDashboard() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 gap-6">
-              <SimpleChart 
-                data={chartData.sales} 
-                color="#EC4899" 
-                title="Sales Volume" 
+              <SimpleChart
+                data={chartData.sales || { labels: [], data: [] }}
+                color="#EC4899"
+                title="Sales Volume"
                 type="number"
               />
-              <SimpleChart 
-                data={chartData.users} 
-                color="#3B82F6" 
-                title="Active Users" 
+              <SimpleChart
+                data={chartData.users || { labels: [], data: [] }}
+                color="#3B82F6"
+                title="Active Users"
                 type="number"
               />
-              <SimpleChart 
-                data={chartData.revenue} 
-                color="#10B981" 
-                title="Revenue" 
+              <SimpleChart
+                data={chartData.revenue || { labels: [], data: [] }}
+                color="#10B981"
+                title="Revenue"
                 type="currency"
               />
-              <SimpleChart 
-                data={chartData.engagement} 
-                color="#8B5CF6" 
-                title="Engagement Rate" 
+              <SimpleChart
+                data={chartData.engagement || { labels: [], data: [] }}
+                color="#8B5CF6"
+                title="Engagement Rate"
                 type="percentage"
               />
             </div>
@@ -374,8 +414,18 @@ export default function AnalyticsDashboard() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center p-6 border-2 border-dashed border-pink-200 rounded-lg hover:border-pink-400 transition-colors">
               <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                <svg
+                  className="w-6 h-6 text-pink-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+                  />
                 </svg>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Real-time Filtering</h4>
@@ -383,11 +433,21 @@ export default function AnalyticsDashboard() {
                 Data updates instantly as users interact with filter controls
               </p>
             </div>
-            
+
             <div className="text-center p-6 border-2 border-dashed border-blue-200 rounded-lg hover:border-blue-400 transition-colors">
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <svg
+                  className="w-6 h-6 text-blue-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
                 </svg>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Dynamic Charts</h4>
@@ -395,11 +455,21 @@ export default function AnalyticsDashboard() {
                 Interactive charts that respond to user input without page reloads
               </p>
             </div>
-            
+
             <div className="text-center p-6 border-2 border-dashed border-green-200 rounded-lg hover:border-green-400 transition-colors">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Live Updates</h4>
@@ -423,42 +493,50 @@ export default function AnalyticsDashboard() {
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Instant Page Load</p>
-                    <p className="text-gray-600 text-sm">Static HTML and JavaScript sent immediately</p>
+                    <p className="text-gray-600 text-sm">
+                      Static HTML and JavaScript sent immediately
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-pink-600 font-semibold text-sm">2</span>
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Client-Side Hydration</p>
-                    <p className="text-gray-600 text-sm">React takes over and makes the page interactive</p>
+                    <p className="text-gray-600 text-sm">
+                      React takes over and makes the page interactive
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-pink-600 font-semibold text-sm">3</span>
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Data Fetching</p>
-                    <p className="text-gray-600 text-sm">useEffect triggers API calls to fetch data</p>
+                    <p className="text-gray-600 text-sm">
+                      useEffect triggers API calls to fetch data
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-pink-600 font-semibold text-sm">4</span>
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Dynamic Updates</p>
-                    <p className="text-gray-600 text-sm">State changes trigger re-renders without page reloads</p>
+                    <p className="text-gray-600 text-sm">
+                      State changes trigger re-renders without page reloads
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-semibold text-gray-900 mb-4">Trade-offs</h4>
               <div className="space-y-4">
@@ -472,7 +550,7 @@ export default function AnalyticsDashboard() {
                     <li>• Great for complex UI interactions</li>
                   </ul>
                 </div>
-                
+
                 <div>
                   <h5 className="font-medium text-red-600 mb-2">Limitations</h5>
                   <ul className="space-y-1 text-sm text-gray-600">
@@ -495,7 +573,12 @@ export default function AnalyticsDashboard() {
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
                 Perfect for:
               </h4>
@@ -511,7 +594,12 @@ export default function AnalyticsDashboard() {
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
                 Avoid for:
               </h4>
@@ -534,11 +622,16 @@ export default function AnalyticsDashboard() {
             className="inline-flex items-center text-pink-600 hover:text-pink-700 font-medium"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Previous: SSR Example
           </Link>
-          
+
           <Link
             href="/rendering-methods"
             className="inline-flex items-center text-pink-600 hover:text-pink-700 font-medium"
@@ -551,5 +644,5 @@ export default function AnalyticsDashboard() {
         </div>
       </div>
     </div>
-  );
+  )
 }

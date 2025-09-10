@@ -16,5 +16,5 @@ export function UserHeaderSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }

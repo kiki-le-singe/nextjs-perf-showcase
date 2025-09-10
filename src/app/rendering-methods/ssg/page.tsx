@@ -1,17 +1,18 @@
-import Link from "next/link";
-import { fetchBlogPostsData } from "@/lib/api";
+import Link from 'next/link'
+
+import { fetchBlogPostsData } from '@/lib/api'
 
 // SSG: Fetch blog posts at build time and cache forever
 async function getBlogPosts() {
   return fetchBlogPostsData({
-    cache: 'force-cache' // SSG: Cache at build time
-  });
+    cache: 'force-cache', // SSG: Cache at build time
+  })
 }
 
 export default async function SSGPage() {
   // This data is fetched at build time and cached forever
-  const posts = await getBlogPosts();
-  const buildTime = new Date().toISOString();
+  const posts = await getBlogPosts()
+  // const buildTime = new Date().toISOString()
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
@@ -33,14 +34,16 @@ export default async function SSGPage() {
               />
             </svg>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            SSG - Static Site Generation
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">SSG - Static Site Generation</h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            This page demonstrates Static Site Generation (SSG) using <code className="bg-gray-100 px-2 py-1 rounded text-sm">fetch(..., {`{ cache: 'force-cache' }`})</code>. 
-            The content is generated once at build time and served statically for ultra-fast performance.
+            This page demonstrates Static Site Generation (SSG) using{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+              fetch(..., {`{ cache: 'force-cache' }`})
+            </code>
+            . The content is generated once at build time and served statically for ultra-fast
+            performance.
           </p>
-          
+
           {/* Build Time Info */}
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
             <h3 className="font-semibold text-gray-900 mb-2">⚡ Performance Benefits</h3>
@@ -86,7 +89,7 @@ export default async function BlogPage() {
 
         {/* Blog Posts Grid */}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {posts.map((post) => (
+          {posts.map(post => (
             <article
               key={post.id}
               className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100"
@@ -97,31 +100,27 @@ export default async function BlogPage() {
                 </span>
                 <span className="text-sm text-gray-500">{post.readTime}</span>
               </div>
-              
-              <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-                {post.title}
-              </h2>
-              
-              <p className="text-gray-600 mb-4 line-clamp-3">
-                {post.excerpt}
-              </p>
-              
+
+              <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{post.title}</h2>
+
+              <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+
               <div className="flex flex-wrap gap-2 mb-4">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
-                  >
+                {post.tags.map(tag => (
+                  <span key={tag} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
                     {tag}
                   </span>
                 ))}
               </div>
-              
+
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                 <div className="flex items-center space-x-2">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-semibold">
-                      {post.author.split(' ').map(n => n[0]).join('')}
+                      {post.author
+                        .split(' ')
+                        .map(n => n[0])
+                        .join('')}
                     </span>
                   </div>
                   <div>
@@ -129,11 +128,21 @@ export default async function BlogPage() {
                     <p className="text-xs text-gray-500">{post.date}</p>
                   </div>
                 </div>
-                
+
                 <button className="text-green-600 hover:text-green-700 font-medium text-sm flex items-center">
                   Read More
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="w-4 h-4 ml-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </button>
               </div>
@@ -147,8 +156,18 @@ export default async function BlogPage() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Lightning Fast</h4>
@@ -156,11 +175,21 @@ export default async function BlogPage() {
                 Pre-built HTML served instantly from CDN with zero server processing time.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">SEO Perfect</h4>
@@ -168,11 +197,21 @@ export default async function BlogPage() {
                 Search engines can easily crawl and index your fully-rendered HTML pages.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                <svg
+                  className="w-6 h-6 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
                 </svg>
               </div>
               <h4 className="font-semibold text-gray-900 mb-2">Cost Effective</h4>
@@ -190,7 +229,12 @@ export default async function BlogPage() {
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
                 Perfect for:
               </h4>
@@ -205,7 +249,12 @@ export default async function BlogPage() {
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
                 Avoid for:
               </h4>
@@ -227,11 +276,16 @@ export default async function BlogPage() {
             className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Back to Rendering Methods
           </Link>
-          
+
           <Link
             href="/rendering-methods/isr"
             className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
@@ -244,8 +298,8 @@ export default async function BlogPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 // This tells Next.js this is a static page
-export const dynamic = 'force-static';
+export const dynamic = 'force-static'
