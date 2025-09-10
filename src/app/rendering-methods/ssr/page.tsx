@@ -66,16 +66,16 @@ export default async function SSRPage({
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How SSR Works</h2>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            The dashboard above demonstrates modern SSR with{' '}
+            The dashboard above demonstrates modern SSR with
             <strong className="text-blue-600">interactive cache comparison</strong>. Use the toggle
-            above to switch between{' '}
+            above to switch between
             <code className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
               default (no-store)
-            </code>{' '}
-            and{' '}
+            </code>
+            and
             <code className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm">
               force-cache
-            </code>{' '}
+            </code>
             modes to see the difference in loading behavior and console logs.
           </p>
 
