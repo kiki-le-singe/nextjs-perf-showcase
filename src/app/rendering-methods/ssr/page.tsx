@@ -112,111 +112,32 @@ export default async function SSRPage({
 
         {/* SSR Best Practice Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">SSR Best Practice</h3>
-          <div className="space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
-                <Check className="w-4 h-4 text-green-600 mr-2" />
-                Cleanest Approach (Default)
-              </h4>
-              <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
-                <pre className="text-green-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-                  <code className="block">{`// SSR - Clean approach (Next.js 15+ default)
+          <h3 className="flex items-center text-xl md:text-2xl font-bold text-gray-900 mb-6">
+            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> SSR Examples
+          </h3>
+          <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
+            <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+              <code className="block">{`// Next.js 15+ (current behavior)
 export default async function SSRPage() {
-  // These are automatically no-store by default
-  const user = await fetchUserData();
-  const dashboard = await fetchDashboardData();
+  // Automatically no-store by default
+  const user = await fetch('/api/user');
+  const dashboard = await fetch('/api/dashboard');
   return <div>...</div>;
-}`}</code>
-                </pre>
-              </div>
-              <div className="space-y-2 text-sm text-gray-600">
-                <p>
-                  <Paintbrush className="w-4 h-4 text-blue-600 mr-1 inline" />
-                  <span className="font-medium">Cleanest code</span> - leverages framework defaults
-                </p>
-                <p>
-                  <Rocket className="w-4 h-4 text-purple-600 mr-1 inline" />
-                  <span className="font-medium">Modern approach</span> - Next.js 15+ behavior
-                </p>
-                <p>
-                  <Zap className="w-4 h-4 text-yellow-600 mr-1 inline" />
-                  <span className="font-medium">Same result</span> - fresh data on every request
-                </p>
-                <p>
-                  <FileText className="w-4 h-4 text-green-600 mr-1 inline" />
-                  <span className="font-medium">Less verbose</span> - no redundant cache options
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
-                <BookOpen className="w-4 h-4 text-blue-600 mr-2" />
-                Version Differences
-              </h4>
-              <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
-                <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-                  <code className="block">{`// Next.js 15+ (current behavior)
-const data = await fetch('/api/data'); 
-// ↑ Automatically no-store by default
+}
 
 // Next.js 14 and below (legacy behavior)  
-const data = await fetch('/api/data', { 
-  cache: 'no-store' 
-});
-// ↑ Explicit cache needed for SSR
-
-// Both achieve the same result!`}</code>
-                </pre>
-              </div>
-              <div className="space-y-2 text-sm text-gray-600">
-                <p>
-                  🆕 <span className="font-medium">Next.js 15+</span> - fetch is uncached by default
-                </p>
-                <p>
-                  <RotateCcw className="w-4 h-4 text-orange-600 mr-1 inline" />
-                  <span className="font-medium">Next.js 14-</span> - fetch was cached by default
-                </p>
-                <p>
-                  <Scale className="w-4 h-4 text-gray-600 mr-1 inline" />
-                  <span className="font-medium">Both work</span> - explicit cache still valid
-                </p>
-                <p>
-                  <Sparkles className="w-4 h-4 text-indigo-600 mr-1 inline" />
-                  <span className="font-medium">Cleaner</span> - use defaults when possible
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Code Example */}
-        <div className="bg-gray-900 rounded-lg p-4 md:p-6 mb-12 overflow-x-auto">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
-            <h3 className="text-white font-semibold text-sm md:text-base">
-              SSR + Suspense Implementation
-            </h3>
-            <span className="bg-orange-600 text-white px-2 py-1 rounded text-xs self-start">
-              default (no-store)
-            </span>
-          </div>
-          <pre className="text-orange-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-            <code className="block">{`// Modern SSR with Suspense boundaries
-export default async function DashboardPage() {
-  return (
-    <div>
-      <Suspense fallback={<UserSkeleton />}>
-        <UserHeader />
-      </Suspense>
-      
-      <Suspense fallback={<StatsSkeleton />}>
-        <DashboardStats />
-      </Suspense>
-    </div>
-  );
+export default async function SSRPage() {
+  // Explicit cache needed for SSR
+  const user = await fetch('/api/user', { 
+    cache: 'no-store' 
+  });
+  const dashboard = await fetch('/api/dashboard', { 
+    cache: 'no-store' 
+  });
+  return <div>...</div>;
 }`}</code>
-          </pre>
+            </pre>
+          </div>
         </div>
 
         {/* SSR Implementation Details */}
