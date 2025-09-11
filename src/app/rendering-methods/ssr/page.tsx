@@ -140,97 +140,10 @@ export default async function SSRPage() {
           </div>
         </div>
 
-        {/* SSR Implementation Details */}
-        <div className="bg-white rounded-xl shadow-lg p-4 md:p-8 mb-8 md:mb-12">
-          <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
-            SSR Implementation Details
-          </h3>
-          <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-4">Request Details</h4>
-              <div className="space-y-3 text-sm">
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                  <span className="text-gray-600">Rendering strategy:</span>
-                  <span className="font-mono text-orange-600 break-all">SSR (Server-Side)</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                  <span className="text-gray-600">Cache strategy:</span>
-                  <span className="font-mono text-orange-600 break-all">no-store (default)</span>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                  <span className="text-gray-600">Data freshness:</span>
-                  <span className="text-green-600 font-medium">Real-time</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold text-gray-900 mb-4">Why This Approach?</h4>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700 text-sm leading-relaxed">
-                    User-specific personalized data
-                  </span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700 text-sm leading-relaxed">
-                    Real-time activity feeds
-                  </span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700 text-sm leading-relaxed">
-                    Authentication-required content
-                  </span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700 text-sm leading-relaxed">
-                    Following modern best practices
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Performance Trade-offs */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mt-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Zap className="w-4 h-4 text-yellow-600" />
-              <h4 className="font-semibold text-gray-900">Performance Trade-offs</h4>
-            </div>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-2"></div>
-                <div>
-                  <strong className="text-gray-900">Higher server load</strong>: Each request
-                  generates fresh HTML, increasing backend workload compared to cached SSG pages.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-2"></div>
-                <div>
-                  <strong className="text-gray-900">Performance comparison</strong>: SSR is slower
-                  than SSG but faster than CSR for initial page load.
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0 mt-2"></div>
-                <div>
-                  <strong className="text-gray-900">Best for</strong>: When data freshness outweighs
-                  server efficiency concerns.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* When to Use SSR */}
         <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-xl text-white p-8 mb-12">
-          <h3 className="text-2xl font-bold mb-4">When to Use SSR</h3>
-          <div className="grid md:grid-cols-2 gap-8">
+          <h3 className="text-2xl font-bold mb-6">When to Use SSR</h3>
+          <div className="grid md:grid-cols-3 gap-8">
             <div>
               <h4 className="text-lg font-semibold mb-4">Perfect for:</h4>
               <ul className="space-y-2">
@@ -245,6 +158,10 @@ export default async function SSRPage() {
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
                   Personalized experiences
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 mr-3" />
+                  Authentication-required content
                 </li>
               </ul>
             </div>
@@ -263,7 +180,50 @@ export default async function SSRPage() {
                   <Check className="w-5 h-5 mr-3" />
                   Server-side data security
                 </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 mr-3" />
+                  Real-time data freshness
+                </li>
               </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Trade-offs:</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center">
+                  <X className="w-5 h-5 mr-3" />
+                  Higher server load
+                </li>
+                <li className="flex items-center">
+                  <X className="w-5 h-5 mr-3" />
+                  Slower than SSG
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 mr-3" />
+                  Faster than CSR
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 mr-3" />
+                  Worth it for fresh data
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="mt-6 p-4 bg-white/10 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <Zap className="w-4 h-4" />
+              <span className="font-semibold">Implementation Details</span>
+            </div>
+            <div className="grid sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <span className="opacity-80">Rendering:</span> <span className="font-mono">SSR (Server-Side)</span>
+              </div>
+              <div>
+                <span className="opacity-80">Cache:</span> <span className="font-mono">no-store (default)</span>
+              </div>
+              <div>
+                <span className="opacity-80">Data:</span> <span className="font-mono">Real-time</span>
+              </div>
             </div>
           </div>
         </div>
