@@ -1,18 +1,6 @@
-import {
-  Zap,
-  Check,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  BookOpen,
-  FileText,
-  Rocket,
-  Paintbrush,
-  Scale,
-  RotateCcw,
-  Sparkles,
-} from 'lucide-react'
+import { Zap, Check, X, ChevronRight, BookOpen } from 'lucide-react'
 import Link from 'next/link'
+import BackTo from '@/components/back-to'
 import { Suspense } from 'react'
 
 import { CacheDemoToggle } from '@/components/rendering-methods/ssr/cache-demo-toggle'
@@ -64,18 +52,18 @@ export default async function SSRPage({
           <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-orange-100 rounded-full mb-4">
             <Zap className="w-6 h-6 md:w-8 md:h-8 text-orange-600" />
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How SSR Works</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How does it work?</h2>
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            The dashboard above demonstrates modern SSR with
+            The dashboard above demonstrates modern SSR with{' '}
             <strong className="text-blue-600">interactive cache comparison</strong>. Use the toggle
-            above to switch between
+            above to switch between{' '}
             <code className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
               default (no-store)
-            </code>
-            and
+            </code>{' '}
+            and{' '}
             <code className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm">
               force-cache
-            </code>
+            </code>{' '}
             modes to see the difference in loading behavior and console logs.
           </p>
 
@@ -145,28 +133,28 @@ export default async function SSRPage() {
           <h3 className="text-2xl font-bold mb-6">When to Use SSR</h3>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-lg font-semibold mb-4">Perfect for:</h4>
+              <h4 className="text-lg font-semibold mb-4">Examples:</h4>
               <ul className="space-y-2">
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  User-specific dashboards
+                  Activity dashboard
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Real-time content
+                  E-commerce (inventory & pricing)
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Personalized experiences
+                  Social media feed
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Authentication-required content
+                  Media app (latest news)
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Benefits:</h4>
+              <h4 className="text-lg font-semibold mb-4">Key benefits:</h4>
               <ul className="space-y-2">
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
@@ -187,7 +175,7 @@ export default async function SSRPage() {
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Trade-offs:</h4>
+              <h4 className="text-lg font-semibold mb-4">Key trade-offs:</h4>
               <ul className="space-y-2">
                 <li className="flex items-center">
                   <X className="w-5 h-5 mr-3" />
@@ -197,46 +185,18 @@ export default async function SSRPage() {
                   <X className="w-5 h-5 mr-3" />
                   Slower than SSG
                 </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 mr-3" />
-                  Faster than CSR
-                </li>
-                <li className="flex items-center">
-                  <Check className="w-5 h-5 mr-3" />
-                  Worth it for fresh data
-                </li>
               </ul>
-            </div>
-          </div>
-          
-          <div className="mt-6 p-4 bg-white/10 rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <Zap className="w-4 h-4" />
-              <span className="font-semibold">Implementation Details</span>
-            </div>
-            <div className="grid sm:grid-cols-3 gap-4 text-sm">
-              <div>
-                <span className="opacity-80">Rendering:</span> <span className="font-mono">SSR (Server-Side)</span>
-              </div>
-              <div>
-                <span className="opacity-80">Cache:</span> <span className="font-mono">no-store (default)</span>
-              </div>
-              <div>
-                <span className="opacity-80">Data:</span> <span className="font-mono">Real-time</span>
-              </div>
             </div>
           </div>
         </div>
 
         {/* Navigation */}
         <div className="flex justify-between items-center">
-          <Link
+          <BackTo
             href="/rendering-methods/isr"
+            text="Previous: ISR Example"
             className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium"
-          >
-            <ChevronLeft className="w-4 h-4 mr-2" />
-            Previous: ISR Example
-          </Link>
+          />
 
           <Link
             href="/rendering-methods/csr"

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
+import BackTo from '@/components/back-to'
 
 // Mock async component that simulates API delay
 async function UserProfile() {
@@ -42,20 +43,11 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
-        <Link
+        <BackTo
           href="/streaming"
+          text="Back to Examples"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
-        >
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back to Examples
-        </Link>
+        />
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Basic Streaming</h1>
         <p className="text-gray-600 mb-8">Simple example with skeleton loading</p>
 

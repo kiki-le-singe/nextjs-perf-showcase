@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import BackTo from '@/components/back-to'
 
 export default function RenderingMethodsPage() {
   return (
@@ -350,20 +351,10 @@ export default function RenderingMethodsPage() {
 
         {/* Back Link */}
         <div className="text-center">
-          <Link
-            href="/"
+          <BackTo 
+            text="Back to Performance Showcase"
             className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back to Performance Showcase
-          </Link>
+          />
         </div>
       </div>
     </div>

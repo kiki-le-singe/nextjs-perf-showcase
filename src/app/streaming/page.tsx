@@ -1,5 +1,6 @@
-import { ChevronLeft, Check } from 'lucide-react'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
+import BackTo from '@/components/back-to'
 
 export default function Page() {
   const examples = [
@@ -27,10 +28,7 @@ export default function Page() {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
         {/* Back to Home Navigation */}
-        <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8">
-          <ChevronLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Link>
+        <BackTo />
 
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Next.js Streaming Examples</h1>

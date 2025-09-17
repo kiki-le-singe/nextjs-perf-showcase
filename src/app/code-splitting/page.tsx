@@ -1,5 +1,4 @@
 import {
-  ChevronLeft,
   Check,
   ChevronRight,
   Zap,
@@ -10,6 +9,7 @@ import {
   RotateCcw,
 } from 'lucide-react'
 import Link from 'next/link'
+import BackTo from '@/components/back-to'
 
 export default function Page() {
   const examples = [
@@ -40,10 +40,7 @@ export default function Page() {
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100">
       <div className="container mx-auto px-6 py-12">
         {/* Back to Home Navigation */}
-        <Link href="/" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8">
-          <ChevronLeft className="w-4 h-4 mr-2" />
-          Back to Home
-        </Link>
+        <BackTo />
 
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Code Splitting Examples</h1>

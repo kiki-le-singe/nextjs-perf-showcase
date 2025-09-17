@@ -1,6 +1,7 @@
-import { Smartphone, ChevronLeft, Headphones, Cable } from 'lucide-react'
+import { Smartphone, Headphones, Cable } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import BackTo from '@/components/back-to'
 
 // Mock async components with different delays and one that fails
 async function ProductInfo() {
@@ -199,13 +200,11 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-4xl mx-auto">
-        <Link
+        <BackTo
           href="/streaming"
+          text="Back to Examples"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
-        >
-          <ChevronLeft className="w-4 h-4 mr-2" />
-          Back to Examples
-        </Link>
+        />
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Product Page Streaming</h1>
         <p className="text-gray-600 mb-8">Nested streaming with error handling</p>
 

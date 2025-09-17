@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { fetchProductsData } from '@/lib/api'
+import BackTo from '@/components/back-to'
 
 // ISR: Fetch products with revalidation every 60 seconds
 async function getProducts() {
@@ -389,20 +390,11 @@ export default async function ProductCatalog() {
 
         {/* Navigation */}
         <div className="flex justify-between items-center">
-          <Link
+          <BackTo
             href="/rendering-methods/ssg"
+            text="Previous: SSG Example"
             className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Previous: SSG Example
-          </Link>
+          />
 
           <Link
             href="/rendering-methods/ssr"
