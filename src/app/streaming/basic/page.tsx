@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { Suspense } from 'react'
+
 import BackTo from '@/components/back-to'
 
 // Mock async component that simulates API delay

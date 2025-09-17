@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 
 type BackToProps = {
   href?: string
@@ -8,11 +8,11 @@ type BackToProps = {
   iconPosition?: 'left' | 'right'
 }
 
-export default function BackTo({ 
-  href = '/', 
+export default function BackTo({
+  href = '/',
   text = 'Back to Home',
   className = 'inline-flex items-center text-blue-600 hover:text-blue-800 mb-8',
-  iconPosition = 'left'
+  iconPosition = 'left',
 }: BackToProps) {
   return (
     <Link href={href} className={className}>

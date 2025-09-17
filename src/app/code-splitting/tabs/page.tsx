@@ -1,7 +1,5 @@
-import Link from 'next/link'
-
-import DynamicTabsDemo from '@/components/dynamic-tabs-demo'
 import BackTo from '@/components/back-to'
+import DynamicTabsDemo from '@/components/dynamic-tabs-demo'
 
 export default function Page() {
   return (

@@ -1,7 +1,5 @@
-import Link from 'next/link'
-
-import DynamicModalDemo from '@/components/dynamic-modal-demo'
 import BackTo from '@/components/back-to'
+import DynamicModalDemo from '@/components/dynamic-modal-demo'
 
 export default function Page() {
   return (

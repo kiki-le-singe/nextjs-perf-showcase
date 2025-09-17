@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { fetchProductsData } from '@/lib/api'
 import BackTo from '@/components/back-to'
+import { fetchProductsData } from '@/lib/api'
 
 // ISR: Fetch products with revalidation every 60 seconds
 async function getProducts() {

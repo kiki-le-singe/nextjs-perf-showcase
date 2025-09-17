@@ -1,9 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import BackTo from '@/components/back-to'
 
+import BackTo from '@/components/back-to'
 import { API_ENDPOINTS } from '@/lib/config'
 
 // Mock chart data generator

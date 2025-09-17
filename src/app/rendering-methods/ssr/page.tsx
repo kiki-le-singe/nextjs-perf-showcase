@@ -1,8 +1,8 @@
 import { Zap, Check, X, ChevronRight, BookOpen } from 'lucide-react'
 import Link from 'next/link'
-import BackTo from '@/components/back-to'
 import { Suspense } from 'react'
 
+import BackTo from '@/components/back-to'
 import { CacheDemoToggle } from '@/components/rendering-methods/ssr/cache-demo-toggle'
 import { DashboardContent } from '@/components/rendering-methods/ssr/dashboard-content'
 import { DashboardContentSkeleton } from '@/components/rendering-methods/ssr/dashboard-content-skeleton'

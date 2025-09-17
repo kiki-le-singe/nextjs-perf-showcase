@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+
 import BackTo from '@/components/back-to'
 
 export default function RenderingMethodsPage() {
@@ -351,7 +352,7 @@ export default function RenderingMethodsPage() {
 
         {/* Back Link */}
         <div className="text-center">
-          <BackTo 
+          <BackTo
             text="Back to Performance Showcase"
             className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium"
           />

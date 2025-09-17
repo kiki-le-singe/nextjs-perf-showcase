@@ -1,9 +1,7 @@
-import Link from 'next/link'
-
 import AudioPlayer from '@/components/audio-player'
+import BackTo from '@/components/back-to'
 import ChartSection from '@/components/chart-section'
 import MapSection from '@/components/map-section'
-import BackTo from '@/components/back-to'
 
 export default function Page() {
   return (

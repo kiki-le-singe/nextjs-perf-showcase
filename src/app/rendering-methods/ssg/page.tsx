@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { fetchBlogPostsData } from '@/lib/api'
 import BackTo from '@/components/back-to'
+import { fetchBlogPostsData } from '@/lib/api'
 
 // SSG: Fetch blog posts at build time and cache forever
 async function getBlogPosts() {
@@ -272,7 +272,7 @@ export default async function BlogPage() {
 
         {/* Navigation */}
         <div className="flex justify-between items-center">
-          <BackTo 
+          <BackTo
             href="/rendering-methods"
             text="Back to Rendering Methods"
             className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
