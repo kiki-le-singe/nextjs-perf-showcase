@@ -7,6 +7,9 @@ export default function RenderingMethodsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
       <div className="container mx-auto px-6 py-12">
+        {/* Back to Home Navigation */}
+        <BackTo />
+
         {/* Header Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
