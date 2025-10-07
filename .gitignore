@@ -42,3 +42,13 @@ next-env.d.ts
 
 # docs
 /docs/medium
+
+# Docker volumes
+postgres_data/
+pgadmin_data/
+
+# Server NestJS
+server/node_modules/
+server/dist/
+server/.env
+server/.env.local

@@ -1,8 +1,9 @@
-import { BASE_URL } from './env'
+// Use NestJS server URL for all API endpoints
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
 
 export const API_ENDPOINTS = {
-  user: `${BASE_URL}/api/user`,
-  dashboard: `${BASE_URL}/api/dashboard`,
-  products: `${BASE_URL}/api/products`,
-  blogPosts: `${BASE_URL}/api/blog-posts`,
+  user: `${API_URL}/user`,
+  dashboard: `${API_URL}/dashboard`,
+  products: `${API_URL}/products`,
+  blogPosts: `${API_URL}/blog-posts`,
 } as const

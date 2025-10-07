@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Model
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  avatar      String
+  role        String
+  joinDate    DateTime
+  lastLogin   DateTime
+  preferences Json     // Stocke {theme, notifications, language}
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Dashboard Stats
+model DashboardStats {
+  id                   Int      @id @default(autoincrement())
+  totalOrders          Int
+  revenue              String
+  activeSubscriptions  Int
+  supportTickets       Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+// Activity Item
+model Activity {
+  id        Int      @id @default(autoincrement())
+  type      String   // order, payment, support, notification, system
+  message   String
+  time      DateTime
+  status    String   // success, pending, info, warning, error
+  createdAt DateTime @default(now())
+}
+
+// Notification
+model Notification {
+  id        Int      @id @default(autoincrement())
+  title     String
+  message   String
+  type      String   // info, warning, error, success
+  unread    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}

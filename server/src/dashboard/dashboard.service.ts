@@ -1,15 +1,17 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
-import { DashboardSchema, ApiErrorSchema, safeParse } from '@/lib/schemas'
+@Injectable()
+export class DashboardService {
+  constructor(private prisma: PrismaService) {}
 
-export async function GET(_request: NextRequest) {
-  try {
+  async getDashboard() {
     // Simulate API delay for realistic demo
-    await new Promise(resolve => setTimeout(resolve, 150))
+    await new Promise(resolve => setTimeout(resolve, 150));
 
-    const now = new Date()
+    const now = new Date();
 
-    const rawDashboardData = {
+    return {
       stats: {
         totalOrders: Math.floor(Math.random() * 100) + 50,
         revenue: (Math.random() * 5000 + 2000).toFixed(2),
@@ -71,37 +73,6 @@ export async function GET(_request: NextRequest) {
       ],
       currentTime: now.toISOString(),
       serverLocation: 'US-East-1',
-    }
-
-    const validation = safeParse(DashboardSchema, rawDashboardData)
-
-    if (!validation.success) {
-      return NextResponse.json(
-        {
-          error: 'Validation Error',
-          message: 'Dashboard data failed validation',
-          details: validation.error,
-          timestamp: new Date().toISOString(),
-          success: false,
-        } satisfies Parameters<typeof ApiErrorSchema.parse>[0],
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json(validation.data, {
-      headers: {
-        'Cache-Control': 'no-store, must-revalidate',
-      },
-    })
-  } catch {
-    return NextResponse.json(
-      {
-        error: 'Internal Server Error',
-        message: 'Failed to fetch dashboard data',
-        timestamp: new Date().toISOString(),
-        success: false,
-      } satisfies Parameters<typeof ApiErrorSchema.parse>[0],
-      { status: 500 }
-    )
+    };
   }
 }
