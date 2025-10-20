@@ -5,72 +5,71 @@ import { PrismaService } from '../prisma/prisma.service';
 export class DashboardService {
   constructor(private prisma: PrismaService) {}
 
-  async getDashboard() {
-    // Simulate API delay for realistic demo
-    await new Promise(resolve => setTimeout(resolve, 150));
+  private generateRandomStats() {
+    const randomInt = (min: number, max: number) =>
+      Math.floor(Math.random() * (max - min + 1)) + min;
 
-    const now = new Date();
+    const randomMoney = (min: number, max: number) =>
+      (Math.random() * (max - min) + min).toFixed(2);
 
     return {
-      stats: {
-        totalOrders: Math.floor(Math.random() * 100) + 50,
-        revenue: (Math.random() * 5000 + 2000).toFixed(2),
-        activeSubscriptions: Math.floor(Math.random() * 20) + 5,
-        supportTickets: Math.floor(Math.random() * 10) + 1,
-      },
-      recentActivity: [
-        {
-          id: 1,
-          type: 'order' as const,
-          message: 'New order #12847 received',
-          time: new Date(now.getTime() - Math.random() * 3600000).toISOString(),
-          status: 'success' as const,
-        },
-        {
-          id: 2,
-          type: 'payment' as const,
-          message: 'Payment of $99.99 processed',
-          time: new Date(now.getTime() - Math.random() * 3600000).toISOString(),
-          status: 'success' as const,
-        },
-        {
-          id: 3,
-          type: 'support' as const,
-          message: 'Support ticket #456 updated',
-          time: new Date(now.getTime() - Math.random() * 3600000).toISOString(),
-          status: 'pending' as const,
-        },
-        {
-          id: 4,
-          type: 'notification' as const,
-          message: 'System maintenance scheduled',
-          time: new Date(now.getTime() - Math.random() * 3600000).toISOString(),
-          status: 'info' as const,
-        },
-      ],
-      notifications: [
-        {
-          id: 1,
-          title: 'Welcome back!',
-          message: 'You have 3 new messages waiting',
-          type: 'info' as const,
-          unread: true,
-        },
-        {
-          id: 2,
-          title: 'Security Alert',
-          message: 'New login from Chrome on Windows',
-          type: 'warning' as const,
-          unread: true,
-        },
-        {
-          id: 3,
-          title: 'Subscription Reminder',
-          message: 'Your premium subscription expires in 7 days',
-          type: 'info' as const,
-          unread: false,
-        },
-      ],
+      totalOrders: randomInt(1100, 1350), // baseline: 1234
+      revenue: randomMoney(42000, 52000), // baseline: 45678.90
+      activeSubscriptions: randomInt(800, 950), // baseline: 892
+      supportTickets: randomInt(10, 40), // baseline: 23
+    };
+  }
+
+  async getDashboard() {
+    const now = new Date();
+
+    // Fetch stats from database
+    // const stats = await this.prisma.dashboardStats.findFirst({
+    //   orderBy: { createdAt: 'desc' },
+    // });
+    // Generate random stats for demo so cache modes show different results.
+    const stats = this.generateRandomStats();
+
+    // Fetch recent activities from database
+    const activities = await this.prisma.activity.findMany({
+      take: 10,
+      orderBy: { time: 'desc' },
+    });
+
+    // Fetch notifications from database
+    const notifications = await this.prisma.notification.findMany({
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return {
+      stats: stats
+        ? {
+            totalOrders: stats.totalOrders,
+            revenue: stats.revenue,
+            activeSubscriptions: stats.activeSubscriptions,
+            supportTickets: stats.supportTickets,
+          }
+        : {
+            totalOrders: 0,
+            revenue: '0.00',
+            activeSubscriptions: 0,
+            supportTickets: 0,
+          },
+      recentActivity: activities.map((activity) => ({
+        id: activity.id,
+        type: activity.type,
+        message: activity.message,
+        time: activity.time.toISOString(),
+        status: activity.status,
+      })),
+      notifications: notifications.map((notification) => ({
+        id: notification.id,
+        title: notification.title,
+        message: notification.message,
+        type: notification.type,
+        unread: notification.unread,
+      })),
       currentTime: now.toISOString(),
       serverLocation: 'US-East-1',
     };

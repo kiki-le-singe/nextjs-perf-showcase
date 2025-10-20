@@ -1,0 +1,23 @@
+# Dockerfile.init - Container for database initialization
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install PostgreSQL client for connection testing
+RUN apk add --no-cache postgresql-client
+
+# Copy package files
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Install dependencies (including Prisma)
+RUN npm ci
+
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Copy the rest of the application
+COPY . .
+
+# Default command: run migrations and seed
+CMD npx prisma migrate deploy && npx prisma db seed

@@ -35,6 +35,25 @@ services:
     depends_on:
       - postgres
 
+  # Database Initialization (migrations + seed)
+  # Usage: docker-compose --profile init up
+  db-init:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.init
+    container_name: nextjs-perf-db-init
+    profiles: ['init']
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-nextjs_perf_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-nextjs_perf_db}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - default
+
 volumes:
   postgres_data:
     driver: local

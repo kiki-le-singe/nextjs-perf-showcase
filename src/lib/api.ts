@@ -1,6 +1,13 @@
+import {
+  UserSchema,
+  DashboardSchema,
+  ProductsSchema,
+  BlogPostsSchema,
+  safeParse,
+} from '../../shared'
+import type { User, DashboardData, Product, BlogPost } from '../../shared'
+
 import { API_ENDPOINTS } from './config'
-import { UserSchema, DashboardSchema, ProductsSchema, BlogPostsSchema, safeParse } from './schemas'
-import type { User, DashboardData, Product, BlogPost } from './types'
 
 export async function fetchUserData(fetchOptions?: RequestInit): Promise<User> {
   const response = await fetch(API_ENDPOINTS.user, {
