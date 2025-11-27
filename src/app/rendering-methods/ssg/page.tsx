@@ -293,5 +293,5 @@ export default async function BlogPage() {
   )
 }
 
-// This tells Next.js this is a static page
-export const dynamic = 'force-static'
+// Next.js 16: Route segment config 'dynamic' is deprecated with cacheComponents
+// Pages without dynamic data are automatically static

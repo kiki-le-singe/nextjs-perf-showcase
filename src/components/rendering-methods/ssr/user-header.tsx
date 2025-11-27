@@ -1,35 +1,6 @@
-import { fetchUserData } from '@/lib/api'
 import type { User } from '@/lib/types'
 
-export async function UserHeader({ searchParams }: { searchParams?: Promise<{ cache?: string }> }) {
-  const resolvedSearchParams = await searchParams
-  const cacheMode = resolvedSearchParams?.cache === 'force-cache' ? 'force-cache' : 'no-store'
-
-  console.log(
-    `%c👤 [USER HEADER]%c Fetching user data with cache: %c${cacheMode}%c...`,
-    'color: #059669; font-weight: bold',
-    'color: #6B7280',
-    'color: #DC2626; font-weight: bold',
-    'color: #6B7280'
-  )
-  const user: User =
-    cacheMode === 'force-cache'
-      ? await fetchUserData({ cache: 'force-cache' })
-      : await fetchUserData()
-
-  console.log(
-    `%c✅ [USER HEADER]%c User data fetched (%c${cacheMode}%c): Name: %c${user.name}%c | Last Login: %c${user.lastLogin}%c | Email: %c${user.email}`,
-    'color: #059669; font-weight: bold',
-    'color: #374151',
-    'color: #DC2626; font-weight: bold',
-    'color: #374151',
-    'color: #2563EB; font-weight: bold',
-    'color: #374151',
-    'color: #2563EB; font-weight: bold',
-    'color: #374151',
-    'color: #2563EB; font-weight: bold'
-  )
-
+export function UserHeader({ user }: { user: User }) {
   return (
     <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">

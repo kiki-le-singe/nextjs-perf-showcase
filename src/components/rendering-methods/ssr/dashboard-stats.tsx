@@ -1,43 +1,8 @@
 import { ShoppingBag, DollarSign, Users, Target } from 'lucide-react'
 
-import { fetchDashboardData } from '@/lib/api'
 import type { DashboardData } from '@/lib/types'
 
-export async function DashboardStats({
-  searchParams,
-}: {
-  searchParams?: Promise<{ cache?: string }>
-}) {
-  const resolvedSearchParams = await searchParams
-  const cacheMode = resolvedSearchParams?.cache === 'force-cache' ? 'force-cache' : 'no-store'
-
-  console.log(
-    `%c📊 [DASHBOARD STATS]%c Fetching stats data with cache: %c${cacheMode}%c...`,
-    'color: #2563EB; font-weight: bold',
-    'color: #6B7280',
-    'color: #DC2626; font-weight: bold',
-    'color: #6B7280'
-  )
-  const dashboardData: DashboardData =
-    cacheMode === 'force-cache'
-      ? await fetchDashboardData({ cache: 'force-cache' })
-      : await fetchDashboardData()
-
-  console.log(
-    `%c✅ [DASHBOARD STATS]%c Stats data fetched (%c${cacheMode}%c): Orders: %c${dashboardData.stats.totalOrders}%c | Revenue: %c$${dashboardData.stats.revenue}%c | Subscriptions: %c${dashboardData.stats.activeSubscriptions}%c | Tickets: %c${dashboardData.stats.supportTickets}`,
-    'color: #2563EB; font-weight: bold',
-    'color: #374151',
-    'color: #DC2626; font-weight: bold',
-    'color: #374151',
-    'color: #059669; font-weight: bold',
-    'color: #374151',
-    'color: #059669; font-weight: bold',
-    'color: #374151',
-    'color: #059669; font-weight: bold',
-    'color: #374151',
-    'color: #059669; font-weight: bold'
-  )
-
+export function DashboardStats({ dashboardData }: { dashboardData: DashboardData }) {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div className="bg-white rounded-xl shadow-lg p-6">

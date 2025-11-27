@@ -1,45 +1,7 @@
-import { fetchDashboardData } from '@/lib/api'
 import type { DashboardData } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
-export async function DashboardContent({
-  searchParams,
-}: {
-  searchParams?: Promise<{ cache?: string }>
-}) {
-  const resolvedSearchParams = await searchParams
-  const cacheMode = resolvedSearchParams?.cache === 'force-cache' ? 'force-cache' : 'no-store'
-
-  console.log(
-    `%c📝 [DASHBOARD CONTENT]%c Fetching activity & notifications with cache: %c${cacheMode}%c...`,
-    'color: #7C3AED; font-weight: bold',
-    'color: #6B7280',
-    'color: #DC2626; font-weight: bold',
-    'color: #6B7280'
-  )
-  const dashboardData: DashboardData =
-    cacheMode === 'force-cache'
-      ? await fetchDashboardData({ cache: 'force-cache' })
-      : await fetchDashboardData()
-
-  console.log(
-    `%c✅ [DASHBOARD CONTENT]%c Content fetched (%c${cacheMode}%c): Activities: %c${
-      dashboardData.recentActivity.length
-    }%c items | Notifications: %c${
-      dashboardData.notifications.length
-    }%c items | Latest Activity: %c"${dashboardData.recentActivity[0]?.message || 'None'}"%c`,
-    'color: #7C3AED; font-weight: bold',
-    'color: #374151',
-    'color: #DC2626; font-weight: bold',
-    'color: #374151',
-    'color: #F59E0B; font-weight: bold',
-    'color: #374151',
-    'color: #F59E0B; font-weight: bold',
-    'color: #374151',
-    'color: #F59E0B; font-weight: bold',
-    'color: #374151'
-  )
-
+export function DashboardContent({ dashboardData }: { dashboardData: DashboardData }) {
   return (
     <div className="grid lg:grid-cols-3 gap-8 mb-12">
       {/* Recent Activity */}

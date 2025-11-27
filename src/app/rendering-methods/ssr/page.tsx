@@ -1,15 +1,9 @@
 import { Zap, Check, X, ChevronRight, BookOpen } from 'lucide-react'
 import Link from 'next/link'
-import { Suspense } from 'react'
 
 import BackTo from '@/components/back-to'
 import { CacheDemoToggle } from '@/components/rendering-methods/ssr/cache-demo-toggle'
-import { DashboardContent } from '@/components/rendering-methods/ssr/dashboard-content'
-import { DashboardContentSkeleton } from '@/components/rendering-methods/ssr/dashboard-content-skeleton'
-import { DashboardStats } from '@/components/rendering-methods/ssr/dashboard-stats'
-import { StatsSkeleton } from '@/components/rendering-methods/ssr/dashboard-stats-skeleton'
-import { UserHeader } from '@/components/rendering-methods/ssr/user-header'
-import { UserHeaderSkeleton } from '@/components/rendering-methods/ssr/user-header-skeleton'
+import { DashboardWrapper } from '@/components/rendering-methods/ssr/dashboard-wrapper'
 
 export default async function SSRPage({
   searchParams,
@@ -34,20 +28,8 @@ export default async function SSRPage({
         {/* Cache Demo Toggle */}
         <CacheDemoToggle />
 
-        {/* User Header with Suspense */}
-        <Suspense fallback={<UserHeaderSkeleton />}>
-          <UserHeader searchParams={searchParams} />
-        </Suspense>
-
-        {/* Dashboard Stats with Suspense */}
-        <Suspense fallback={<StatsSkeleton />}>
-          <DashboardStats searchParams={searchParams} />
-        </Suspense>
-
-        {/* Dashboard Content with Suspense */}
-        <Suspense fallback={<DashboardContentSkeleton />}>
-          <DashboardContent searchParams={searchParams} />
-        </Suspense>
+        {/* Dashboard components with granular Suspense boundaries */}
+        <DashboardWrapper searchParams={searchParams} />
 
         {/* SSR Explanation */}
         <div className="text-center mb-8 md:mb-12">
@@ -103,30 +85,50 @@ export default async function SSRPage({
         {/* SSR Best Practice Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
           <h3 className="flex items-center text-xl md:text-2xl font-bold text-gray-900 mb-6">
-            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> SSR Examples
+            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> SSR Examples - Next.js 16 Patterns
           </h3>
-          <div className="bg-gray-900 rounded-lg p-3 md:p-4 mb-4 overflow-x-auto">
-            <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-              <code className="block">{`// Next.js 15+ (current behavior)
-export default async function SSRPage() {
-  // Automatically no-store by default
-  const user = await fetch('/api/user');
-  const dashboard = await fetch('/api/dashboard');
-  return <div>...</div>;
+
+          <div className="mb-4">
+            <h4 className="font-semibold text-gray-900 mb-2">🟢 Dynamic SSR (No Cache - Fresh Data)</h4>
+            <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
+              <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                <code className="block">{`// Next.js 16 - Dynamic component (no cache)
+export async function UserHeader() {
+  // No 'use cache' directive = fresh data at request time
+  const user = await fetchUserData()
+  return <div>{user.name}</div>
 }
 
-// Next.js 14 and below (legacy behavior)  
-export default async function SSRPage() {
-  // Explicit cache needed for SSR
-  const user = await fetch('/api/user', { 
-    cache: 'no-store' 
-  });
-  const dashboard = await fetch('/api/dashboard', { 
-    cache: 'no-store' 
-  });
-  return <div>...</div>;
-}`}</code>
-            </pre>
+// Wrap in Suspense for streaming
+<Suspense fallback={<Loading />}>
+  <UserHeader />
+</Suspense>`}</code>
+              </pre>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-2">🟠 Cached SSR (With Cache - PPR)</h4>
+            <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
+              <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                <code className="block">{`// Next.js 16 - Cached component with 'use cache'
+import { cacheLife, cacheTag } from 'next/cache'
+
+export async function UserHeader() {
+  'use cache'              // Enable caching
+  cacheLife('hours')       // Revalidate after 1 hour
+  cacheTag('user-data')    // Tag for revalidation
+
+  const user = await fetchUserData()
+  return <div>{user.name}</div>
+}
+
+// Still wrap in Suspense (included in static shell)
+<Suspense fallback={<Loading />}>
+  <UserHeader />
+</Suspense>`}</code>
+              </pre>
+            </div>
           </div>
         </div>
 

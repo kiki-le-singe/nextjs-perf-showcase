@@ -1,18 +1,20 @@
 import Link from 'next/link'
+import { cacheLife, cacheTag } from 'next/cache'
 
 import BackTo from '@/components/back-to'
 import { fetchProductsData } from '@/lib/api'
 
-// ISR: Fetch products with revalidation every 60 seconds
-async function getProducts() {
-  return fetchProductsData({
-    next: { revalidate: 60 }, // ISR: Revalidate every 60 seconds
-  })
-}
-
 export default async function ISRPage() {
-  // This data is generated at build time, then regenerated every 60 seconds
-  const productsData = await getProducts()
+  'use cache' // Next.js 16: Use 'use cache' directive for ISR
+  cacheLife({
+    stale: 60, // Serve stale content after 60 seconds
+    revalidate: 120, // Revalidate in background after 2 minutes
+    expire: 3600, // Expire completely after 1 hour
+  })
+  cacheTag('products')
+
+  // This data is cached and revalidated based on cacheLife settings
+  const productsData = await fetchProductsData()
   const generatedAt = new Date().toISOString()
 
   return (

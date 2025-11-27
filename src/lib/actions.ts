@@ -11,7 +11,7 @@ export async function revalidateCache(tags: string[]) {
     )
 
     for (const tag of tags) {
-      revalidateTag(tag)
+      revalidateTag(tag, 'max') // Next.js 16: Uses stale-while-revalidate
     }
 
     console.log(
