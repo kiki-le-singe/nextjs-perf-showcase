@@ -21,13 +21,23 @@ export default function SSRPage({
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2">
             SSR - Server-Side Rendering
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 mb-6">
             See how fresh data is delivered on every page request ↓
           </p>
+
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 max-w-3xl mx-auto text-left mb-8">
+            <p className="text-blue-900">
+              <strong>💡 This demo shows pure SSR</strong> (no cache by default).
+              Every page request fetches fresh data from the server.
+              Use the buttons below to compare with cached mode and see the performance difference.
+            </p>
+          </div>
         </div>
 
         {/* Cache Demo Toggle */}
-        <CacheDemoToggle />
+        <div className="text-center mb-4">
+          <CacheDemoToggle />
+        </div>
 
         {/* Dashboard with searchParams wrapped in Suspense */}
         <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
@@ -35,24 +45,35 @@ export default function SSRPage({
         </Suspense>
 
         {/* SSR Explanation */}
-        <div className="text-center mb-8 md:mb-12">
+        <div className="text-center mb-8 md:mb-12 mt-12">
           <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-orange-100 rounded-full mb-4">
             <Zap className="w-6 h-6 md:w-8 md:h-8 text-orange-600" />
           </div>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How does it work?</h2>
-          <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
-            The dashboard above demonstrates modern SSR with{' '}
-            <strong className="text-blue-600">interactive cache comparison</strong>. Use the toggle
-            above to switch between{' '}
-            <code className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
-              default (no-store)
-            </code>{' '}
-            and{' '}
-            <code className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-sm">
-              force-cache
-            </code>{' '}
-            modes to see the difference in loading behavior and console logs.
+          
+          <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+            This page demonstrates <strong>pure SSR (Server-Side Rendering)</strong> where data is fetched 
+            fresh on every request. Use the buttons to compare with cached mode and see 
+            the performance difference.
           </p>
+
+          <div className="grid md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto mb-8">
+            <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+               <h4 className="font-bold text-green-800 mb-2">Default mode (no cache):</h4>
+               <ul className="space-y-2 text-sm text-green-900">
+                 <li className="flex items-center gap-2"><Check className="w-4 h-4 flex-shrink-0" /> Fresh data every request (true SSR)</li>
+                 <li className="flex items-center gap-2"><Check className="w-4 h-4 flex-shrink-0" /> Always up-to-date</li>
+                 <li className="flex items-center gap-2"><Zap className="w-4 h-4 flex-shrink-0" /> Slower (fetches on each request)</li>
+               </ul>
+            </div>
+            <div className="bg-orange-50 p-4 rounded-lg border border-orange-100">
+               <h4 className="font-bold text-orange-800 mb-2">Cached mode (for comparison):</h4>
+               <ul className="space-y-2 text-sm text-orange-900">
+                 <li className="flex items-center gap-2"><Zap className="w-4 h-4 flex-shrink-0" /> Faster (reuses cached data)</li>
+                 <li className="flex items-center gap-2"><X className="w-4 h-4 flex-shrink-0" /> Not pure SSR anymore (stale data possible)</li>
+               </ul>
+            </div>
+          </div>
 
           {/* Request Time Info */}
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
@@ -88,11 +109,11 @@ export default function SSRPage({
         {/* SSR Best Practice Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
           <h3 className="flex items-center text-xl md:text-2xl font-bold text-gray-900 mb-6">
-            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> SSR Examples - Next.js 16 Patterns
+            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> Next.js 16 SSR Patterns
           </h3>
 
           <div className="mb-4">
-            <h4 className="font-semibold text-gray-900 mb-2">🟢 Dynamic SSR (No Cache - Fresh Data)</h4>
+            <h4 className="font-semibold text-gray-900 mb-2">🟢 Pure SSR (No Cache) - Default Mode</h4>
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
                 <code className="block">{`// Next.js 16 - Dynamic component (no cache)
@@ -111,7 +132,7 @@ export async function UserHeader() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gray-900 mb-2">🟠 Cached SSR (With Cache - PPR)</h4>
+            <h4 className="font-semibold text-gray-900 mb-2">🟠 With Cache (For Comparison) - Not Pure SSR</h4>
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
                 <code className="block">{`// Next.js 16 - Cached component with 'use cache'
@@ -138,6 +159,9 @@ export async function UserHeader() {
         {/* When to Use SSR */}
         <div className="bg-gradient-to-r from-orange-500 to-red-600 rounded-xl text-white p-8 mb-12">
           <h3 className="text-2xl font-bold mb-6">When to Use SSR</h3>
+          <p className="mb-6 font-medium bg-white/10 p-4 rounded-lg">
+             Pure SSR (no cache) is best when you need real-time data and should NOT use cache.
+          </p>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <h4 className="text-lg font-semibold mb-4">Examples:</h4>
