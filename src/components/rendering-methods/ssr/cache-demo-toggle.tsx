@@ -104,7 +104,7 @@ export function CacheDemoToggle() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           {/* Left side - Title and Status */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 relative">
               <FlaskConical className="w-4 h-4 text-blue-600" />
               <span className="text-sm font-medium text-gray-700">Cache Demo</span>
               <button
@@ -118,8 +118,15 @@ export function CacheDemoToggle() {
               </button>
 
               {/* Tooltip */}
-              {showTooltip && (
-                <div className="absolute left-0 top-10 sm:top-20 z-50 w-80 max-w-[90vw] bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+              <div
+                className={cn(
+                  "absolute left-0 top-full pt-2 z-50 transition-opacity duration-200",
+                  showTooltip ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                )}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+              >
+                <div className="w-80 max-w-[90vw] bg-white rounded-lg shadow-xl border border-gray-200 p-4">
                   <div className="space-y-3">
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">How to use:</h4>
@@ -158,7 +165,7 @@ export function CacheDemoToggle() {
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
             <span
