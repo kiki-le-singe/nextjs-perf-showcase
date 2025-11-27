@@ -15,9 +15,7 @@ export async function DashboardWrapper({
 }: {
   searchParams: Promise<{ cache?: string }>
 }) {
-  // Access searchParams inside the wrapper (which is inside Suspense)
-  const resolvedSearchParams = await searchParams
-  const useCache = resolvedSearchParams?.cache === 'force-cache'
+  const useCache = (await searchParams)?.cache === 'force-cache'
 
   return (
     <>

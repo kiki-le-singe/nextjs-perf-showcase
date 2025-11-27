@@ -1,11 +1,12 @@
 import { Zap, Check, X, ChevronRight, BookOpen } from 'lucide-react'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 import BackTo from '@/components/back-to'
 import { CacheDemoToggle } from '@/components/rendering-methods/ssr/cache-demo-toggle'
 import { DashboardWrapper } from '@/components/rendering-methods/ssr/dashboard-wrapper'
 
-export default async function SSRPage({
+export default function SSRPage({
   searchParams,
 }: {
   searchParams: Promise<{ cache?: string }>
@@ -28,8 +29,10 @@ export default async function SSRPage({
         {/* Cache Demo Toggle */}
         <CacheDemoToggle />
 
-        {/* Dashboard components with granular Suspense boundaries */}
-        <DashboardWrapper searchParams={searchParams} />
+        {/* Dashboard with searchParams wrapped in Suspense */}
+        <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
+          <DashboardWrapper searchParams={searchParams} />
+        </Suspense>
 
         {/* SSR Explanation */}
         <div className="text-center mb-8 md:mb-12">
