@@ -14,13 +14,21 @@ export class ProductsService {
       orderBy: { id: 'asc' },
     });
 
-    // Add dynamic data for ISR demo
+    // Add dynamic data for ISR demo - make changes VERY visible
     return products.map(product => ({
       ...product,
-      // Update stock level dynamically to show ISR in action
-      stockLevel: product.stockLevel ? product.stockLevel + Math.floor(Math.random() * 10) : Math.floor(Math.random() * 100) + 1,
-      // Update timestamp
+      // Randomly change stock levels dramatically (0-200)
+      stockLevel: Math.floor(Math.random() * 200),
+      // Randomly set inStock based on stock level
+      inStock: Math.random() > 0.3, // 70% chance of being in stock
+      // Vary prices slightly (±10%)
+      price: Number((product.price * (0.9 + Math.random() * 0.2)).toFixed(2)),
+      // Vary discount (0-40%)
+      discount: Math.floor(Math.random() * 40),
+      // Update timestamp to show when data was fetched
       lastUpdated: new Date().toISOString(),
+      // Add a data version for easier tracking
+      dataVersion: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
     }));
   }
 }
