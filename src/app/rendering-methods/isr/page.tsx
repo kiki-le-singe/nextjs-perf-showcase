@@ -22,7 +22,7 @@ export default async function ISRPage() {
   const dataVersion = productsData[0]?.lastUpdated || generatedAt
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
+    <div className="min-h-screen bg-linear-to-br from-purple-50 to-indigo-100">
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <BackTo href="/rendering-methods" text="Back to Rendering Methods" />
 
@@ -36,7 +36,7 @@ export default async function ISRPage() {
           </p>
 
           {/* Compact Info Box */}
-          <div className="bg-gradient-to-r from-purple-100 to-indigo-100 rounded-xl p-4 max-w-2xl mx-auto mb-4">
+          <div className="bg-linear-to-r from-purple-100 to-indigo-100 rounded-xl p-4 max-w-2xl mx-auto mb-4">
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div className="text-left">
                 <p className="text-xs text-gray-700 mb-1">Cache Config:</p>
@@ -110,7 +110,7 @@ export default async function ISRPage() {
                   },
                 ].map(step => (
                   <div key={step.num} className="flex items-start">
-                    <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                    <div className="shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
                       <span className="text-purple-600 font-semibold text-sm">{step.num}</span>
                     </div>
                     <div>
@@ -134,7 +134,7 @@ export default async function ISRPage() {
                   'Stale-while-revalidate pattern',
                 ].map(benefit => (
                   <div key={benefit} className="flex items-center">
-                    <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-green-500 mr-3 shrink-0" />
                     <span className="text-gray-700 text-sm">{benefit}</span>
                   </div>
                 ))}
@@ -145,7 +145,7 @@ export default async function ISRPage() {
                 {['Data may be slightly stale', 'Complexity in cache invalidation'].map(
                   tradeoff => (
                     <div key={tradeoff} className="flex items-center">
-                      <X className="w-5 h-5 text-orange-500 mr-3 flex-shrink-0" />
+                      <X className="w-5 h-5 text-orange-500 mr-3 shrink-0" />
                       <span className="text-gray-700 text-sm">{tradeoff}</span>
                     </div>
                   )
@@ -197,7 +197,7 @@ export async function updateProduct() {
         </div>
 
         {/* When to Use ISR */}
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl text-white p-6 md:p-8 mb-8 md:mb-12">
+        <div className="bg-linear-to-r from-purple-500 to-indigo-600 rounded-xl text-white p-6 md:p-8 mb-8 md:mb-12">
           <h3 className="text-xl md:text-2xl font-bold mb-2">When to Use ISR</h3>
           <p className="text-sm text-purple-100 mb-4">
             Non-exhaustive examples to guide the decision between ISR and other rendering methods.
@@ -242,9 +242,13 @@ export async function updateProduct() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b-2 border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-900 bg-green-50">Feature</th>
+                  <th className="text-left py-3 px-4 font-semibold text-gray-900 bg-green-50">
+                    Feature
+                  </th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">SSG</th>
-                  <th className="text-left py-3 px-4 font-semibold text-purple-600 bg-purple-50">ISR</th>
+                  <th className="text-left py-3 px-4 font-semibold text-purple-600 bg-purple-50">
+                    ISR
+                  </th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">SSR</th>
                   <th className="text-left py-3 px-4 font-semibold text-gray-900">CSR</th>
                 </tr>
@@ -266,7 +270,9 @@ export async function updateProduct() {
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 font-medium text-gray-900 bg-green-50">Content Freshness</td>
+                  <td className="py-3 px-4 font-medium text-gray-900 bg-green-50">
+                    Content Freshness
+                  </td>
                   <td className="py-3 px-4 text-gray-900">Static (build time)</td>
                   <td className="py-3 px-4 text-gray-900 bg-purple-50">Auto-updates</td>
                   <td className="py-3 px-4 text-gray-900">Always fresh</td>
