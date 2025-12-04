@@ -198,7 +198,10 @@ export async function updateProduct() {
 
         {/* When to Use ISR */}
         <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl text-white p-6 md:p-8 mb-8 md:mb-12">
-          <h3 className="text-xl md:text-2xl font-bold mb-4">When to Use ISR</h3>
+          <h3 className="text-xl md:text-2xl font-bold mb-2">When to Use ISR</h3>
+          <p className="text-sm text-purple-100 mb-4">
+            Non-exhaustive examples to guide the decision between ISR and other rendering methods.
+          </p>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h4 className="font-semibold mb-3 flex items-center">
