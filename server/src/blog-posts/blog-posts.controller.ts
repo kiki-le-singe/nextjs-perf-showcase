@@ -1,6 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus, Header } from '@nestjs/common';
 import { BlogPostsService } from './blog-posts.service';
-import { BlogPostsSchema, safeParse } from '../shared/schemas';
+import { BlogPostsSchema, safeParse } from '@shared/schemas';
 
 @Controller('blog-posts')
 export class BlogPostsController {

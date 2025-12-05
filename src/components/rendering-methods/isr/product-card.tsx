@@ -1,4 +1,4 @@
-import type { Product } from '../../../../shared'
+import type { Product } from '@shared'
 
 export function ProductCard({ product }: { product: Product }) {
   return (

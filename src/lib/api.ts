@@ -4,8 +4,8 @@ import {
   ProductsSchema,
   BlogPostsSchema,
   safeParse,
-} from '../../shared'
-import type { User, DashboardData, Product, BlogPost } from '../../shared'
+} from '@shared'
+import type { User, DashboardData, Product, BlogPost } from '@shared'
 
 import { API_ENDPOINTS } from './config'
 

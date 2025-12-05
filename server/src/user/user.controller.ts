@@ -1,6 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserSchema, safeParse } from '../shared/schemas';
+import { UserSchema, safeParse } from '@shared/schemas';
 
 @Controller('user')
 export class UserController {

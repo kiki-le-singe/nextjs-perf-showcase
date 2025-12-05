@@ -1,6 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus, Header } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ProductsSchema, safeParse } from '../shared/schemas';
+import { ProductsSchema, safeParse } from '@shared/schemas';
 
 @Controller('products')
 export class ProductsController {

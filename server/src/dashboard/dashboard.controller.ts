@@ -1,6 +1,6 @@
 import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
-import { DashboardSchema, safeParse } from '../shared/schemas';
+import { DashboardSchema, safeParse } from '@shared/schemas';
 
 @Controller('dashboard')
 export class DashboardController {
