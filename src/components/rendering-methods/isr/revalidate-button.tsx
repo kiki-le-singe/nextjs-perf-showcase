@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { revalidateProducts } from './actions'
+import { revalidateCache } from '@/lib/actions'
 
 export function RevalidateButton() {
   const [isPending, startTransition] = useTransition()
@@ -11,7 +11,7 @@ export function RevalidateButton() {
   const handleRevalidate = () => {
     startTransition(async () => {
       try {
-        const result = await revalidateProducts()
+        const result = await revalidateCache(['products'])
         if (result.success) {
           setStatus('success')
           setLastRevalidated(new Date().toLocaleTimeString())
