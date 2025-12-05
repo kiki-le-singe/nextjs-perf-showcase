@@ -8,7 +8,13 @@ import { BlogPostsModule } from './blog-posts/blog-posts.module';
 import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [PrismaModule, UserModule, DashboardModule, BlogPostsModule, ProductsModule],
+  imports: [
+    PrismaModule,
+    UserModule,
+    DashboardModule,
+    BlogPostsModule,
+    ProductsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

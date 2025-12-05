@@ -13,8 +13,8 @@
     "db:studio": "cd server && npx prisma studio",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "type-check": "tsc --noEmit",
@@ -33,7 +33,7 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/eslintrc": "^3.1.0",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^24.10.1",

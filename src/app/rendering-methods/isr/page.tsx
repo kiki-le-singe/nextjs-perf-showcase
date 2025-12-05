@@ -7,7 +7,6 @@ import { ProductsSection } from '@/components/rendering-methods/isr/products-sec
 import { ProductsSectionSkeleton } from '@/components/rendering-methods/isr/products-section-skeleton'
 
 export default function ISRPage() {
-
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-50 to-indigo-100">
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -112,11 +111,15 @@ export default function ISRPage() {
         {/* Next.js 16 Code Example */}
         <div className="bg-gray-900 rounded-lg p-4 md:p-6 mb-8 md:mb-12 overflow-x-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-            <h3 className="text-white font-semibold">Next.js 16 ISR Implementation (Modern Pattern)</h3>
+            <h3 className="text-white font-semibold">
+              Next.js 16 ISR Implementation (Modern Pattern)
+            </h3>
             <div className="flex gap-2 flex-wrap">
               <span className="bg-purple-600 text-white px-2 py-1 rounded text-xs">use cache</span>
               <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs">Suspense</span>
-              <span className="bg-indigo-600 text-white px-2 py-1 rounded text-xs">component-level</span>
+              <span className="bg-indigo-600 text-white px-2 py-1 rounded text-xs">
+                component-level
+              </span>
             </div>
           </div>
           <pre className="text-blue-400 text-xs md:text-sm overflow-x-auto">

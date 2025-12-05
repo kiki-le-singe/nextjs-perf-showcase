@@ -120,8 +120,8 @@ export function CacheDemoToggle() {
               {/* Tooltip */}
               <div
                 className={cn(
-                  "absolute left-0 top-full pt-2 z-50 transition-opacity duration-200",
-                  showTooltip ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                  'absolute left-0 top-full pt-2 z-50 transition-opacity duration-200',
+                  showTooltip ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
                 )}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}

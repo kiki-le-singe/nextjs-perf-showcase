@@ -5,7 +5,7 @@ services:
     container_name: nextjs-perf-db
     restart: unless-stopped
     ports:
-      - '5433:5432'  # Port externe 5433 pour éviter conflit
+      - '5433:5432' # Port externe 5433 pour éviter conflit
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}

@@ -1,4 +1,10 @@
-import { Controller, Get, HttpException, HttpStatus, Header } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Header,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductsSchema, safeParse } from '@shared/schemas';
 

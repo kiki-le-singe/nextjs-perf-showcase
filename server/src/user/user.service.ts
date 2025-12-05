@@ -7,7 +7,7 @@ export class UserService {
 
   async getUser() {
     // Simulate API delay for realistic demo
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     // Return mock data (later we'll fetch from DB)
     return {

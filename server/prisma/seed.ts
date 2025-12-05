@@ -191,7 +191,8 @@ async function main() {
         category: 'Electronics',
         inStock: true,
         discount: 20,
-        description: 'Premium quality wireless headphones with noise cancellation and 30-hour battery life.',
+        description:
+          'Premium quality wireless headphones with noise cancellation and 30-hour battery life.',
         stockLevel: 45,
         lastUpdated: new Date(),
       },
@@ -205,7 +206,8 @@ async function main() {
         category: 'Wearables',
         inStock: true,
         discount: 20,
-        description: 'Track your health and fitness with advanced sensors and GPS functionality.',
+        description:
+          'Track your health and fitness with advanced sensors and GPS functionality.',
         stockLevel: 23,
         lastUpdated: new Date(),
       },
@@ -219,7 +221,8 @@ async function main() {
         category: 'Gaming',
         inStock: false,
         discount: 19,
-        description: 'RGB backlit mechanical keyboard with customizable switches and macro support.',
+        description:
+          'RGB backlit mechanical keyboard with customizable switches and macro support.',
         stockLevel: 0,
         lastUpdated: new Date(),
       },
@@ -233,7 +236,8 @@ async function main() {
         category: 'Electronics',
         inStock: true,
         discount: 25,
-        description: 'Ultra HD webcam perfect for streaming, video calls, and content creation.',
+        description:
+          'Ultra HD webcam perfect for streaming, video calls, and content creation.',
         stockLevel: 78,
         lastUpdated: new Date(),
       },
@@ -247,7 +251,8 @@ async function main() {
         category: 'Accessories',
         inStock: true,
         discount: 30,
-        description: '20,000mAh portable charger with fast charging and multiple device support.',
+        description:
+          '20,000mAh portable charger with fast charging and multiple device support.',
         stockLevel: 156,
         lastUpdated: new Date(),
       },
@@ -261,7 +266,8 @@ async function main() {
         category: 'Electronics',
         inStock: true,
         discount: 29,
-        description: 'Ergonomic wireless mouse with precision tracking and long battery life.',
+        description:
+          'Ergonomic wireless mouse with precision tracking and long battery life.',
         stockLevel: 92,
         lastUpdated: new Date(),
       },
@@ -275,7 +281,8 @@ async function main() {
     data: [
       {
         title: 'Getting Started with Next.js 15',
-        excerpt: 'Learn the fundamentals of Next.js 15 and its new features including the App Router and Server Components.',
+        excerpt:
+          'Learn the fundamentals of Next.js 15 and its new features including the App Router and Server Components.',
         author: 'Jane Doe',
         date: new Date('2024-01-15'),
         readTime: '5 min read',
@@ -285,7 +292,8 @@ async function main() {
       },
       {
         title: 'Static Site Generation vs Server-Side Rendering',
-        excerpt: 'Understand the differences between SSG and SSR, and when to use each rendering method in your applications.',
+        excerpt:
+          'Understand the differences between SSG and SSR, and when to use each rendering method in your applications.',
         author: 'John Smith',
         date: new Date('2024-01-10'),
         readTime: '8 min read',
@@ -295,7 +303,8 @@ async function main() {
       },
       {
         title: 'Building Fast Websites with Static Generation',
-        excerpt: "Discover how static site generation can dramatically improve your website's performance and user experience.",
+        excerpt:
+          "Discover how static site generation can dramatically improve your website's performance and user experience.",
         author: 'Alice Johnson',
         date: new Date('2024-01-05'),
         readTime: '6 min read',
@@ -305,7 +314,8 @@ async function main() {
       },
       {
         title: 'SEO Best Practices for Static Sites',
-        excerpt: 'Learn how to optimize your statically generated sites for search engines and improve your rankings.',
+        excerpt:
+          'Learn how to optimize your statically generated sites for search engines and improve your rankings.',
         author: 'Bob Wilson',
         date: new Date('2024-01-01'),
         readTime: '7 min read',

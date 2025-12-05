@@ -1,4 +1,10 @@
-import { Controller, Get, HttpException, HttpStatus, Header } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Header,
+} from '@nestjs/common';
 import { BlogPostsService } from './blog-posts.service';
 import { BlogPostsSchema, safeParse } from '@shared/schemas';
 

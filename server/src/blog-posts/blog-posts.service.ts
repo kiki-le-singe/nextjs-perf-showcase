@@ -7,7 +7,7 @@ export class BlogPostsService {
 
   async getBlogPosts() {
     // Simulate API delay for realistic demo
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     // Fetch blog posts from database
     const blogPosts = await this.prisma.blogPost.findMany({
@@ -15,7 +15,7 @@ export class BlogPostsService {
     });
 
     // Transform to match expected format
-    return blogPosts.map(post => ({
+    return blogPosts.map((post) => ({
       id: post.id,
       title: post.title,
       excerpt: post.excerpt,

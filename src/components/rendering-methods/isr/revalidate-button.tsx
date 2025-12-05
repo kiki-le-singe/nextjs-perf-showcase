@@ -20,7 +20,7 @@ export function RevalidateButton() {
           setStatus('error')
           setTimeout(() => setStatus('idle'), 3000)
         }
-      } catch (error) {
+      } catch {
         setStatus('error')
         setTimeout(() => setStatus('idle'), 3000)
       }
@@ -112,7 +112,8 @@ export function RevalidateButton() {
       )}
 
       <p className="text-xs text-gray-500 max-w-md text-center">
-        Click to trigger on-demand revalidation using <code className="bg-gray-100 px-1 rounded">revalidateTag</code>
+        Click to trigger on-demand revalidation using{' '}
+        <code className="bg-gray-100 px-1 rounded">revalidateTag</code>
       </p>
     </div>
   )

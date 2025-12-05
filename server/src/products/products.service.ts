@@ -7,7 +7,7 @@ export class ProductsService {
 
   async getProducts() {
     // Simulate API delay for realistic demo
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     // Fetch products from database
     const products = await this.prisma.product.findMany({
@@ -15,7 +15,7 @@ export class ProductsService {
     });
 
     // Add dynamic data for ISR demo - make changes VERY visible
-    return products.map(product => ({
+    return products.map((product) => ({
       ...product,
       // Randomly change stock levels dramatically (0-200)
       stockLevel: Math.floor(Math.random() * 200),
