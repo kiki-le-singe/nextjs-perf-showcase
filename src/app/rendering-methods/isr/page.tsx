@@ -1,25 +1,12 @@
 import Link from 'next/link'
-import { cacheLife, cacheTag } from 'next/cache'
 import { Check, X, ChevronRight, Zap } from 'lucide-react'
+import { Suspense } from 'react'
 
 import BackTo from '@/components/back-to'
-import { fetchProductsData } from '@/lib/api'
-import { ProductCard } from '@/components/rendering-methods/isr/product-card'
-import { RevalidateButton } from '@/components/rendering-methods/isr/revalidate-button'
+import { ProductsSection } from '@/components/rendering-methods/isr/products-section'
+import { ProductsSectionSkeleton } from '@/components/rendering-methods/isr/products-section-skeleton'
 
-export default async function ISRPage() {
-  'use cache' // Next.js 16: Use 'use cache' directive for ISR
-  cacheLife({
-    stale: 60, // Serve stale content after 60 seconds
-    revalidate: 120, // Revalidate in background after 2 minutes
-    expire: 3600, // Expire completely after 1 hour
-  })
-  cacheTag('products')
-
-  // This data is cached and revalidated based on cacheLife settings
-  const productsData = await fetchProductsData()
-  const generatedAt = new Date().toISOString()
-  const dataVersion = productsData[0]?.lastUpdated || generatedAt
+export default function ISRPage() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-purple-50 to-indigo-100">
@@ -34,45 +21,12 @@ export default async function ISRPage() {
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-6">
             ISR combines the best of SSG and SSR: static performance with automatic updates.
           </p>
-
-          {/* Compact Info Box */}
-          <div className="bg-linear-to-r from-purple-100 to-indigo-100 rounded-xl p-4 max-w-2xl mx-auto mb-4">
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="text-left">
-                <p className="text-xs text-gray-700 mb-1">Cache Config:</p>
-                <p className="text-sm font-semibold text-gray-900">Stale: 60s | Revalidate: 2m</p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs text-gray-700 mb-1">Data Version:</p>
-                <p className="text-sm font-mono font-bold text-purple-700">
-                  {new Date(dataVersion).toLocaleTimeString()}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-4">
-              <RevalidateButton />
-            </div>
-          </div>
         </div>
 
-        {/* Products Grid - MOVED UP */}
-        <div className="mb-8 md:mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Catalog (Live Demo)</h2>
-          <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
-            <p className="text-sm text-yellow-900">
-              <strong>📊 Real ISR Demo:</strong> The backend API generates random data on every
-              request (prices, stock levels, discounts change). But you're seeing cached data! The{' '}
-              <strong className="text-purple-600">Data Version timestamp</strong> above proves the
-              cache is working. Click <strong>"Revalidate Now"</strong> to fetch fresh data and
-              watch everything update! 🔄
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {productsData.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
+        {/* Products Section with Suspense - Component-Level Caching */}
+        <Suspense fallback={<ProductsSectionSkeleton />}>
+          <ProductsSection />
+        </Suspense>
 
         {/* ISR Behavior Explanation - MOVED DOWN */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8 md:mb-12">
@@ -158,19 +112,36 @@ export default async function ISRPage() {
         {/* Next.js 16 Code Example */}
         <div className="bg-gray-900 rounded-lg p-4 md:p-6 mb-8 md:mb-12 overflow-x-auto">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-            <h3 className="text-white font-semibold">Next.js 16 ISR Implementation</h3>
+            <h3 className="text-white font-semibold">Next.js 16 ISR Implementation (Modern Pattern)</h3>
             <div className="flex gap-2 flex-wrap">
               <span className="bg-purple-600 text-white px-2 py-1 rounded text-xs">use cache</span>
-              <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs">cacheLife</span>
-              <span className="bg-indigo-600 text-white px-2 py-1 rounded text-xs">cacheTag</span>
+              <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs">Suspense</span>
+              <span className="bg-indigo-600 text-white px-2 py-1 rounded text-xs">component-level</span>
             </div>
           </div>
           <pre className="text-blue-400 text-xs md:text-sm overflow-x-auto">
-            <code>{`// ISR with Next.js 16 Cache Components
+            <code>{`// ISR with Next.js 16 - Component-Level Caching
 import { cacheLife, cacheTag } from 'next/cache'
+import { Suspense } from 'react'
 
-export default async function ProductsPage() {
-  'use cache'              // Enable caching (Next.js 16)
+// Page - Just layout (not cached)
+export default function ProductsPage() {
+  return (
+    <div>
+      <Header />  {/* Static content */}
+
+      <Suspense fallback={<ProductsSkeleton />}>
+        <ProductsSection />  {/* Cached component */}
+      </Suspense>
+
+      <Footer />  {/* Static content */}
+    </div>
+  )
+}
+
+// Cached component - This is where ISR happens
+async function ProductsSection() {
+  'use cache'              // Component-level cache
 
   cacheLife({
     stale: 60,             // Fresh for 60s
@@ -190,7 +161,6 @@ export default async function ProductsPage() {
 import { revalidateTag } from 'next/cache'
 
 export async function updateProduct() {
-  // After updating a product...
   revalidateTag('products', 'max')  // Stale-while-revalidate
 }`}</code>
           </pre>
