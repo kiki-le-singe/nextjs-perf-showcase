@@ -1,12 +1,19 @@
 import { Sparkles, Check, X, ChevronRight, BookOpen } from 'lucide-react'
 import Link from 'next/link'
-import { Suspense } from 'react'
+import { cacheTag } from 'next/cache'
 
 import BackTo from '@/components/back-to'
-import { BlogPostsSection } from '@/components/rendering-methods/ssg/blog-posts-section'
-import { BlogPostsSectionSkeleton } from '@/components/rendering-methods/ssg/blog-posts-section-skeleton'
+import { fetchBlogPostsData } from '@/lib/api'
+import { BlogPostCard } from '@/components/rendering-methods/ssg/blog-post-card'
 
-export default function SSGPage() {
+export default async function SSGPage() {
+  'use cache' // Next.js 16: Page-level caching for TRUE SSG
+  cacheTag('ssg-page') // Tag for manual revalidation only
+
+  // Fetched at BUILD TIME - frozen until next build
+  const blogPosts = await fetchBlogPostsData()
+  const buildTime = new Date().toISOString()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -23,17 +30,50 @@ export default function SSGPage() {
 
           <div className="bg-green-50 border-l-4 border-green-500 p-4 max-w-3xl mx-auto text-left mb-8">
             <p className="text-green-900">
-              <strong>💡 This demo shows SSG with cacheLife('max')</strong>. Content is cached with
-              a 1 month revalidation period and infinite expiration. Perfect for rarely-changing
-              content like blogs, documentation, and archived pages.
+              <strong>💡 This demo shows TRUE SSG with &apos;use cache&apos;</strong>. Content is
+              pre-rendered at build time and frozen until the next build. No automatic revalidation
+              - perfect for truly static content like documentation and archived pages.
             </p>
           </div>
         </div>
 
-        {/* Blog Posts Section with Suspense */}
-        <Suspense fallback={<BlogPostsSectionSkeleton />}>
-          <BlogPostsSection />
-        </Suspense>
+        {/* Build Time Info */}
+        <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-xl p-4 max-w-2xl mx-auto mb-8">
+          <div className="text-center mb-2">
+            <p className="text-xs text-gray-700 mb-1">Generated at Build Time:</p>
+            <p className="text-lg font-mono font-bold text-green-700">
+              {new Date(buildTime).toLocaleString()}
+            </p>
+          </div>
+          <div className="text-center">
+            <p className="text-xs text-gray-600">
+              This timestamp was captured during &apos;npm run build&apos; and won&apos;t change
+              until rebuilt
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 max-w-3xl mx-auto mb-8">
+          <p className="text-sm text-blue-900">
+            <strong>📝 Real SSG Demo:</strong> This entire page uses{' '}
+            <strong className="text-green-600">&apos;use cache&apos;</strong> at the page level.
+            Content is pre-rendered at build time and included in the static HTML shell. The{' '}
+            <strong className="text-green-600">Build Time timestamp</strong> proves this page was
+            generated during build and is served as static HTML. 🚀
+          </p>
+        </div>
+
+        {/* Blog Posts Grid */}
+        <div className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">
+            Blog Posts (Static Content)
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+            {blogPosts.map(post => (
+              <BlogPostCard key={post.id} post={post} />
+            ))}
+          </div>
+        </div>
 
         {/* SSG Explanation */}
         <div className="text-center mb-8 md:mb-12">
@@ -43,9 +83,11 @@ export default function SSGPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How does it work?</h2>
 
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-            This page demonstrates <strong>SSG (Static Site Generation)</strong> using the modern{' '}
-            <code className="bg-gray-100 px-2 py-1 rounded text-sm">cacheLife('max')</code> profile
-            for rarely-changing content.
+            This page demonstrates <strong>TRUE SSG (Static Site Generation)</strong> using the
+            modern Next.js 16{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">&apos;use cache&apos;</code>{' '}
+            directive at the page level. Content is pre-rendered at build time and frozen until you
+            run <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm run build</code> again.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto mb-8">
@@ -73,13 +115,16 @@ export default function SSGPage() {
               <h4 className="font-bold text-orange-800 mb-2">Trade-offs:</h4>
               <ul className="space-y-2 text-sm text-orange-900">
                 <li className="flex items-center gap-2">
-                  <X className="w-4 h-4 flex-shrink-0" /> Content revalidates monthly (with 'max')
+                  <X className="w-4 h-4 flex-shrink-0" /> Requires rebuild to update content
                 </li>
                 <li className="flex items-center gap-2">
                   <X className="w-4 h-4 flex-shrink-0" /> Not suitable for frequently changing data
                 </li>
                 <li className="flex items-center gap-2">
                   <X className="w-4 h-4 flex-shrink-0" /> Long build times for large sites
+                </li>
+                <li className="flex items-center gap-2">
+                  <X className="w-4 h-4 flex-shrink-0" /> Cannot personalize content per user
                 </li>
               </ul>
             </div>
@@ -116,99 +161,148 @@ export default function SSGPage() {
 
           <div className="mb-4">
             <h4 className="font-semibold text-gray-900 mb-2">
-              🟢 Modern SSG Pattern (Next.js 16)
+              🟢 Modern SSG Pattern (Next.js 16) - Page Level
             </h4>
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-green-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-                <code className="block">{`// Next.js 16 - Component-level caching for SSG
-import { cacheLife, cacheTag } from 'next/cache'
+                <code className="block">{`// Next.js 16 - Page-level caching for TRUE SSG
+import { cacheTag } from 'next/cache'
 
-export async function BlogPostsSection() {
-  'use cache'               // Enable caching
-  cacheLife('max')          // SSG: rarely-changing content
-                            // max = { stale: 5min, revalidate: 1 month, expire: Infinity }
-  cacheTag('blog-posts')    // Tag for manual revalidation
+export default async function BlogPage() {
+  'use cache'              // Enable page-level caching
+  cacheTag('blog-page')    // Tag for manual revalidation only
 
+  // Fetched at BUILD TIME - frozen until next build
   const posts = await fetchBlogPosts()
-  return <BlogGrid posts={posts} />
+  const buildTime = new Date().toISOString()
+
+  return (
+    <div>
+      <p>Built at: {buildTime}</p>
+      <BlogGrid posts={posts} />
+    </div>
+  )
+}`}</code>
+              </pre>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <h4 className="font-semibold text-gray-900 mb-2">
+              🟡 Component-Level Pattern (for mixed static/dynamic)
+            </h4>
+            <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
+              <pre className="text-yellow-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                <code className="block">{`// Use when mixing cached and dynamic content
+export default function MixedPage() {
+  return (
+    <>
+      <header>Static header</header>
+      <CachedBlogPosts />  {/* Cached */}
+      <Suspense><UserProfile /></Suspense>  {/* Dynamic */}
+    </>
+  )
 }
 
-// In your page
-<Suspense fallback={<Loading />}>
-  <BlogPostsSection />
-</Suspense>`}</code>
+async function CachedBlogPosts() {
+  'use cache'
+  const posts = await fetchBlogPosts()
+  return <BlogGrid posts={posts} />
+}`}</code>
               </pre>
             </div>
           </div>
 
           <div>
             <h4 className="font-semibold text-gray-900 mb-2">
-              🟠 Alternative: Fetch API Pattern
+              🔴 Legacy Pattern (Being Deprecated)
             </h4>
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
-              <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-                <code className="block">{`// Traditional fetch API approach (still works)
-async function getBlogPosts() {
-  return fetch(API_URL, {
-    cache: 'force-cache'  // SSG with fetch API
-  })
-}
+              <pre className="text-red-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                <code className="block">{`// Old way - being deprecated in Next.js 16
+export const dynamic = 'force-static'
 
 export default async function BlogPage() {
-  const posts = await getBlogPosts()
+  const posts = await fetch(API_URL, { cache: 'force-cache' })
   return <BlogGrid posts={posts} />
-}`}</code>
+}
+
+// ⚠️ Use 'use cache' instead!`}</code>
               </pre>
             </div>
           </div>
         </div>
 
-        {/* cacheLife Profiles */}
+        {/* SSG vs ISR */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
           <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
-            Available cacheLife Profiles
+            SSG vs ISR: When to Use cacheLife
           </h3>
           <p className="text-gray-600 mb-6">
-            Next.js 16 provides built-in cache profiles for different content update frequencies:
+            This demo uses <strong>pure SSG</strong> (no cacheLife). For automatic revalidation,
+            add cacheLife profiles:
           </p>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <code className="text-sm font-mono text-purple-600">cacheLife('seconds')</code>
-              <p className="text-sm text-gray-600 mt-1">Real-time data (stock prices, live scores)</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <code className="text-sm font-mono text-purple-600">cacheLife('minutes')</code>
-              <p className="text-sm text-gray-600 mt-1">Frequently updated (social feeds, news)</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <code className="text-sm font-mono text-purple-600">cacheLife('hours')</code>
-              <p className="text-sm text-gray-600 mt-1">
-                Multiple daily updates (product inventory)
-              </p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <code className="text-sm font-mono text-purple-600">cacheLife('days')</code>
-              <p className="text-sm text-gray-600 mt-1">Daily updates (blog posts, articles)</p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <code className="text-sm font-mono text-purple-600">cacheLife('weeks')</code>
-              <p className="text-sm text-gray-600 mt-1">Weekly updates (podcasts, newsletters)</p>
-            </div>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div className="bg-green-50 p-4 rounded-lg border-2 border-green-500">
-              <code className="text-sm font-mono text-green-700 font-bold">cacheLife('max')</code>
-              <p className="text-sm text-green-700 mt-1 font-semibold">
-                ⭐ Rarely changes (SSG - archived content, legal pages)
+              <h4 className="font-bold text-green-800 mb-2">
+                ✅ Pure SSG (This Demo)
+              </h4>
+              <code className="text-sm font-mono text-green-700 block mb-2">
+                &apos;use cache&apos; {/* No cacheLife */}
+              </code>
+              <p className="text-sm text-green-900">
+                Content frozen at build time. Updates only when you run{' '}
+                <code className="bg-green-100 px-1 rounded">npm run build</code>. Perfect for truly
+                static content.
               </p>
+            </div>
+
+            <div className="bg-blue-50 p-4 rounded-lg border-2 border-blue-500">
+              <h4 className="font-bold text-blue-800 mb-2">⚡ ISR-like Behavior</h4>
+              <code className="text-sm font-mono text-blue-700 block mb-2">
+                &apos;use cache&apos;
+                <br />
+                cacheLife(&apos;hours&apos;)
+              </code>
+              <p className="text-sm text-blue-900">
+                Background revalidation after specified time. Automatic updates without rebuilding.
+                See ISR demo for this pattern.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h4 className="font-semibold text-gray-900 mb-3">Optional cacheLife Profiles:</h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+              <div>
+                <code className="text-purple-600">seconds</code> - Real-time
+              </div>
+              <div>
+                <code className="text-purple-600">minutes</code> - Frequent updates
+              </div>
+              <div>
+                <code className="text-purple-600">hours</code> - Multiple daily
+              </div>
+              <div>
+                <code className="text-purple-600">days</code> - Daily updates
+              </div>
+              <div>
+                <code className="text-purple-600">weeks</code> - Weekly updates
+              </div>
+              <div>
+                <code className="text-purple-600">max</code> - Monthly revalidation
+              </div>
             </div>
           </div>
         </div>
 
         {/* When to Use SSG */}
         <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white p-8 mb-12">
-          <h3 className="text-2xl font-bold mb-6">When to Use SSG with cacheLife('max')</h3>
+          <h3 className="text-2xl font-bold mb-6">When to Use Pure SSG</h3>
           <p className="mb-6 font-medium bg-white/10 p-4 rounded-lg">
-            The 'max' profile is perfect for rarely-changing content with a 1-month revalidation
-            period and infinite expiration.
+            Use &apos;use cache&apos; without cacheLife for content that should be frozen at build
+            time and only update when you rebuild your application.
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
@@ -237,7 +331,7 @@ export default async function BlogPage() {
               <ul className="space-y-2">
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Ultra-fast performance
+                  Absolute fastest performance
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
@@ -245,11 +339,15 @@ export default async function BlogPage() {
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Background revalidation (1 month)
+                  Zero server computation
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Handles massive traffic
+                  Handles unlimited traffic
+                </li>
+                <li className="flex items-center">
+                  <Check className="w-5 h-5 mr-3" />
+                  Predictable content
                 </li>
               </ul>
             </div>
@@ -294,5 +392,5 @@ export default async function BlogPage() {
   )
 }
 
-// Next.js 16: Component-level caching with cacheLife('max')
-// Built-in profiles: 'seconds', 'minutes', 'hours', 'days', 'weeks', 'max'
+// Next.js 16: Page-level SSG with 'use cache' (no cacheLife = frozen until rebuild)
+// For automatic revalidation, add cacheLife(): 'seconds', 'minutes', 'hours', 'days', 'weeks', 'max'
