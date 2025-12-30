@@ -276,22 +276,28 @@ export default async function BlogPage() {
             <h4 className="font-semibold text-gray-900 mb-3">Optional cacheLife Profiles:</h4>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
               <div>
-                <code className="text-purple-600">seconds</code> - Real-time
+                <code className="text-purple-600">seconds</code>{' '}
+                <span className="text-gray-600">- Real-time</span>
               </div>
               <div>
-                <code className="text-purple-600">minutes</code> - Frequent updates
+                <code className="text-purple-600">minutes</code>{' '}
+                <span className="text-gray-600">- Frequent updates</span>
               </div>
               <div>
-                <code className="text-purple-600">hours</code> - Multiple daily
+                <code className="text-purple-600">hours</code>{' '}
+                <span className="text-gray-600">- Multiple daily</span>
               </div>
               <div>
-                <code className="text-purple-600">days</code> - Daily updates
+                <code className="text-purple-600">days</code>{' '}
+                <span className="text-gray-600">- Daily updates</span>
               </div>
               <div>
-                <code className="text-purple-600">weeks</code> - Weekly updates
+                <code className="text-purple-600">weeks</code>{' '}
+                <span className="text-gray-600">- Weekly updates</span>
               </div>
               <div>
-                <code className="text-purple-600">max</code> - Monthly revalidation
+                <code className="text-purple-600">max</code>{' '}
+                <span className="text-gray-600">- Monthly revalidation</span>
               </div>
             </div>
           </div>
