@@ -24,7 +24,7 @@ export default function RenderingMethodsPage() {
             Next.js Rendering Methods
           </h1>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            Discover the four main rendering strategies in Next.js 15: Static Site Generation (SSG),
+            Discover the four main rendering strategies in Next.js 16: Static Site Generation (SSG),
             Incremental Static Regeneration (ISR), Server-Side Rendering (SSR), and Client-Side
             Rendering (CSR). Learn when and how to use each method for optimal performance.
           </p>
@@ -62,7 +62,7 @@ export default function RenderingMethodsPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                  force-cache
+                  &apos;use cache&apos;
                 </span>
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
                   Build Time
@@ -123,7 +123,7 @@ export default function RenderingMethodsPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                  revalidate: 60
+                  cacheLife({'{...}'})
                 </span>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
                   Background Sync
@@ -184,7 +184,7 @@ export default function RenderingMethodsPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
-                  no-store
+                  no cache
                 </span>
                 <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
                   Request Time
