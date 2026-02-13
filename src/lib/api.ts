@@ -3,11 +3,31 @@ import type { User, DashboardData, Product, BlogPost } from '@shared'
 
 import { API_ENDPOINTS } from './config'
 
+type NextRequestInit = RequestInit & {
+  next?: {
+    tags?: string[]
+  }
+}
+
+function withServerTags(fetchOptions: RequestInit | undefined, tags: string[]): RequestInit {
+  // `next.tags` is only meaningful on the server in Next.js.
+  if (typeof window !== 'undefined') {
+    return fetchOptions ?? {}
+  }
+
+  const serverOptions = (fetchOptions ?? {}) as NextRequestInit
+
+  return {
+    ...serverOptions,
+    next: {
+      ...(serverOptions.next ?? {}),
+      tags,
+    },
+  }
+}
+
 export async function fetchUserData(fetchOptions?: RequestInit): Promise<User> {
-  const response = await fetch(API_ENDPOINTS.user, {
-    next: { tags: ['user-data'] },
-    ...fetchOptions,
-  })
+  const response = await fetch(API_ENDPOINTS.user, withServerTags(fetchOptions, ['user-data']))
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
@@ -28,10 +48,10 @@ export async function fetchUserData(fetchOptions?: RequestInit): Promise<User> {
 }
 
 export async function fetchDashboardData(fetchOptions?: RequestInit): Promise<DashboardData> {
-  const response = await fetch(API_ENDPOINTS.dashboard, {
-    next: { tags: ['dashboard-data'] },
-    ...fetchOptions,
-  })
+  const response = await fetch(
+    API_ENDPOINTS.dashboard,
+    withServerTags(fetchOptions, ['dashboard-data'])
+  )
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
