@@ -2,18 +2,19 @@
 
 import { useMemo, useState } from 'react'
 import { Clock } from 'lucide-react'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { fetchDashboardData } from '@/lib/api'
+import { CSR_QUERY_DEFAULTS } from '@/lib/query-client-provider'
 
 const csrQueryKeys = {
   dashboard: ['csr', 'dashboard'] as const,
 }
 
-const cacheTimings = {
-  dashboardStaleTime: 20_000,
-  dashboardGcTime: 2 * 60_000,
-}
+const dashboardQueryOptions = queryOptions({
+  queryKey: csrQueryKeys.dashboard,
+  queryFn: ({ signal }: { signal: AbortSignal }) => fetchDashboardData({ signal }),
+})
 
 type FetchIfStaleState =
   | { status: 'idle' }
@@ -25,21 +26,16 @@ export function CSRDashboard() {
   const queryClient = useQueryClient()
   const [fetchIfStaleState, setFetchIfStaleState] = useState<FetchIfStaleState>({ status: 'idle' })
 
-  const dashboardQuery = useQuery({
-    queryKey: csrQueryKeys.dashboard,
-    queryFn: ({ signal }) => fetchDashboardData({ signal }),
-    staleTime: cacheTimings.dashboardStaleTime,
-    gcTime: cacheTimings.dashboardGcTime,
-    retry: 1,
-  })
-
-  const isLoading = dashboardQuery.isLoading
-  const isFetching = dashboardQuery.isFetching
-  const isStale = dashboardQuery.isStale
-  const error = dashboardQuery.error
-  const dashboard = dashboardQuery.data
-
-  const lastUpdatedAt = dashboardQuery.dataUpdatedAt
+  const dashboardQuery = useQuery(dashboardQueryOptions)
+  const {
+    isLoading,
+    isFetching,
+    isStale,
+    error,
+    data: dashboard,
+    dataUpdatedAt: lastUpdatedAt,
+    refetch,
+  } = dashboardQuery
   const lastUpdatedLabel = useMemo(
     () => (lastUpdatedAt ? new Date(lastUpdatedAt).toLocaleTimeString() : 'N/A'),
     [lastUpdatedAt]
@@ -73,13 +69,7 @@ export function CSRDashboard() {
     const beforeUpdatedAt = queryClient.getQueryState(csrQueryKeys.dashboard)?.dataUpdatedAt ?? 0
 
     try {
-      await queryClient.fetchQuery({
-        queryKey: csrQueryKeys.dashboard,
-        queryFn: ({ signal }) => fetchDashboardData({ signal }),
-        staleTime: cacheTimings.dashboardStaleTime,
-        gcTime: cacheTimings.dashboardGcTime,
-        retry: 1,
-      })
+      await queryClient.fetchQuery(dashboardQueryOptions)
 
       const afterUpdatedAt = queryClient.getQueryState(csrQueryKeys.dashboard)?.dataUpdatedAt ?? 0
 
@@ -100,7 +90,7 @@ export function CSRDashboard() {
 
   if (error) {
     const message = error instanceof Error ? error.message : 'Unexpected error while loading data.'
-    return <DashboardError message={message} onRetry={() => dashboardQuery.refetch()} />
+    return <DashboardError message={message} onRetry={() => refetch()} />
   }
 
   const statusLabel = isFetching ? 'Updating' : isStale ? 'Stale' : 'Fresh'
@@ -142,14 +132,14 @@ export function CSRDashboard() {
             <Clock className="w-4 h-4 text-pink-600 mt-0.5" />
             <div>
               <p className="font-medium text-gray-900">In-memory cache</p>
-              <p>Stale after {cacheTimings.dashboardStaleTime / 1000}s</p>
+              <p>Stale after {CSR_QUERY_DEFAULTS.staleTime / 1000}s</p>
             </div>
           </div>
           <div className="flex items-start gap-2">
             <Clock className="w-4 h-4 text-pink-600 mt-0.5" />
             <div>
               <p className="font-medium text-gray-900">Garbage collection</p>
-              <p>Unused cache removed after {cacheTimings.dashboardGcTime / 60_000} minutes</p>
+              <p>Unused cache removed after {CSR_QUERY_DEFAULTS.gcTime / 60_000} minutes</p>
             </div>
           </div>
         </div>

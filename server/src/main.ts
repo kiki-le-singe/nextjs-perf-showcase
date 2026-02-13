@@ -6,14 +6,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const port = process.env.PORT || 3001;
+  const defaultOrigins = ['http://localhost:3000', `http://localhost:${port}`];
+  const corsOrigins =
+    process.env.CORS_ORIGINS?.split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean) ?? defaultOrigins;
 
-  // Enable CORS for Next.js frontend
+  // Demo-safe defaults: lock to explicit origins, keep methods least-privilege.
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      `http://localhost:${port}`,
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    origin: corsOrigins,
+    methods: ['GET', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });

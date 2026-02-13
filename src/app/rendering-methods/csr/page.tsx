@@ -131,6 +131,7 @@ export function ClientQueryProvider({ children }) {
             staleTime: 20_000,
             gcTime: 120_000,
             retry: 1,
+            // Demo choice: avoid noisy refetch while switching tabs/windows.
             refetchOnWindowFocus: false,
           },
         },
@@ -148,24 +149,20 @@ export function ClientQueryProvider({ children }) {
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
                 <code className="block">{`'use client'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
 
-const queryKey = ['csr', 'dashboard']
+const queryKey = ['csr', 'dashboard'] as const
+
+const dashboardQueryOptions = queryOptions({
+  queryKey,
+  queryFn: ({ signal }) => fetchDashboard({ signal }),
+})
 
 export function DashboardWidget() {
   const queryClient = useQueryClient()
-  const { data, isLoading, error } = useQuery({
-    queryKey,
-    queryFn: ({ signal }) => fetchDashboard({ signal }),
-    staleTime: 20_000,
-  })
+  const { data, isLoading, error } = useQuery(dashboardQueryOptions)
 
-  const fetchIfStale = () =>
-    queryClient.fetchQuery({
-      queryKey,
-      queryFn: ({ signal }) => fetchDashboard({ signal }),
-      staleTime: 20_000, // no network while fresh
-    })
+  const fetchIfStale = () => queryClient.fetchQuery(dashboardQueryOptions)
 
   if (isLoading) return <Skeleton />
   if (error) return <ErrorState />
