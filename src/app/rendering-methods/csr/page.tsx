@@ -48,9 +48,9 @@ export default function CSRPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How does it work?</h2>
 
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-            CSR renders the page shell first, then fetches data in the browser. TanStack Query keeps
-            data in memory, deduplicates requests, and revalidates in the background when data
-            becomes stale.
+            In Next.js App Router, the page shell is server-rendered first, then client-side data
+            fetching runs in the browser. TanStack Query keeps data in memory, deduplicates
+            requests, and revalidates in the background when data becomes stale.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto mb-8">
@@ -58,7 +58,8 @@ export default function CSRPage() {
               <h4 className="font-bold text-green-800 mb-2">CSR strengths:</h4>
               <ul className="space-y-2 text-sm text-green-900">
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 flex-shrink-0" /> Instant UI shell, no server render
+                  <Check className="w-4 h-4 flex-shrink-0" /> Instant server-rendered shell, then
+                  client-side data fetching
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 flex-shrink-0" /> Rich interactivity and stateful UI
@@ -149,7 +150,9 @@ export function ClientQueryProvider({ children }) {
           </div>
 
           <div>
-            <h4 className="font-semibold text-gray-900 mb-2">🟡 Client Component Queries</h4>
+            <h4 className="font-semibold text-gray-900 mb-2">
+              🟡 Client Component Query (client file)
+            </h4>
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
                 <code className="block">{`'use client'
@@ -174,13 +177,26 @@ export function DashboardWidget() {
       <button onClick={fetchIfStale}>Fetch if stale</button>
     </>
   )
-}
+}`}</code>
+              </pre>
+            </div>
+          </div>
 
-// Page-level boundary (server component)
-import { Suspense } from 'react'
-<Suspense fallback={<Skeleton />}>
-  <DashboardWidget />
-</Suspense>`}</code>
+          <div className="mt-4">
+            <h4 className="font-semibold text-gray-900 mb-2">
+              🔵 Page Suspense Boundary (server file)
+            </h4>
+            <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
+              <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
+                <code className="block">{`import { Suspense } from 'react'
+
+export default function CSRPage() {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <DashboardWidget />
+    </Suspense>
+  )
+}`}</code>
               </pre>
             </div>
           </div>
@@ -228,7 +244,7 @@ import { Suspense } from 'react'
                 </li>
                 <li className="flex items-center">
                   <Check className="w-5 h-5 mr-3" />
-                  Less server compute
+                  Less server compute for data fetching
                 </li>
               </ul>
             </div>
