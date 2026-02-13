@@ -17,10 +17,9 @@ export default function TabOverview() {
         </div>
       </div>
       <p className="text-gray-600">
-        This is the overview tab content. It shows key metrics and summary information
-        about your dashboard. This content was loaded dynamically when you first clicked
-        the Overview tab.
+        This is the overview tab content. It shows key metrics and summary information about your
+        dashboard. This content was loaded dynamically when you first clicked the Overview tab.
       </p>
     </div>
-  );
+  )
 }

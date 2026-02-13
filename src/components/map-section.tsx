@@ -14,74 +14,71 @@
 // }
 // src/components/MapSection.js
 
-"use client";
-import { useState, useRef, useEffect } from "react";
+'use client'
+import { useState, useRef, useEffect } from 'react'
 
-type LeafletModule = typeof import("leaflet");
-type LeafletMap = import("leaflet").Map;
+type LeafletModule = typeof import('leaflet')
+type LeafletMap = import('leaflet').Map
 
 export default function MapSection() {
-  const [showMap, setShowMap] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const leafletRef = useRef<LeafletModule | null>(null);
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapInstanceRef = useRef<LeafletMap | null>(null);
+  const [showMap, setShowMap] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const leafletRef = useRef<LeafletModule | null>(null)
+  const mapContainerRef = useRef<HTMLDivElement | null>(null)
+  const mapInstanceRef = useRef<LeafletMap | null>(null)
 
   // Preload Leaflet on hover
   async function preloadLeaflet() {
     if (!leafletRef.current) {
-      leafletRef.current = await import("leaflet");
-      await import("leaflet/dist/leaflet.css");
+      leafletRef.current = await import('leaflet')
+      await import('leaflet/dist/leaflet.css')
     }
   }
 
   async function loadMap() {
-    setShowMap(true);
-    setIsLoading(true);
+    setShowMap(true)
+    setIsLoading(true)
 
     try {
-      await preloadLeaflet();
+      await preloadLeaflet()
 
       // Create map
       if (mapContainerRef.current && !mapInstanceRef.current && leafletRef.current) {
-        const L = leafletRef.current;
+        const L = leafletRef.current
 
         // Fix Leaflet default icon issue in Next.js
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        delete (L.Icon.Default.prototype as any)._getIconUrl;
+        delete (L.Icon.Default.prototype as any)._getIconUrl
         L.Icon.Default.mergeOptions({
-          iconUrl:
-            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-          iconRetinaUrl:
-            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-          shadowUrl:
-            "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-        });
+          iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+          iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+          shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        })
 
         // Initialize map
-        const map = L.map(mapContainerRef.current).setView([48.86, 2.35], 13);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution: "© OpenStreetMap contributors",
-        }).addTo(map);
-        L.marker([48.86, 2.35]).addTo(map).bindPopup("Our office");
+        const map = L.map(mapContainerRef.current).setView([48.86, 2.35], 13)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+        }).addTo(map)
+        L.marker([48.86, 2.35]).addTo(map).bindPopup('Our office')
 
-        mapInstanceRef.current = map;
+        mapInstanceRef.current = map
       }
     } catch (error) {
-      console.error("Error loading map:", error);
+      console.error('Error loading map:', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
     return () => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
+        mapInstanceRef.current.remove()
+        mapInstanceRef.current = null
       }
-    };
-  }, []);
+    }
+  }, [])
 
   return (
     <div>
@@ -99,17 +96,17 @@ export default function MapSection() {
           style={{
             height: 400,
             marginTop: 20,
-            position: "relative",
-            backgroundColor: isLoading ? "#f0f0f0" : "transparent",
+            position: 'relative',
+            backgroundColor: isLoading ? '#f0f0f0' : 'transparent',
           }}
         >
           {isLoading && (
             <div
               style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
                 zIndex: 1000,
               }}
             >
@@ -119,5 +116,5 @@ export default function MapSection() {
         </div>
       )}
     </div>
-  );
+  )
 }

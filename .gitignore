@@ -40,5 +40,23 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# TypeScript build artifacts (excluding config files)
+**/*.js.map
+!**/*.config.js
+!jest.config.js
+!next.config.js
+server/prisma/*.js
+server/prisma/*.d.ts
+
 # docs
 /docs/medium
+
+# Docker volumes
+postgres_data/
+pgadmin_data/
+
+# Server NestJS
+server/node_modules/
+server/dist/
+server/.env
+server/.env.local

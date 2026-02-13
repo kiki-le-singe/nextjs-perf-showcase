@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User Model
+model User {
+  id            Int              @id @default(autoincrement())
+  name          String
+  email         String           @unique
+  avatar        String
+  role          String
+  joinDate      DateTime
+  lastLogin     DateTime
+  preferences   Json             // Stocke {theme, notifications, language}
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  // Relations
+  activities    Activity[]
+  notifications Notification[]
+  blogPosts     BlogPost[]
+}
+
+// Dashboard Stats (global, pas lié à un user)
+model DashboardStats {
+  id                   Int      @id @default(autoincrement())
+  totalOrders          Int
+  revenue              String
+  activeSubscriptions  Int
+  supportTickets       Int
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+// Activity Item
+model Activity {
+  id        Int      @id @default(autoincrement())
+  type      String   // order, payment, support, notification, system
+  message   String
+  time      DateTime
+  status    String   // success, pending, info, warning, error
+  userId    Int?     // Optional: some activities might not be user-specific
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+// Notification
+model Notification {
+  id        Int      @id @default(autoincrement())
+  title     String
+  message   String
+  type      String   // info, warning, error, success
+  unread    Boolean  @default(true)
+  userId    Int?     // Optional: some notifications might be global
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+// Product Model
+model Product {
+  id            Int       @id @default(autoincrement())
+  name          String
+  price         Float
+  originalPrice Float
+  rating        Float
+  reviews       Int
+  image         String
+  category      String
+  inStock       Boolean   @default(true)
+  discount      Int
+  description   String
+  stockLevel    Int?
+  lastUpdated   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// BlogPost Model
+model BlogPost {
+  id        Int      @id @default(autoincrement())
+  title     String
+  excerpt   String
+  author    String
+  date      DateTime
+  readTime  String
+  category  String
+  tags      String[] // Array of tags
+  userId    Int?     // Optional: author user
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
