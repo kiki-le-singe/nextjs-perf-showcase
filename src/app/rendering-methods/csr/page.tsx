@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
-import { Monitor, Check, X, BookOpen } from 'lucide-react'
+import { Monitor, Check, X, BookOpen, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 
 import BackTo from '@/components/back-to'
 import { CSRDashboard, CSRDashboardSkeleton } from '@/components/rendering-methods/csr/dashboard'
@@ -256,11 +257,13 @@ import { Suspense } from 'react'
             iconPosition="left"
           />
 
-          <BackTo
-            href="/rendering-methods"
-            text="Back to Rendering Methods"
+          <Link
+            href="/rendering-methods/ssg"
             className="inline-flex items-center text-pink-600 hover:text-pink-700 font-medium"
-          />
+          >
+            Next: SSG Example
+            <ChevronRight className="w-4 h-4 ml-2" />
+          </Link>
         </div>
       </div>
     </div>
