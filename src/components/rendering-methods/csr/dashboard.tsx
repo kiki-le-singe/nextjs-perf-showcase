@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { Clock } from 'lucide-react'
-import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
+import { queryOptions, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
 import { fetchDashboardData } from '@/lib/api'
 import { CSR_QUERY_DEFAULTS } from '@/lib/query-client-provider'
@@ -26,16 +26,12 @@ export function CSRDashboard() {
   const queryClient = useQueryClient()
   const [fetchIfStaleState, setFetchIfStaleState] = useState<FetchIfStaleState>({ status: 'idle' })
 
-  const dashboardQuery = useQuery(dashboardQueryOptions)
   const {
-    isLoading,
     isFetching,
     isStale,
-    error,
     data: dashboard,
     dataUpdatedAt: lastUpdatedAt,
-    refetch,
-  } = dashboardQuery
+  } = useSuspenseQuery(dashboardQueryOptions)
   const lastUpdatedLabel = useMemo(
     () => (lastUpdatedAt ? new Date(lastUpdatedAt).toLocaleTimeString() : 'N/A'),
     [lastUpdatedAt]
@@ -82,15 +78,6 @@ export function CSRDashboard() {
       const message = err instanceof Error ? err.message : 'Unexpected fetch error'
       setFetchIfStaleState({ status: 'error', message })
     }
-  }
-
-  if (isLoading) {
-    return <DashboardSkeleton />
-  }
-
-  if (error) {
-    const message = error instanceof Error ? error.message : 'Unexpected error while loading data.'
-    return <DashboardError message={message} onRetry={() => refetch()} />
   }
 
   const statusLabel = isFetching ? 'Updating' : isStale ? 'Stale' : 'Fresh'
@@ -153,25 +140,25 @@ export function CSRDashboard() {
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs uppercase tracking-wide text-pink-700">Dashboard data</p>
           <span className="text-xs font-semibold px-2 py-1 rounded-full bg-pink-200 text-pink-800">
-            useQuery cache
+            useSuspenseQuery cache
           </span>
         </div>
         <div className="space-y-3 text-sm text-gray-700">
           <div className="flex items-center justify-between">
             <span>Current time</span>
-            <strong>{dashboard?.currentTime ?? 'N/A'}</strong>
+            <strong>{dashboard.currentTime}</strong>
           </div>
           <div className="flex items-center justify-between">
             <span>Total orders</span>
-            <strong>{dashboard?.stats.totalOrders ?? 'N/A'}</strong>
+            <strong>{dashboard.stats.totalOrders}</strong>
           </div>
           <div className="flex items-center justify-between">
             <span>Revenue</span>
-            <strong>{dashboard?.stats.revenue ? `$${dashboard.stats.revenue}` : 'N/A'}</strong>
+            <strong>{`$${dashboard.stats.revenue}`}</strong>
           </div>
           <div className="flex items-center justify-between">
             <span>Active subscriptions</span>
-            <strong>{dashboard?.stats.activeSubscriptions ?? 'N/A'}</strong>
+            <strong>{dashboard.stats.activeSubscriptions}</strong>
           </div>
         </div>
         <p className="text-xs text-pink-700 mt-4">
@@ -183,7 +170,7 @@ export function CSRDashboard() {
   )
 }
 
-function DashboardSkeleton() {
+export function CSRDashboardSkeleton() {
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-xl shadow-lg p-6 animate-pulse">
@@ -195,21 +182,6 @@ function DashboardSkeleton() {
         <div className="h-4 bg-gray-200 rounded w-40 mb-2" />
         <div className="h-4 bg-gray-200 rounded w-28" />
       </div>
-    </div>
-  )
-}
-
-function DashboardError({ message, onRetry }: { message: string; onRetry: () => void }) {
-  return (
-    <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
-      <h4 className="text-red-800 font-semibold mb-2">Failed to load dashboard data</h4>
-      <p className="text-red-700 text-sm mb-4">{message}</p>
-      <button
-        onClick={onRetry}
-        className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-      >
-        Retry query
-      </button>
     </div>
   )
 }

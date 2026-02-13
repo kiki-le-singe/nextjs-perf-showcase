@@ -1,7 +1,8 @@
+import { Suspense } from 'react'
 import { Monitor, Check, X, BookOpen } from 'lucide-react'
 
 import BackTo from '@/components/back-to'
-import { CSRDashboard } from '@/components/rendering-methods/csr/dashboard'
+import { CSRDashboard, CSRDashboardSkeleton } from '@/components/rendering-methods/csr/dashboard'
 
 export default function CSRPage() {
   return (
@@ -33,7 +34,9 @@ export default function CSRPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">
             Interactive CSR Dashboard (Client Components)
           </h2>
-          <CSRDashboard />
+          <Suspense fallback={<CSRDashboardSkeleton />}>
+            <CSRDashboard />
+          </Suspense>
         </div>
 
         {/* How CSR Works */}
@@ -149,7 +152,7 @@ export function ClientQueryProvider({ children }) {
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-blue-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
                 <code className="block">{`'use client'
-import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query'
+import { queryOptions, useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 
 const queryKey = ['csr', 'dashboard'] as const
 
@@ -160,12 +163,9 @@ const dashboardQueryOptions = queryOptions({
 
 export function DashboardWidget() {
   const queryClient = useQueryClient()
-  const { data, isLoading, error } = useQuery(dashboardQueryOptions)
+  const { data } = useSuspenseQuery(dashboardQueryOptions)
 
   const fetchIfStale = () => queryClient.fetchQuery(dashboardQueryOptions)
-
-  if (isLoading) return <Skeleton />
-  if (error) return <ErrorState />
 
   return (
     <>
@@ -173,7 +173,13 @@ export function DashboardWidget() {
       <button onClick={fetchIfStale}>Fetch if stale</button>
     </>
   )
-}`}</code>
+}
+
+// Page-level boundary (server component)
+import { Suspense } from 'react'
+<Suspense fallback={<Skeleton />}>
+  <DashboardWidget />
+</Suspense>`}</code>
               </pre>
             </div>
           </div>
