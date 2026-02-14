@@ -4,13 +4,13 @@ import { cacheTag } from 'next/cache'
 
 import BackTo from '@/components/back-to'
 import { fetchBlogPostsData } from '@/lib/api'
-import { BlogPostCard } from '@/components/rendering-methods/ssg/blog-post-card'
+import { BlogPostCard } from '@/components/rendering-methods/isr-page/blog-post-card'
 
-export default async function SSGPage() {
-  'use cache' // Next.js 16: Page-level caching for TRUE SSG
-  cacheTag('ssg-page') // Tag for manual revalidation only
+export default async function ISRPageLevelPage() {
+  'use cache' // Next.js 16: Page-level ISR (entire page cached, revalidate 15 min)
+  cacheTag('isr-page') // Tag for on-demand revalidation
 
-  // Fetched at BUILD TIME - frozen until next build
+  // Fetched at build time, auto-revalidates every 15 min (page-level cache)
   const blogPosts = await fetchBlogPostsData()
   const buildTime = new Date().toISOString()
 
@@ -22,17 +22,18 @@ export default async function SSGPage() {
         {/* Brief Intro */}
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2">
-            SSG - Static Site Generation
+            ISR - Page-Level Cache
           </h1>
           <p className="text-lg text-gray-600 mb-6">
-            Ultra-fast performance with content generated once at build time ↓
+            Page-level caching with the default revalidation profile (15 min) ↓
           </p>
 
           <div className="bg-green-50 border-l-4 border-green-500 p-4 max-w-3xl mx-auto text-left mb-8">
             <p className="text-green-900">
-              <strong>💡 This demo shows TRUE SSG with &apos;use cache&apos;</strong>. Content is
-              pre-rendered at build time and frozen until the next build. No automatic revalidation
-              - perfect for truly static content like documentation and archived pages.
+              <strong>💡 This demo shows page-level ISR</strong>. The entire page is cached at
+              build time and automatically revalidates every 15 minutes. The{' '}
+              <code>&apos;use cache&apos;</code> directive is applied at the page level, caching
+              everything as a single unit.
             </p>
           </div>
         </div>
@@ -40,33 +41,33 @@ export default async function SSGPage() {
         {/* Build Time Info */}
         <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-xl p-4 max-w-2xl mx-auto mb-8">
           <div className="text-center mb-2">
-            <p className="text-xs text-gray-700 mb-1">Generated at Build Time:</p>
+            <p className="text-xs text-gray-700 mb-1">Cached at Build Time:</p>
             <p className="text-lg font-mono font-bold text-green-700">
               {new Date(buildTime).toLocaleString()}
             </p>
           </div>
           <div className="text-center">
             <p className="text-xs text-gray-600">
-              This timestamp was captured during &apos;npm run build&apos; and won&apos;t change
-              until rebuilt
+              This timestamp was captured during build and will update after the 15 min revalidation
+              window
             </p>
           </div>
         </div>
 
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 max-w-3xl mx-auto mb-8">
           <p className="text-sm text-blue-900">
-            <strong>📝 Real SSG Demo:</strong> This entire page uses{' '}
-            <strong className="text-green-600">&apos;use cache&apos;</strong> at the page level.
-            Content is pre-rendered at build time and included in the static HTML shell. The{' '}
-            <strong className="text-green-600">Build Time timestamp</strong> proves this page was
-            generated during build and is served as static HTML. 🚀
+            <strong>📝 ISR Page-Level Demo:</strong> This entire page uses{' '}
+            <strong className="text-green-600">&apos;use cache&apos;</strong> at the page level,
+            caching everything as one unit (layout, data, HTML). Next.js revalidates the whole page
+            every 15 minutes. The <strong className="text-green-600">timestamp</strong> shows when
+            the cache was last generated. 🚀
           </p>
         </div>
 
         {/* Blog Posts Grid */}
         <div className="mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center">
-            Blog Posts (Static Content)
+            Blog Posts (ISR Cached Content)
           </h2>
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {blogPosts.map(post => (
@@ -75,7 +76,7 @@ export default async function SSGPage() {
           </div>
         </div>
 
-        {/* SSG Explanation */}
+        {/* ISR Page-Level Explanation */}
         <div className="text-center mb-8 md:mb-12">
           <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-full mb-4">
             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-green-600" />
@@ -83,11 +84,10 @@ export default async function SSGPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">How does it work?</h2>
 
           <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-            This page demonstrates <strong>TRUE SSG (Static Site Generation)</strong> using the
-            modern Next.js 16{' '}
+            This page demonstrates <strong>page-level ISR</strong> using the modern Next.js 16{' '}
             <code className="bg-gray-100 px-2 py-1 rounded text-sm">&apos;use cache&apos;</code>{' '}
-            directive at the page level. Content is pre-rendered at build time and frozen until you
-            run <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm run build</code> again.
+            directive at the page level. The entire page is cached as one unit at build time and
+            automatically revalidates in the background every 15 minutes.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto mb-8">
@@ -98,16 +98,16 @@ export default async function SSGPage() {
                   <Check className="w-4 h-4 flex-shrink-0" /> Lightning fast performance
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 flex-shrink-0" /> Served from CDN
+                  <Check className="w-4 h-4 flex-shrink-0" /> Auto-revalidates every 15 min
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 flex-shrink-0" /> No server computation
+                  <Check className="w-4 h-4 flex-shrink-0" /> No explicit cacheLife needed
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 flex-shrink-0" /> Perfect SEO
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 flex-shrink-0" /> Extremely cost-effective
+                  <Check className="w-4 h-4 flex-shrink-0" /> Simple page-level pattern
                 </li>
               </ul>
             </div>
@@ -115,13 +115,13 @@ export default async function SSGPage() {
               <h4 className="font-bold text-orange-800 mb-2">Trade-offs:</h4>
               <ul className="space-y-2 text-sm text-orange-900">
                 <li className="flex items-center gap-2">
-                  <X className="w-4 h-4 flex-shrink-0" /> Requires rebuild to update content
+                  <X className="w-4 h-4 flex-shrink-0" /> Data can be up to 15 min stale
                 </li>
                 <li className="flex items-center gap-2">
-                  <X className="w-4 h-4 flex-shrink-0" /> Not suitable for frequently changing data
+                  <X className="w-4 h-4 flex-shrink-0" /> No fine-grained cache control
                 </li>
                 <li className="flex items-center gap-2">
-                  <X className="w-4 h-4 flex-shrink-0" /> Long build times for large sites
+                  <X className="w-4 h-4 flex-shrink-0" /> Entire page cached as one unit
                 </li>
                 <li className="flex items-center gap-2">
                   <X className="w-4 h-4 flex-shrink-0" /> Cannot personalize content per user
@@ -134,16 +134,16 @@ export default async function SSGPage() {
           <div className="bg-white rounded-lg shadow-md p-4 max-w-md mx-auto">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-4 h-4 text-green-600" />
-              <h3 className="font-semibold text-gray-900">SSG vs Other Methods</h3>
+              <h3 className="font-semibold text-gray-900">ISR Page-Level vs Other Methods</h3>
             </div>
             <div className="text-sm text-gray-600 space-y-1">
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>Faster than ISR (no revalidation)</span>
+                <span>Simpler than ISR custom (no cacheLife config)</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>Much faster than SSR (no server work)</span>
+                <span>Much faster than SSR (cached responses)</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
@@ -153,32 +153,32 @@ export default async function SSGPage() {
           </div>
         </div>
 
-        {/* SSG Best Practice Section */}
+        {/* ISR Best Practice Section */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-12">
           <h3 className="flex items-center text-xl md:text-2xl font-bold text-gray-900 mb-6">
-            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> Next.js 16 SSG Patterns
+            <BookOpen className="w-4 h-4 text-blue-600 mr-2" /> Next.js 16 ISR Patterns
           </h3>
 
           <div className="mb-4">
             <h4 className="font-semibold text-gray-900 mb-2">
-              🟢 Modern SSG Pattern (Next.js 16) - Page Level
+              🟢 ISR Page-Level Pattern (Next.js 16)
             </h4>
             <div className="bg-gray-900 rounded-lg p-3 md:p-4 overflow-x-auto">
               <pre className="text-green-400 text-xs md:text-sm whitespace-pre overflow-x-auto min-w-0">
-                <code className="block">{`// Next.js 16 - Page-level caching for TRUE SSG
+                <code className="block">{`// Next.js 16 - Page-level ISR (entire page cached)
 import { cacheTag } from 'next/cache'
 
 export default async function BlogPage() {
-  'use cache'              // Enable page-level caching
-  cacheTag('blog-page')    // Tag for manual revalidation only
+  'use cache'              // Page-level cache (revalidate 15 min)
+  cacheTag('blog-page')    // Tag for on-demand revalidation
 
-  // Fetched at BUILD TIME - frozen until next build
+  // Cached at build time, auto-revalidates every 15 min
   const posts = await fetchBlogPosts()
   const buildTime = new Date().toISOString()
 
   return (
     <div>
-      <p>Built at: {buildTime}</p>
+      <p>Cached at: {buildTime}</p>
       <BlogGrid posts={posts} />
     </div>
   )
@@ -233,33 +233,32 @@ export default async function BlogPage() {
           </div>
         </div>
 
-        {/* SSG vs ISR */}
+        {/* ISR Page-Level vs ISR Component-Level */}
         <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 mb-8">
           <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
-            SSG vs ISR: When to Use cacheLife
+            ISR Page-Level vs ISR Component-Level
           </h3>
           <p className="text-gray-600 mb-6">
-            This demo uses <strong>pure SSG</strong> (no cacheLife). For automatic revalidation,
-            add cacheLife profiles:
+            This demo caches the <strong>entire page</strong> as one unit. For finer control, use
+            component-level caching with custom cacheLife profiles:
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div className="bg-green-50 p-4 rounded-lg border-2 border-green-500">
               <h4 className="font-bold text-green-800 mb-2">
-                ✅ Pure SSG (This Demo)
+                ✅ ISR Page-Level (This Demo)
               </h4>
               <code className="text-sm font-mono text-green-700 block mb-2">
-                &apos;use cache&apos; {/* No cacheLife */}
+                &apos;use cache&apos; {/* Entire page cached */}
               </code>
               <p className="text-sm text-green-900">
-                Content frozen at build time. Updates only when you run{' '}
-                <code className="bg-green-100 px-1 rounded">npm run build</code>. Perfect for truly
-                static content.
+                Entire page cached as one unit, auto-revalidates every 15 min. Simplest ISR
+                pattern — one directive for the whole page.
               </p>
             </div>
 
             <div className="bg-blue-50 p-4 rounded-lg border-2 border-blue-500">
-              <h4 className="font-bold text-blue-800 mb-2">⚡ ISR-like Behavior</h4>
+              <h4 className="font-bold text-blue-800 mb-2">⚡ ISR Component-Level</h4>
               <code className="text-sm font-mono text-blue-700 block mb-2">
                 &apos;use cache&apos;
                 <br />
@@ -303,12 +302,12 @@ export default async function BlogPage() {
           </div>
         </div>
 
-        {/* When to Use SSG */}
+        {/* When to Use ISR Page-Level */}
         <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl text-white p-8 mb-12">
-          <h3 className="text-2xl font-bold mb-6">When to Use Pure SSG</h3>
+          <h3 className="text-2xl font-bold mb-6">When to Use ISR Page-Level</h3>
           <p className="mb-6 font-medium bg-white/10 p-4 rounded-lg">
-            Use &apos;use cache&apos; without cacheLife for content that should be frozen at build
-            time and only update when you rebuild your application.
+            Use &apos;use cache&apos; without explicit cacheLife for content that benefits from
+            automatic revalidation with minimal configuration.
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
@@ -389,7 +388,7 @@ export default async function BlogPage() {
             href="/rendering-methods/isr"
             className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
           >
-            Next: ISR Example
+            Next: ISR Custom Example
             <ChevronRight className="w-4 h-4 ml-2" />
           </Link>
         </div>
@@ -398,5 +397,5 @@ export default async function BlogPage() {
   )
 }
 
-// Next.js 16: Page-level SSG with 'use cache' (no cacheLife = frozen until rebuild)
-// For automatic revalidation, add cacheLife(): 'seconds', 'minutes', 'hours', 'days', 'weeks', 'max'
+// Next.js 16: Page-level ISR with 'use cache' (entire page cached, revalidate 15 min)
+// For component-level control, use 'use cache' + cacheLife() on individual components instead

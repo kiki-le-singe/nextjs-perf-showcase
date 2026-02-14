@@ -24,16 +24,16 @@ export default function RenderingMethodsPage() {
             Next.js Rendering Methods
           </h1>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            Discover the four main rendering strategies in Next.js 16: Static Site Generation (SSG),
-            Incremental Static Regeneration (ISR), Server-Side Rendering (SSR), and Client-Side
-            Rendering (CSR). Learn when and how to use each method for optimal performance.
+            Discover the main rendering strategies in Next.js 16: ISR (Page-Level and Component-Level),
+            Server-Side Rendering (SSR), and Client-Side Rendering (CSR). Learn when and how to use
+            each method for optimal performance.
           </p>
         </div>
 
         {/* Methods Grid */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-          {/* SSG Card */}
-          <Link href="/rendering-methods/ssg" className="group">
+          {/* ISR Page-Level Card */}
+          <Link href="/rendering-methods/isr-page" className="group">
             <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border border-gray-200 group-hover:border-green-300">
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
@@ -52,30 +52,30 @@ export default function RenderingMethodsPage() {
                   </svg>
                 </div>
                 <div>
-                  <h2 className="text-2xl font-semibold text-gray-900">SSG</h2>
-                  <p className="text-sm text-gray-500">Static Site Generation</p>
+                  <h2 className="text-2xl font-semibold text-gray-900">ISR Page-Level</h2>
+                  <p className="text-sm text-gray-500">ISR - Page-Level Cache</p>
                 </div>
               </div>
               <p className="text-gray-600 mb-6">
-                HTML generated once at build time and served statically. Ultra-fast performance with
-                excellent SEO, perfect for content that doesn't change frequently.
+                Cached at build time with automatic revalidation every 15 min. The simplest ISR
+                pattern — just add &apos;use cache&apos; without explicit cacheLife.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
                   &apos;use cache&apos;
                 </span>
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                  Build Time
+                  page-level cache
                 </span>
                 <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                  Static
+                  15 min revalidate
                 </span>
               </div>
               <div className="text-sm text-gray-500 mb-4">
-                <strong>Best for:</strong> Blog posts, marketing pages, documentation
+                <strong>Best for:</strong> Blog posts, documentation, stable content
               </div>
               <div className="flex items-center text-green-600 font-medium group-hover:text-green-700">
-                View SSG Example
+                View ISR Page-Level Example
                 <svg
                   className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"
                   fill="none"
@@ -119,7 +119,7 @@ export default function RenderingMethodsPage() {
               </div>
               <p className="text-gray-600 mb-6">
                 Static pages that automatically regenerate in the background after a specified time.
-                Combines the speed of SSG with the freshness of dynamic content.
+                Combines static performance with the freshness of dynamic content.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
@@ -298,10 +298,10 @@ export default function RenderingMethodsPage() {
               <tbody>
                 <tr className="border-b border-gray-100">
                   <td className="py-3 px-4">
-                    <span className="font-medium text-green-600">SSG</span>
+                    <span className="font-medium text-green-600">ISR Page-Level</span>
                   </td>
-                  <td className="py-3 px-4 text-gray-600">Build time</td>
-                  <td className="py-3 px-4 text-gray-600">Static until rebuild</td>
+                  <td className="py-3 px-4 text-gray-600">Build + revalidate (15 min)</td>
+                  <td className="py-3 px-4 text-gray-600">Auto-revalidates (15 min)</td>
                   <td className="py-3 px-4">
                     <span className="text-green-600 font-medium">Excellent</span>
                   </td>

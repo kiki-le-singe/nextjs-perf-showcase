@@ -274,10 +274,10 @@ export default function CSRPage() {
           />
 
           <Link
-            href="/rendering-methods/ssg"
+            href="/rendering-methods/isr-page"
             className="inline-flex items-center text-pink-600 hover:text-pink-700 font-medium"
           >
-            Next: SSG Example
+            Next: ISR Page-Level Example
             <ChevronRight className="w-4 h-4 ml-2" />
           </Link>
         </div>

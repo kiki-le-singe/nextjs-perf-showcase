@@ -303,8 +303,8 @@ export async function updateProduct() {
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <BackTo
-            href="/rendering-methods/ssg"
-            text="Previous: SSG Example"
+            href="/rendering-methods/isr-page"
+            text="Previous: ISR Page-Level Example"
             className="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium"
           />
 
