@@ -379,8 +379,8 @@ export default async function BlogPage() {
         {/* Navigation */}
         <div className="flex justify-between items-center">
           <BackTo
-            href="/rendering-methods"
-            text="Back to Rendering Methods"
+            href="/rendering-methods/ssg"
+            text="Previous: SSG Example"
             className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
           />
 
@@ -388,7 +388,7 @@ export default async function BlogPage() {
             href="/rendering-methods/isr"
             className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
           >
-            Next: ISR Custom Example
+            Next: ISR Component-Level Example
             <ChevronRight className="w-4 h-4 ml-2" />
           </Link>
         </div>
