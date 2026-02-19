@@ -309,7 +309,7 @@ export default function RenderingMethodsPage() {
                   "use client"
                 </span>
                 <span className="px-3 py-1 bg-pink-100 text-pink-800 text-sm rounded-full">
-                  useQuery
+                  useSuspenseQuery
                 </span>
                 <span className="px-3 py-1 bg-pink-100 text-pink-800 text-sm rounded-full">
                   Interactive
