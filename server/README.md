@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS API — Next.js Performance Showcase
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+REST API backend for the [Next.js Performance Showcase](../README.md). Built with NestJS 11, Prisma ORM, and PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Overview
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This server exposes the data endpoints consumed by the Next.js frontend. All responses are validated at runtime with Zod schemas shared via the `@shared` package (`shared/` at the monorepo root).
 
-## Installation
+### Endpoints
+
+| Method | Path              | Description                         |
+| ------ | ----------------- | ----------------------------------- |
+| GET    | `/api/user`       | Fetch the demo user profile         |
+| GET    | `/api/dashboard`  | Fetch dashboard stats and activity  |
+| GET    | `/api/products`   | Fetch product catalog               |
+| GET    | `/api/blog-posts` | Fetch blog posts                    |
+
+---
+
+## Running the server
+
+**Recommended** — use the root-level script from the monorepo root:
 
 ```bash
-$ npm install
+npm run dev:server
 ```
 
-## Running the app
+This starts the NestJS server in watch mode on `http://localhost:3001`.
+
+**Standalone** (from `server/`):
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start:dev
 ```
 
-## Test
+> Environment variables must be configured before running. See the [root README](../README.md#️-environment-configuration) for the required `server/.env` values.
+
+---
+
+## Database
+
+The server uses **Prisma** with **PostgreSQL** (managed via Docker Compose from the monorepo root).
 
 ```bash
-# unit tests
-$ npm run test
+# Apply migrations (from server/)
+npx prisma migrate dev
 
-# e2e tests
-$ npm run test:e2e
+# Seed the database (from server/)
+npx prisma db seed
 
-# test coverage
-$ npm run test:cov
+# Open Prisma Studio (from monorepo root)
+npm run db:studio
 ```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Testing
 
-## Stay in touch
+Run all commands from `server/`:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+# Unit tests
+npm run test
 
-## License
+# E2E tests
+npm run test:e2e
 
-Nest is [MIT licensed](LICENSE).
+# Coverage report
+npm run test:cov
+```
+
+---
+
+## Quality checks
+
+Run from `server/`:
+
+```bash
+# Type-check via NestJS build
+npm run build
+
+# Lint without auto-fix
+npm run lint:check
+```

@@ -4,6 +4,14 @@ A modern Next.js 16 application demonstrating performance optimization technique
 
 ---
 
+## Prerequisites
+
+- **Node.js** >= 20.9
+- **npm** >= 10
+- **Docker & Docker Compose** (required for PostgreSQL)
+
+---
+
 ## ⚙️ Environment Configuration
 
 The project requires environment variables in two locations. Create these files with the following content:
@@ -43,10 +51,10 @@ PGADMIN_PASSWORD=admin
 
 ```bash
 # Clone the repository
-git clone [repo]
+git clone https://github.com/kiki-le-singe/nextjs-perf-showcase.git
 cd nextjs-perf-showcase
 
-# Install all dependencies and setup database (one command!)
+# Make sure Docker is running, then install all dependencies and set up the database
 npm run setup
 
 # Start the backend API
@@ -96,21 +104,12 @@ npm run docker:down
 | ---------------------- | ------------------------------------------------------ |
 | `npm run setup`        | First time setup: install deps + create DB + seed data |
 | `npm run dev`          | Start Next.js development server                       |
+| `npm run build`        | Build the Next.js app for production                   |
 | `npm run dev:server`   | Start NestJS API server                                |
 | `npm run docker:up`    | Start PostgreSQL only                                  |
 | `npm run docker:reset` | Reset database completely (fresh data)                 |
 | `npm run db:studio`    | Open Prisma Studio (DB GUI)                            |
 | `npm run docker:down`  | Stop all Docker services                               |
-
-## 🏗️ Tech Stack
-
-- **Frontend**: Next.js 16.0.5, React 19.2, Tailwind CSS 4
-- **Backend**: NestJS, Prisma ORM, Zod validation, Pino logging
-- **Database**: PostgreSQL 16 (Docker)
-- **Package Manager**: npm (or use pnpm/yarn equivalents)
-- **Features**: Cache Components, SSR/SSG/ISR/CSR, Streaming, Turbopack
-
-This project demonstrates various performance optimization techniques in Next.js.
 
 ## Features Demonstrated
 
@@ -127,9 +126,16 @@ This project demonstrates various performance optimization techniques in Next.js
 - **Nested streaming** with progressive content rendering
 - **Multiple loading patterns** (skeleton, spinner, placeholder)
 
-### 🚧 Coming Soon
+### ✅ Rendering Strategies (SSR / SSG / ISR / CSR)
 
-- And more performance techniques...
+- **Server-Side Rendering (SSR)** — HTML generated on every request, always fresh
+- **Static Site Generation (SSG)** — pages pre-built at build time for maximum performance
+- **Incremental Static Regeneration (ISR)** — static pages revalidated in the background
+- **Client-Side Rendering (CSR)** — data fetched in the browser with TanStack Query
+
+<br />
+
+![Rendering Methods](./docs/rendering-methods.gif)
 
 <br />
 
@@ -141,12 +147,15 @@ This project demonstrates various performance optimization techniques in Next.js
 
 <br />
 
+## 🏗️ Tech Stack
+
+- **Frontend**: Next.js 16, React 19, Tailwind CSS 4
+- **Backend**: NestJS, Prisma ORM, Zod validation, Pino logging
+- **Shared**: Zod schemas and derived types (`shared/`, imported as `@shared`)
+- **Database**: PostgreSQL 16 (Docker)
+- **Package Manager**: npm
+- **Features**: Cache Components, SSR/SSG/ISR/CSR, Streaming, Turbopack
+
 ## Audio Attribution
 
 Music by [Tunetank](https://pixabay.com/users/tunetank-50201703/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=349853) from [Pixabay](https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=349853)
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

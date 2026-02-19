@@ -2,6 +2,10 @@
   "name": "nextjs-perf-showcase",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0",
+    "npm": ">=10"
+  },
   "scripts": {
     "install:all": "npm install && cd server && npm install",
     "setup": "npm run install:all && docker-compose --profile init up -d",
