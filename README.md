@@ -110,6 +110,8 @@ npm run docker:down
 | `npm run docker:reset` | Reset database completely (fresh data)                 |
 | `npm run db:studio`    | Open Prisma Studio (DB GUI)                            |
 | `npm run docker:down`  | Stop all Docker services                               |
+| `npm run test`         | Run unit tests in watch mode (Vitest)                  |
+| `npm run test:run`     | Run unit tests once (CI-friendly)                      |
 
 ## Features Demonstrated
 
